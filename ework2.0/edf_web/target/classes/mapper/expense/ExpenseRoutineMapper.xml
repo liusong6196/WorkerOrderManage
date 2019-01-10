@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ewaytek.edf.web.modules.expense.expenseRountine.dao.ExpenseRoutineMapper">
+	
+	<select id="listForPage" resultType="com.ewaytek.edf.web.modules.expense.expenseRountine.entity.ExpenseRoutineEntity">
+		SELECT
+			`exp_rou_id`, 
+			`exp_acc_no`, 
+			`exp_acc_type`, 
+			`exp_item`, 
+			`exp_abstract`, 
+			`acc_det_money`, 
+			`chcek_money`, 
+			`remark`, 
+			`user_id_create`, 
+			`gmt_create`, 
+			`gmt_modified`
+		FROM
+			expense_routine
+		ORDER BY
+			exp_rou_id DESC
+	</select>
+	<select id="listByExpAccNo" resultType="com.ewaytek.edf.web.modules.expense.expenseRountine.entity.ExpenseRoutineEntity">
+		SELECT
+			`exp_rou_id`, 
+			`exp_acc_no`, 
+			`exp_acc_type`, 
+			`exp_item`, 
+			`exp_abstract`, 
+			`acc_det_money`, 
+			`chcek_money`, 
+			`remark`, 
+			`user_id_create`, 
+			`gmt_create`, 
+			`gmt_modified`
+		FROM
+			expense_routine
+		WHERE
+			exp_acc_no = #{expAccNo}
+		ORDER BY
+			exp_rou_id DESC
+	</select>
+	<insert id="save">
+		INSERT INTO expense_routine (
+			`exp_rou_id`, 
+			`exp_acc_no`, 
+			`exp_acc_type`, 
+			`exp_item`, 
+			`exp_abstract`, 
+			`acc_det_money`, 
+			`chcek_money`, 
+			`remark`, 
+			`user_id_create`, 
+			`gmt_create`, 
+			`gmt_modified`
+		)
+		VALUES (
+			#{expRouId}, 
+			#{expAccNo}, 
+			#{expAccType}, 
+			#{expItem}, 
+			#{expAbstract}, 
+			#{accDetMoney}, 
+			#{chcekMoney}, 
+			#{remark}, 
+			#{userIdCreate}, 
+			#{gmtCreate}, 
+			#{gmtModified}
+		)
+	</insert>
+	
+	<select id="getObjectById" resultType="com.ewaytek.edf.web.modules.expense.expenseRountine.entity.ExpenseRoutineEntity">
+		SELECT
+			`exp_rou_id`, 
+			`exp_acc_no`, 
+			`exp_acc_type`, 
+			`exp_item`, 
+			`exp_abstract`, 
+			`acc_det_money`, 
+			`chcek_money`, 
+			`remark`, 
+			`user_id_create`, 
+			`gmt_create`, 
+			`gmt_modified`
+		FROM
+			expense_routine
+		WHERE
+			exp_rou_id = #{expRouId}
+	</select>
+	
+	<update id="update">
+		UPDATE expense_routine
+	 	<set>
+			<if test="expAccNo != null">`exp_acc_no` = #{expAccNo}, </if>
+			<if test="expAccType != null">`exp_acc_type` = #{expAccType}, </if>
+			<if test="expItem != null">`exp_item` = #{expItem}, </if>
+			<if test="expAbstract != null">`exp_abstract` = #{expAbstract}, </if>
+			<if test="accDetMoney != null">`acc_det_money` = #{accDetMoney}, </if>
+			<if test="chcekMoney != null">`chcek_money` = #{chcekMoney}, </if>
+			<if test="remark != null">`remark` = #{remark}, </if>
+			<if test="userIdCreate != null">`user_id_create` = #{userIdCreate}, </if>
+			<if test="gmtCreate != null">`gmt_create` = #{gmtCreate}, </if>
+			<if test="gmtModified != null">`gmt_modified` = #{gmtModified}</if>
+		</set>
+		WHERE
+			exp_rou_id = #{expRouId}
+	</update>
+	
+	<delete id="batchRemove">
+		DELETE
+		FROM
+			expense_routine
+		WHERE
+			exp_rou_id IN
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

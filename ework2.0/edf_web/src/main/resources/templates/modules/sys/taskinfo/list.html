@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_css::header('我参与的任务')"></head>
+<body>
+<div class="container-fluid"  >
+          <div class="box box-warning box-solid " >
+            <div class="box-header with-border">
+              <h3 class="box-title">待完成任务</h3>
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+              </div>
+              <!-- /.box-tools -->
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+             	 <div class="row">
+			<table id="dataGrid"></table>
+				</div>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+  <div class="container-fluid"  >
+          <div class="box box-default  box-solid " >
+            <div class="box-header with-border">
+              <h3 class="box-title">已完成任务</h3>
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+              </div>
+              <!-- /.box-tools -->
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+             	 <div class="row">
+			<table id="dataGrid_done"></table>
+				</div>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>      
+ <div th:include="include/footer_js::footer"></div>
+<script th:src="@{/js/modules/taskinfo/list.js}"></script>
+</body>
+</html>

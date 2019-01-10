@@ -1,0 +1,358 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_css::header('天时间管理')"></head>
+<head>
+<style type="text/css">
+.btn-toolbar .btn-group a {
+	background-color: #22D7BB;
+	color: #FFFFFF;
+	width: 100px;
+	margin-right: 20px;
+	border-radius: 5px !important;
+}
+
+.btn-toolbar .btn-group a:last-child {
+	margin-right: 0px;
+}
+
+.choice-item div {
+	float: left;
+	margin-left: 20px
+}
+
+.choice-title {
+	background-color: #CCCCCC;
+}
+
+.type-content {
+	border: 1px solid #333333;
+}
+
+.type-title {
+	text-align: center;
+	margin-top: -28px;
+}
+
+.row {
+	padding: 0px
+}
+
+.row-title {
+	padding: 10px;
+}
+
+table th, table td {
+	text-align: center;
+	vertical-align: middle !important;
+}
+
+.datatable tr:first-child {
+	background-color: #999999;
+}
+
+.weeks {
+	background-color: #CCCCCC;
+}
+.boxmidR2black {
+    font-family: "宋体", "仿宋_GBK", "黑体";
+    font-size: 13px;
+    border-color: #000000 black;
+    text-align: center;
+    color: #000000;
+    clip: rect( );
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-right: 1px;
+    padding-left: 1px;
+    border-style: inset;
+    border-top-width: 0px;
+    border-right-width: 0px;
+    border-bottom-width: 1px;
+    border-left-width: 0px;
+    background-color:#999999;
+}
+</style>
+</head>
+<body>
+	<div id="eway" class="container-fluid" v-cloak>
+		<div class="row row-title">
+			<div class="col-md-4 form-inline pull-left">
+				<a class="btn btn-default" href="#" role="button">上周</a>
+				<a class="btn btn-default" href="#" role="button">本周</a>
+				<a class="btn btn-default" href="#" role="button">下周</a>
+			</div>
+			<div class="col-md-4"> 
+				从2017-12-13到2017-12-14
+			</div>
+			<div class="col-md-4">
+				<div class="btn-toolbar pull-right">
+					<div class="btn-group">
+						<!--  <a v-if="hasPermission('sys:filltimesheet:list')" class="btn btn-default" onclick="reload();"><i class="fa fa-refresh"></i>&nbsp;刷新</a> -->
+						<a v-if="hasPermission('sys:filltimesheet:add')" class="btn"
+							@click="add">新增</a> <a
+							v-if="hasPermission('sys:filltimesheet:save')" class="btn"
+							@click="save">保存</a> <a
+							v-if="hasPermission('sys:filltimesheet:commit')" class="btn"
+							@click="commit">提交</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<table class="table table-bordered datatable">
+				<tr>
+					<td rowspan="2">项目类型</td>
+					<td rowspan="2">项目编号</td>
+					<td rowspan="2">项目名称</td>
+					<td rowspan="2">任务名称</td>
+					<td colspan="8">工作时数</td>
+				</tr>
+				<tr class="weeks">
+					<td>周一</td>
+					<td>周二</td>
+					<td>周三</td>
+					<td>周四</td>
+					<td>周五</td>
+					<td>周六</td>
+					<td>周日</td>
+					<td>合计</td>
+				</tr>
+				<tr>
+					<td rowspan="3">开发项目</td>
+					<td rowspan="2">2E-S-01</td>
+					<td rowspan="2"><a target="_blank" href="pro.html">Ework20第一次迭代</a></td>
+					<td><a target="_blank" href="task.html">审批TimeSheet功能</a></td>
+					<td><input type="hidden"> <input type="text"
+						maxlength="5" size="3"> <input type="hidden"> <input
+						type="hidden"> <input type="hidden"> <input
+						type="hidden"></td>
+					<td><input type="hidden"> <input type="hidden">
+						<input type="hidden"> <input type="hidden"> <input
+						type="text" maxlength="5" size="3"> <input type="hidden">
+					</td>
+					<td><input type="hidden"> <input type="hidden">
+						<input type="hidden"> <input type="hidden"> <input
+						type="text" maxlength="5" size="3"> <input type="hidden">
+					</td>
+					<td><input type="hidden"> <input type="hidden">
+						<input type="hidden"> <input type="hidden"> <input
+						type="text" maxlength="5" size="3"> <input type="hidden">
+					</td>
+					<td><input type="hidden"> <input type="hidden">
+						<input type="hidden"> <input type="hidden"> <input
+						type="text" maxlength="5" size="3"> <input type="hidden">
+					</td>
+					<td><input type="hidden"> <input type="hidden">
+						<input type="hidden"> <input type="hidden"> <input
+						type="text" maxlength="5" size="3"> <input type="hidden">
+					</td>
+					<td><input type="hidden"> <input type="hidden">
+						<input type="hidden"> <input type="hidden"> <input
+						type="text" maxlength="5" size="3"> <input type="hidden">
+					</td>
+					<td><div>0</div></td>
+				</tr>
+				<tr>
+					<td><a target="_blank">时间管理UI设计，填写timesheet功能</a></td>
+					<td><input type="hidden"> <input type="text"
+						maxlength="5" size="3"> <input type="hidden"> <input
+						type="hidden"> <input type="hidden"> <input
+						type="hidden"></td>
+					<td><input type="hidden"> <input type="hidden">
+						<input type="hidden"> <input type="hidden"> <input
+						type="text" maxlength="5" size="3"> <input type="hidden">
+					</td>
+					<td><input type="hidden"> <input type="hidden">
+						<input type="hidden"> <input type="hidden"> <input
+						type="text" maxlength="5" size="3" value="8"> <input
+						type="hidden"></td>
+					<td><input type="hidden" name="sClass" value="task"> <input
+						type="hidden" name="nTaskID" value="1232"> <input
+						type="hidden" name="nProjectID" value="20220"> <input
+						type="hidden" name="dHours1232202203" value=""> <input
+						type="text" name="dHours" maxlength="5" size="3"
+						onkeyup="changeSum(1232,20220,3,this,3)"> <input
+						type="hidden" name="dtDate" value="2017-12-12"></td>
+					<td><input type="hidden" name="sClass" value="task"> <input
+						type="hidden" name="nTaskID" value="1232"> <input
+						type="hidden" name="nProjectID" value="20220"> <input
+						type="hidden" name="dHours1232202204" value=""> <input
+						type="text" name="dHours" maxlength="5" size="3"
+						onkeyup="changeSum(1232,20220,3,this,4)"> <input
+						type="hidden" name="dtDate" value="2017-12-13"></td>
+					<td><input type="hidden" name="sClass" value="task"> <input
+						type="hidden" name="nTaskID" value="1232"> <input
+						type="hidden" name="nProjectID" value="20220"> <input
+						type="hidden" name="dHours1232202205" value=""> <input
+						type="text" name="dHours" maxlength="5" size="3"
+						onkeyup="changeSum(1232,20220,3,this,5)"> <input
+						type="hidden" name="dtDate" value="2017-12-14"></td>
+					<td><input type="hidden" name="sClass" value="task"> <input
+						type="hidden" name="nTaskID" value="1232"> <input
+						type="hidden" name="nProjectID" value="20220"> <input
+						type="hidden" name="dHours1232202206" value=""> <input
+						type="text" name="dHours" maxlength="5" size="3"
+						onkeyup="changeSum(1232,20220,3,this,6)"> <input
+						type="hidden" name="dtDate" value="2017-12-15"></td>
+					<td><div id="dSumWeek1232">8</div></td>
+				</tr>
+				<tr>
+					<td colspan="3"><b>合计：</b>&nbsp;</td>
+					<td><b><div>&nbsp;</div></b></td>
+					<td><b><div>&nbsp;</div></b></td>
+					<td><b><div>8</div></b></td>
+					<td><b><div>&nbsp;</div></b></td>
+					<td><b><div>&nbsp;</div></b></td>
+					<td><b><div>&nbsp;</div></b></td>
+					<td><b><div>&nbsp;</div></b></td>
+					<td><b><div>8</div></b></td>
+				</tr>
+				<tr>
+					<td colspan="4"><b>合计：</b>&nbsp;</td>
+					<td><b><div>&nbsp;</div></b></td>
+					<td><b><div>&nbsp;</div></b></td>
+					<td><b><div>8</div></b></td>
+					<td><b><div>&nbsp;</div></b></td>
+					<td><b><div>&nbsp;</div></b></td>
+					<td><b><div>&nbsp;</div></b></td>
+					<td><b><div>&nbsp;</div></b></td>
+					<td><b><div>8</div></b></td>
+				</tr>
+				<tr class="adddataend">
+					<td colspan="4">总时数</td>
+					<td><b><div>&nbsp;</div> <input type="hidden"
+							name="dTotal0" value="0"></b></td>
+					<td><b><div>&nbsp;</div> <input type="hidden"
+							name="dTotal1" value="0"></b></td>
+					<td><b><div id="dSum002">8</div> <input type="hidden"
+							name="dTotal2" value="8"></b></td>
+					<td><b><div>&nbsp;</div> <input type="hidden"
+							name="dTotal3" value="0"></b></td>
+					<td><b><div>&nbsp;</div> <input type="hidden"
+							name="dTotal4" value="0"></b></td>
+					<td><b><div>&nbsp;</div> <input type="hidden"
+							name="dTotal5" value="0"></b></td>
+					<td><b><div>&nbsp;</div> <input type="hidden"
+							name="dTotal6" value="0"></b></td>
+					<td><b><div>8</div> <input type="hidden" name="dTotal7"
+							value="8"></b></td>
+				</tr>
+				<tr>
+					<td colspan="4">标准时数</td>
+					<td><div>8</div></td>
+					<td><div>8</div></td>
+					<td><div>8</div></td>
+					<td><div>8</div></td>
+					<td><div>8</div></td>
+					<td><div>0</div></td>
+					<td><div>0</div></td>
+					<td><div>40</div></td>
+				</tr>
+				<tr>
+					<td colspan="4">加班时数</td>
+					<td><div>&nbsp;</div></td>
+					<td><div>&nbsp;</div></td>
+					<td><div>&nbsp;</div></td>
+					<td><div>&nbsp;</div></td>
+					<td><div>&nbsp;</div></td>
+					<td><div>&nbsp;</div></td>
+					<td><div>&nbsp;</div></td>
+					<td><div>&nbsp;</div></td>
+				</tr>
+				<tr></tr>
+				<tr></tr>
+			</table>
+			<table class="table table-bordered">
+				<tr>
+					<td class="boxmidR2black">备注：（最多250字）</td>
+				</tr>
+
+				<tr>
+					<td>
+					<textarea class="form-control" rows="3" id="remarks"></textarea>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">新增任务</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row type-title">
+						<h3>非项目任务</h3>
+						<hr />
+					</div>
+					<div class="row type-content">
+						<div class="row text-center choice-title" title="日常工作">日常管理类任务</div>
+						<div class="row choice-item">
+							<div>
+								<input type="checkbox" />业务发展
+							</div>
+							<div>
+								<input type="checkbox" />面试
+							</div>
+							<div>
+								<input type="checkbox" />空闲
+							</div>
+							<div>
+								<input type="checkbox" />非项目会议
+							</div>
+							<div>
+								<input type="checkbox" />报销填表
+							</div>
+							<div>
+								<input type="checkbox" />部门管理
+							</div>
+							<div>
+								<input type="checkbox" />其他日常管理
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary savefilltimesheet">确定</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+
+	<div th:include="include/footer_js::footer"></div>
+	<script th:src="@{/js/modules/filltimesheet/list.js}"></script>
+	<script type="text/javascript">
+	$('input').keyup(function(){  
+        var c=$(this);  
+        if(/[^\d]/.test(c.val())){//替换非数字字符  
+          var temp_amount=c.val().replace(/[^\d]/g,'');  
+          $(this).val(temp_amount);  
+        }  
+     }) 
+     $('#remarks').bind('input propertychange', function() {
+ 		var cc = $(this).val().length;
+ 		var maxlength = 250;
+ 		if (cc > 250) {
+ 			$(this).val() = $(this).val().substr(0,maxlength);
+ 		}
+});
+	$(" tr td:last").bind('input propertychange', function() {
+ 		var cc = $(this).val().length;
+ 		var maxlength = 250;
+ 		if (cc > 250) {
+ 			$(this).val() = $(this).val().substr(0,maxlength);
+ 		}
+});
+	</script>
+</body>
+</html>

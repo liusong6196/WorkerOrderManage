@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_css::header('任务表')"></head>
+<body>
+ 
+ <div class="row"  style="background:#f8fafb;">		
+ 		 <div class="col-md-6 pull-left"  style="background:#ffffff;width:49%;"  >
+          <div id="readydodiv">
+            <div class="box-header"  align="center">
+            <div class="lineset"></div>
+              <h3 class="box-title" style="color:#00CCFF">今天准备做</h3>      
+              <div class="lineset"></div>
+            </div>
+            <div class="box-body"> 
+					<table id="dataGrid_ready"   style="height: 150px;">
+						
+					</table>			
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+          </div>
+                  
+          <div class="col-md-6 pull-right"  style="background:#ffffff;width:49%;">
+          <!-- Line chart -->
+          <div  id="chart" >
+            <div class="box-header" align="center">
+             <div class="lineset" style="background:#cfd0d2"></div>
+              <h3 class="box-title" style="color:#cfd0d2">这是燃尽图</h3>
+              <div class="lineset" style="background:#cfd0d2"></div>
+		 </div>
+            <div class="box-body">
+              <div id="line-chart" style="height: 209px;"></div>
+            </div>
+            <!-- /.box-body-->
+          </div>
+          </div>
+                  
+</div>
+ 
+   
+ 
+ 
+ <div class="row"  style="background:#f8fafb">
+          <div style="background:#ffffff;">
+            <div class="box-header " align="center">
+             <div class="lineset"  style="background:#38c18a"></div>
+              <h3 class="box-title" style="color:#38c18a">进行中</h3>
+               <div class="lineset"  style="background:#38c18a"></div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">   	
+			<table id="dataGrid"></table>			
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        
+     <div class="row"  style="background:#f8fafb">
+          <div style="background:#ffffff;">
+            <div class="box-header" align="center">
+             <div class="lineset"  style="background:#f3c500"></div>
+              <h3 class="box-title" style="color:#f3c500">已完成</h3>
+               <div class="lineset"  style="background:#f3c500"></div>
+              <!-- /.box-tools -->
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">    	 
+			<table id="dataGrid_finished"></table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        
+          <div id="eway"   class="row"  style="background:#f8fafb" v-cloak>
+          <div style="background:#ffffff;"	>
+            <div class="box-header " align="center">
+            <div class="lineset"  style="background:#ff6666"></div>
+              <h3 class="box-title" style="color:#ff6666">问题/障碍</h3>          
+              <div class="lineset"  style="background:#ff6666"></div>   
+              <!-- /.box-tools -->
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+            	<div class="row"> 
+						
+			<!--  div class="btn-toolbar pull-right">
+				<div class="btn-group">
+		            <a class="btn btn-default" @click="save"><i class="fa fa-plus"></i>&nbsp;新增</a>
+		            <a  class="btn btn-default" @click="edit"><i class="fa fa-pencil-square-o"></i>&nbsp;编辑</a>
+		            <a class="btn btn-default" @click="remove"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
+		        </div>
+	        </div -->
+		
+		
+				</div>
+             
+			<table id="dataGrid_question"></table>
+				
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        
+        
+
+    
+<div th:include="include/footer_js::footer"></div>
+<script th:src="@{/js/modules/taskhelper/list.js}"></script>
+</body>
+</html>

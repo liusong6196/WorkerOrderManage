@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ewaytek.edf.web.modules.filltimesheet.dao.TsweekMapper">
+	
+	<select id="listForPage" resultType="com.ewaytek.edf.web.modules.filltimesheet.entity.TsweekEntity">
+		SELECT
+			`ts_id`, 
+			`ts_startdate`, 
+			`ts_enddate`
+		FROM
+			tsweek
+		ORDER BY
+			ts_id DESC
+	</select>
+	
+	<select id="getTsweekByDate" resultType="com.ewaytek.edf.web.modules.filltimesheet.entity.TsweekEntity">
+	select 
+		ts_id,
+		ts_startdate,
+		ts_enddate 
+	from 
+		tsweek t
+	where 
+		(#{date} BETWEEN t.ts_startdate and t.ts_enddate)
+	limit 1
+	</select>
+	<insert id="save">
+		INSERT INTO tsweek (
+			`ts_startdate`, 
+			`ts_enddate`
+		)
+		VALUES (
+			#{tsStartdate}, 
+			#{tsEnddate}
+		)
+	</insert>
+	
+	<select id="getObjectById" resultType="com.ewaytek.edf.web.modules.filltimesheet.entity.TsweekEntity">
+		SELECT
+			`ts_id`, 
+			`ts_startdate`, 
+			`ts_enddate`
+		FROM
+			tsweek
+		WHERE
+			ts_id = #{tsId}
+	</select>
+	
+	<update id="update">
+		UPDATE tsweek
+	 	<set>
+			<if test="tsStartdate != null">`ts_startdate` = #{tsStartdate}, </if>
+			<if test="tsEnddate != null">`ts_enddate` = #{tsEnddate}</if>
+		</set>
+		WHERE
+			ts_id = #{tsId}
+	</update>
+	
+	<delete id="batchRemove">
+		DELETE
+		FROM
+			tsweek
+		WHERE
+			ts_id IN
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

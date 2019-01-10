@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_css::header('项目信息')"></head>
+<body>
+
+	<div class="row">
+		<table class="table table-striped" id="dataGrid">
+			<tr>
+				<th
+					style="text-align: center; font-weight: bold; border: 1px solid #000; vertical-align: middle; background: silver;"
+					colspan="2">基本信息</th>
+			</tr>
+			<tr>
+				<td class="primary"
+					style="width: 150px; text-align: center; font-weight: bold; border: 1px solid #000; vertical-align: middle;">项目名称</td>
+				<td class="primary"
+					style="text-align: center;border: 1px solid #000; vertical-align: middle;"  id="proName"></td>
+			</tr>
+			<tr>
+				<td class="primary"
+					style="text-align: center; font-weight: bold; border: 1px solid #000; vertical-align: middle;" >项目代码</td>
+				<td  class="primary"
+					style="text-align: center; border: 1px solid #000; vertical-align: middle;" id="proNumber"></td>
+			</tr>
+			<tr>
+				<td class="primary"
+					style="text-align: center; font-weight: bold; border: 1px solid #000; vertical-align: middle;">阶段类型</td>
+				<td  class="primary"
+					style="text-align: center; border: 1px solid #000; vertical-align: middle;" id="proType"></td>
+			</tr>
+			<tr >
+				<td class="primary"
+					style="text-align: center; font-weight: bold; border: 1px solid #000; vertical-align: middle;">隶属公司</td>
+				<td class="primary"
+					style="text-align: center; border: 1px solid #000; vertical-align: middle;">一维科技</td>
+			</tr>
+			<tr >
+				<td class="primary"
+					style="text-align: center; font-weight: bold; border: 1px solid #000; vertical-align: middle;">项目经理</td>
+				<td class="primary"
+					style="text-align: center; border: 1px solid #000; vertical-align: middle;" id="proDevelopmanager"></td>
+			</tr>
+			<tr >
+				<td class="primary"
+					style="text-align: center; font-weight: bold; border: 1px solid #000; vertical-align: middle;">起止时间</td>
+				<td class="primary"
+					style="text-align: center;  border: 1px solid #000; vertical-align: middle;" id="proDate"></td>
+			</tr>
+		
+		
+		</table>
+	</div>
+	<div class="row">
+		<table class="table table-striped" id="routine_type">
+		</table>
+	</div>
+	<div class="row">
+		<table class="table table-striped" id="training_type">
+		</table>
+	</div>
+	<div class="row">
+		<table class="table table-striped" id="leave_type">
+		</table>
+	</div>
+	<div th:include="include/footer_js::footer"></div>
+	<script th:src="@{/js/modules/timesheet/projectinfo.js}"></script>	
+</body>
+</html>

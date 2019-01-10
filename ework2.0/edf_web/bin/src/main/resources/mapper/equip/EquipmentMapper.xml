@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ewaytek.edf.web.modules.equip.dao.EquipmentMapper">
+	
+	<select id="listForPage" resultType="com.ewaytek.edf.web.modules.equip.entity.EquipmentEntity">
+		SELECT
+			`equ_id`, 
+			`equ_name`, 
+			`equ_styleId`, 
+			`equ_price`, 
+			`equ_source`, 
+			`equ_count`, 
+			`remark`, 
+			`user_id_create`, 
+			`gmt_create`, 
+			`gmt_modified`
+		FROM
+			equipment
+		WHERE 1=1
+		<if test="name !=null and name.trim() != ''">
+			AND equ_name LIKE CONCAT('%',#{name},'%')
+		</if>
+		ORDER BY
+			equ_id DESC
+	</select>
+	
+	<insert id="save">
+		INSERT INTO equipment (
+			`equ_id`, 
+			`equ_name`, 
+			`equ_styleId`, 
+			`equ_price`, 
+			`equ_source`, 
+			`equ_count`, 
+			`remark`, 
+			`user_id_create`, 
+			`gmt_create`, 
+			`gmt_modified`
+		)
+		VALUES (
+			#{equId}, 
+			#{equName}, 
+			#{equStyleid}, 
+			#{equPrice}, 
+			#{equSource}, 
+			#{equCount}, 
+			#{remark}, 
+			#{userIdCreate}, 
+			#{gmtCreate}, 
+			#{gmtModified}
+		)
+	</insert>
+	
+	<select id="getObjectById" resultType="com.ewaytek.edf.web.modules.equip.entity.EquipmentEntity">
+		SELECT
+			`equ_id`, 
+			`equ_name`, 
+			`equ_styleId`, 
+			`equ_price`, 
+			`equ_source`, 
+			`equ_count`, 
+			`remark`, 
+			`user_id_create`, 
+			`gmt_create`, 
+			`gmt_modified`
+		FROM
+			equipment
+		WHERE
+			equ_id = #{equId}
+	</select>
+	
+	<update id="update">
+		UPDATE equipment
+	 	<set>
+			<if test="equName != null">`equ_name` = #{equName}, </if>
+			<if test="equStyleid != null">`equ_styleId` = #{equStyleid}, </if>
+			<if test="equPrice != null">`equ_price` = #{equPrice}, </if>
+			<if test="equSource != null">`equ_source` = #{equSource}, </if>
+			<if test="equCount != null">`equ_count` = #{equCount}, </if>
+			<if test="remark != null">`remark` = #{remark}, </if>
+			<if test="userIdCreate != null">`user_id_create` = #{userIdCreate}, </if>
+			<if test="gmtCreate != null">`gmt_create` = #{gmtCreate}, </if>
+			<if test="gmtModified != null">`gmt_modified` = #{gmtModified}</if>
+		</set>
+		WHERE
+			equ_id = #{equId}
+	</update>
+	
+	<delete id="batchRemove">
+		DELETE
+		FROM
+			equipment
+		WHERE
+			equ_id IN
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

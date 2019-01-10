@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ewaytek.edf.web.modules.exAccount.dao.ExpenseAccountMapper">
+	
+	<select id="listForPage" resultType="com.ewaytek.edf.web.modules.exAccount.entity.ExpenseAccountEntity">
+		SELECT
+			ea.`exp_acc_id`, 
+			ea.`pro_id`, 
+			ea.`pro_businesstype`, 
+			ea.`exp_acc_no`, 
+			ea.`exp_acc_type`, 
+			ea.`exp_acc_userid`, 
+			ea.`exp_acc_datetime`, 
+			ea.`check_userid`, 
+			ea.`check_datetime`, 
+			ea.`check_userid_two`, 
+			ea.`check_datetime_two`,
+			ea.`double_check_userid`, 
+			ea.`double_check_datetime`, 
+			ea.`double_check_money`, 
+			ea.`travel_site`, 
+			ea.`travel_days`, 
+			ea.`travel_allowance`, 
+			ea.`exp_acc_state`, 
+			ea.`remark`,
+			s1.username,
+			s2.username AS checkName,
+			s3.username AS checkNameTwo,
+			s4.username AS doubleCheckName,
+			pro_name,
+			TRUNCATE((
+						(
+							IFNULL((SELECT SUM( IFNULL(er.acc_det_money,0)) FROM expense_routine er WHERE er.exp_acc_no=ea.exp_acc_no),0)
+						)+
+						(
+							IFNULL((SELECT SUM( IFNULL(et.acc_det_money,0)) FROM expense_traffic et WHERE et.exp_acc_no=ea.exp_acc_no),0)
+						)+
+							IFNULL(travel_allowance,0)
+					),2
+			) num
+		FROM
+			expense_account ea
+		LEFT JOIN sys_user s1 on ea.exp_acc_userid = s1.user_id
+		LEFT JOIN sys_user s2 on ea.check_userid = s2.user_id
+		LEFT JOIN sys_user s3 on ea.check_userid_two = s3.user_id
+		LEFT JOIN sys_user s4 on ea.double_check_userid = s4.user_id
+		LEFT JOIN project p on ea.pro_id = p.pro_id
+		WHERE 1=1
+			<if test="userID !=null">
+				AND ea.exp_acc_userid=#{userID} 
+			</if>	
+			<if test="name !=null and name.trim() != ''">
+				AND pro_id in (
+					SELECT 
+						p.pro_id 
+						FROM project p where p.pro_name LIKE CONCAT('%',#{name},'%'))
+			</if>
+			<if test="auditor !=null">
+				AND exp_acc_userid in (SELECT su.user_id FROM sys_user su where su.auditor=#{auditor} or su.auditor_two=#{auditor})
+			</if>
+			<choose> 
+				<when test='reviewNum == "1"'>  
+					AND ea.exp_acc_state in("1","5") 
+				</when>
+				<when test='reviewNum == "2"'>  
+					AND ea.exp_acc_state = "4"  
+				</when> 
+				<when test='reviewNum == "3"'>  
+					AND ea.exp_acc_state = "2" 
+				</when>  
+				<otherwise>   
+			        AND 1 = 1   
+				</otherwise>
+			</choose> 
+		ORDER BY
+			exp_acc_id DESC
+	</select>
+	
+	<insert id="save">
+		INSERT INTO expense_account (
+			`exp_acc_id`, 
+			`pro_id`, 
+			`pro_businesstype`, 
+			`exp_acc_no`, 
+			`exp_acc_type`, 
+			`exp_acc_userid`, 
+			`exp_acc_datetime`, 
+			`check_userid`, 
+			`check_datetime`, 
+			`check_userid_two`, 
+			`check_datetime_two`,
+			`double_check_userid`, 
+			`double_check_datetime`, 
+			`double_check_money`, 
+			`travel_site`, 
+			`travel_days`, 
+			`travel_allowance`, 
+			`exp_acc_state`, 
+			`remark`
+		)
+		VALUES (
+			#{expAccId}, 
+			#{proId}, 
+			#{proBusinesstype}, 
+			#{expAccNo}, 
+			#{expAccType}, 
+			#{expAccUserid}, 
+			#{expAccDatetime}, 
+			#{checkUserid}, 
+			#{checkDatetime},
+			#{checkUseridTwo}, 
+			#{checkDatetimeTwo}, 
+			#{doubleCheckUserid}, 
+			#{doubleCheckDatetime}, 
+			#{doubleCheckMoney}, 
+			#{travelSite}, 
+			#{travelDays}, 
+			#{travelAllowance}, 
+			#{expAccState}, 
+			#{remark}
+		)
+	</insert>
+	
+	<select id="getObjectById" resultType="com.ewaytek.edf.web.modules.exAccount.entity.ExpenseAccountEntity">
+		SELECT
+			`exp_acc_id`, 
+			`pro_id`, 
+			`pro_businesstype`, 
+			`exp_acc_no`, 
+			`exp_acc_type`, 
+			`exp_acc_userid`, 
+			`exp_acc_datetime`, 
+			`check_userid`, 
+			`check_datetime`,
+			`check_userid_two`, 
+			`check_datetime_two`,  
+			`double_check_userid`, 
+			`double_check_datetime`, 
+			`double_check_money`, 
+			`travel_site`, 
+			`travel_days`, 
+			`travel_allowance`, 
+			`exp_acc_state`, 
+			ea.`remark`,
+			s2.username AS checkName,
+			s3.username AS checkNameTwo,
+			s4.username AS doubleCheckName
+		FROM
+			expense_account ea
+		LEFT JOIN sys_user s2 on check_userid = s2.user_id
+		LEFT JOIN sys_user s3 on check_userid_two = s3.user_id
+		LEFT JOIN sys_user s4 on double_check_userid = s4.user_id
+		WHERE
+			exp_acc_id = #{expAccId}
+	</select>
+	
+	<update id="update">
+		UPDATE expense_account
+	 	<set>
+			<if test="proId != null">`pro_id` = #{proId}, </if>
+			<if test="proBusinesstype != null">`pro_businesstype` = #{proBusinesstype}, </if>
+			<if test="expAccNo != null">`exp_acc_no` = #{expAccNo}, </if>
+			<if test="expAccType != null">`exp_acc_type` = #{expAccType}, </if>
+			<if test="expAccUserid != null">`exp_acc_userid` = #{expAccUserid}, </if>
+			<if test="expAccDatetime != null">`exp_acc_datetime` = #{expAccDatetime}, </if>
+			<if test="checkUserid != null">`check_userid` = #{checkUserid}, </if>
+			<if test="checkDatetime != null">`check_datetime` = #{checkDatetime}, </if>
+			<if test="checkUseridTwo != null">`check_userid_two` = #{checkUseridTwo}, </if>
+			<if test="checkDatetimeTwo != null">`check_datetime_two` = #{checkDatetimeTwo}, </if>
+			<if test="doubleCheckUserid != null">`double_check_userid` = #{doubleCheckUserid}, </if>
+			<if test="doubleCheckDatetime != null">`double_check_datetime` = #{doubleCheckDatetime}, </if>
+			<if test="doubleCheckMoney != null">`double_check_money` = #{doubleCheckMoney}, </if>
+			`travel_site` = #{travelSite}, 
+			`travel_days` = #{travelDays},
+			`travel_allowance` = #{travelAllowance},
+			<if test="expAccState != null">`exp_acc_state` = #{expAccState}, </if>
+			<if test="remark != null">`remark` = #{remark}</if>
+		</set>
+		WHERE
+			exp_acc_id = #{expAccId}
+	</update>
+	
+	<delete id="batchRemove">
+		DELETE
+		FROM
+			expense_account
+		WHERE
+			exp_acc_id IN
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+	<select id="listPro" resultType="com.ewaytek.edf.web.modules.exAccount.entity.ProUtilEntity">
+		SELECT 
+			pro_id,pro_name,pro_businesstype,pro_number 
+		FROM project 
+	</select>
+</mapper>

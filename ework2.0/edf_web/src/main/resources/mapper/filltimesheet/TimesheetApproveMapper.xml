@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ewaytek.edf.web.modules.filltimesheet.dao.TimesheetApproveMapper">
+	
+	<select id="listProject" resultType="com.ewaytek.edf.web.modules.filltimesheet.entity.TimesheetApproveEntity">
+	SELECT 
+		t.pro_id,
+		t.user_id,
+		getUsernameById(t.user_id) as username,
+		p.pro_number,
+		p.pro_name,
+		p.pro_type,
+		getDict_Label('pro_type',p.pro_type) as pro_typename,
+		SUM(t.time_actualhours) as actualhours
+	from 
+		timesheet t right JOIN project p on p.pro_id=t.pro_id 
+	where 
+		p.user_id=#{userId}
+		and 
+		t.ts_id=#{tsId}
+		and
+		t.timesheet_type=1
+		and
+		timesheet_state=2
+	GROUP BY t.pro_id,t.user_id
+	</select>
+	
+	<select id="listNoProject" resultType="com.ewaytek.edf.web.modules.filltimesheet.entity.TimesheetApproveEntity">
+	SELECT
+	 	t.task_id,
+		t.user_id,
+		getUsernameById(t.user_id) as username,
+		sum(t.time_actualhours) as actualhours,
+		d.description as pro_type,
+		d.label as pro_name
+	from 
+		timesheet t LEFT JOIN  sys_dict d on t.task_id=d.id
+	where
+		 t.user_id in (select u.user_id from sys_user u LEFT JOIN department d  on d.dep_id=u.dep_id where d.user_id=#{userId}) 
+	 and 
+	 	t.timesheet_type=2 
+	 and
+		timesheet_state=2
+	and 
+		t.ts_id=#{tsId}
+	GROUP BY t.user_id,t.task_id
+	</select>
+	
+	<update id="pojectsTasksApprove">
+		update 
+			timesheet
+		set
+			timesheet_state=#{state},gmt_modified=SYSDATE()<if test="state == 4">,repulse= #{remark}</if>
+		where
+				pro_id=#{proId}
+			and
+				ts_id=#{tsId}
+			and
+				user_id=#{userId}
+			and
+				timesheet_type=1
+	</update>
+	
+	<update id="noPojectsTasksApprove">
+		update 
+			timesheet
+		set
+			timesheet_state=#{state},gmt_modified=SYSDATE()<if test="state == 4">,repulse= #{remark}</if>
+		where
+				task_id=#{taskId}
+			and
+				ts_id=#{tsId}
+			and
+				user_id=#{userId}
+			and
+				timesheet_type=2
+	</update>
+	
+	<update id="updateTaskStatus">
+		update
+			task
+		set
+			task_status = 4
+		where
+				pro_id=#{proId}
+			and
+				task_user=#{userId}
+	</update>
+</mapper>

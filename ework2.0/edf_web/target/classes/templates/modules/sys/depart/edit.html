@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_css::header('部门表')"></head>
+<body>
+	<div id="eway" class="container-fluid" v-cloak>
+		<table class="form" id="form">
+			<tr>
+	            <td class="formTitle">部门名称<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="部门名称" v-model="department.depName" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle">部门编号<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="部门编号" v-model="department.depNumber" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+			<tr>
+        		<td class="formTitle">部门主管<font face="宋体">*</font></td>
+        		<td class="formValue">
+					    <select v-model="department.userId" class="form-control"> 
+							 <option v-for="item in itemx" v-bind:value="item.userId">{{item.username}}</option>
+						</select>
+				</td>
+			</tr>
+        	<tr>
+        		<td class="formTitle">上级部门<font face="宋体">*</font></td>
+        		<td class="formValue">
+					    <select v-model="department.depParentid" class="form-control">
+					        <option v-for="item in items" v-bind:value="item.depId">{{item.depName}}</option>   
+					    </select>  
+				   <!--  <span >已选:{{selected}}</span>   -->
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div th:include="include/footer_js::footer"></div>
+	<script th:src="@{/js/modules/depart/edit.js}"></script>
+</body>
+</html>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ewaytek.edf.web.modules.equip_bor.dao.EquipmentBorrowMapper">
+	
+	<select id="listForPage" resultType="com.ewaytek.edf.web.modules.equip_bor.entity.EquipmentBorrowEntity">
+		SELECT
+			eb.equ_bor_id as equBorId, 
+			eb.equ_id as equId, 
+			eb.pro_id as proId, 
+			eb.bor_user_id as borUserId, 
+			eb.bor_count as borCount,
+			eb.ret_count as retCount, 
+			eb.bor_dateTime as borDateTime, 
+			eb.bor_planTime as borPlanTime,
+			eb.ret_dateTime as retDateTime, 
+			eb.bor_site as borSite, 
+			eb.bor_ret_state as borRetState, 
+			eb.remark as remark, 
+			eb.user_id_create as userIdCreate, 
+			eb.gmt_create as gmtCreate, 
+			eb.gmt_modified as gmtModified,
+			e.equ_name as equName,
+			e.equ_styleId as equStyleIdName,
+			p.pro_name as proName,
+			p.pro_number as proNumber,
+			getUsernameById(eb.bor_user_id) as borUserIdName,
+			getDict_Label('util_site',eb.bor_site) as borSiteName,
+			getDict_Label('bor_ret_state',eb.bor_ret_state) as borRetStateName
+			
+		FROM
+			equipment_borrow eb
+			INNER JOIN equipment e ON eb.equ_id = e.equ_id
+			INNER JOIN project p ON eb.pro_id = p.pro_id
+		WHERE 1=1
+			<if test="name != null and name.trim() != ''">
+				AND eb.bor_ret_state = #{name}
+			</if>
+			<if test="boruser != null and boruser.trim() != ''">
+				AND eb.bor_user_id = #{boruser}
+			</if>
+			<if test="start != null and start.trim() != ''">
+				AND eb.bor_dateTime >= #{start}
+			</if>
+			<if test="end != null and end.trim() != ''">
+				AND #{end} >= eb.bor_dateTime
+			</if>	
+		ORDER BY
+			eb.equ_bor_id DESC
+			
+	</select>
+	
+	<insert id="save">
+		INSERT INTO equipment_borrow (
+			`equ_id`, 
+			`pro_id`, 
+			`bor_user_id`, 
+			`bor_count`,
+			`ret_count`,
+			`bor_dateTime`, 
+			`bor_planTime`,
+			`ret_dateTime`, 
+			`bor_site`, 
+			`bor_ret_state`, 
+			`remark`, 
+			`user_id_create`, 
+			`gmt_create`, 
+			`gmt_modified`
+		)
+		VALUES (
+			#{equId}, 
+			#{proId}, 
+			#{borUserId}, 
+			#{borCount},
+			#{retCount}, 
+			#{borDatetime}, 
+			#{borPlantime},
+			#{retDateTime}, 
+			#{borSite}, 
+			#{borRetState}, 
+			#{remark}, 
+			#{userIdCreate}, 
+			#{gmtCreate}, 
+			#{gmtModified}
+		)
+	</insert>
+	
+	<select id="getObjectById" resultType="com.ewaytek.edf.web.modules.equip_bor.entity.EquipmentBorrowEntity">
+		SELECT
+			eb.equ_bor_id as equBorId, 
+			eb.equ_id as equId, 
+			eb.pro_id as proId, 
+			eb.bor_user_id as borUserId, 
+			eb.bor_count as borCount,
+			eb.ret_count as retCount, 
+			eb.bor_dateTime as borDateTime, 
+			eb.bor_planTime as borPlanTime,
+			eb.ret_dateTime as retDateTime, 
+			eb.bor_site as borSite, 
+			eb.bor_ret_state as borRetState, 
+			eb.remark as remark, 
+			eb.user_id_create as userIdCreate, 
+			eb.gmt_create as gmtCreate, 
+			eb.gmt_modified as gmtModified,
+			e.equ_name as equName,
+			e.equ_styleId as equStyleIdName,
+			p.pro_name as proName,
+			p.pro_number as proNumber,
+			getUsernameById(eb.bor_user_id) as borUserIdName,
+			getDict_Label('util_site',eb.bor_site) as borSiteName,
+			getDict_Label('bor_ret_state',eb.bor_ret_state) as borRetStateName
+		FROM
+			equipment_borrow eb
+			INNER JOIN equipment e ON eb.equ_id = e.equ_id
+			INNER JOIN project p ON eb.pro_id = p.pro_id
+		WHERE
+			eb.equ_bor_id = #{equBorId}
+	</select>
+	
+	<update id="update">
+		UPDATE equipment_borrow
+	 	<set>
+			<if test="equId != null">`equ_id` = #{equId}, </if>
+			<if test="proId != null">`pro_id` = #{proId}, </if>
+			<if test="borUserId != null">`bor_user_id` = #{borUserId}, </if>
+			<if test="borCount != null">`bor_count` = #{borCount}, </if>
+			<if test="borDatetime != null">`bor_dateTime` = #{borDatetime}, </if>
+			<if test="borPlantime != null">`bor_planTime` = #{borPlantime}, </if>
+			<if test="borSite != null">`bor_site` = #{borSite}, </if>
+			<if test="borRetState != null">`bor_ret_state` = #{borRetState}, </if>
+			<if test="remark != null">`remark` = #{remark}, </if>
+			<if test="userIdCreate != null">`user_id_create` = #{userIdCreate}, </if>
+			<if test="gmtCreate != null">`gmt_create` = #{gmtCreate}, </if>
+			<if test="gmtModified != null">`gmt_modified` = #{gmtModified},</if>
+			<if test="retCount != null">`ret_count` = #{retCount},</if>
+			<if test="retDateTime != null">`ret_dateTime` = #{retDateTime}</if>
+		</set>
+		WHERE
+			equ_bor_id = #{equBorId}
+	</update>
+	
+	<delete id="batchRemove">
+		DELETE
+		FROM
+			equipment_borrow
+		WHERE
+			equ_bor_id IN
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+	
+	<select id="getProjectEntityAll" resultType="com.ewaytek.edf.web.modules.pro.entity.ProjectEntity">
+		SELECT pro_id as proId,pro_name as proName FROM project
+	</select>
+
+</mapper>

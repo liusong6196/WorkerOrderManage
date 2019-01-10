@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_css::header('个人任务状况')"></head>
+<body>
+	<div class="row">
+		<div class="">
+			<div class="box box-primary " id="readydodiv">
+				<div class="box-header with-border">
+					<h3 class="box-title">查询条件</h3>
+					<div class="box-tools pull-right">
+						<button type="button" class="btn btn-box-tool"
+							data-widget="collapse">
+							<i class="fa fa-minus"></i>
+						</button>
+					</div>
+					<!-- /.box-tools -->
+				</div>
+				<!-- /.box-header -->
+				<div class="box-body">
+					<div class="row">
+						<table class="form" id="form">
+							<tr>
+								<td class="formTitle" style="width: 100px;">隶属公司</td>
+								<td class="formValue" style="width: 200px;"><select
+									class="form-control" id="company">
+										<option value="-1">请选择</option>
+								</select></td>
+								<td class="formTitle" style="width: 50px;">资源<font face="宋体">*</font></td>
+								<td class="formValue" style="width: 100px;"><select id="users"
+									class="form-control"  isvalid="yes" checkexpession="NotNullSelect" >
+										<option value="0">请选择</option>
+								</select></td>
+								<td class="formTitle" style="width: 50px;">项目</td>
+								<td class="formValue" style="width: 300px;"><select id="pros"
+									class="form-control">
+										<option>请选择</option>
+								</select></td>
+								<td class="formTitle">时间范围</td>
+								<td class="formValue"><input type="date"
+									class="form-control" placeholder="时间范围"  id="start"></td>
+								<td align="center"><font face="宋体">到</font></td>
+								<td class="formValue"><input id="end" type="date"
+									class="form-control" placeholder="时间范围"></td>
+								<td align="center"><a class="btn btn-default"
+									onclick="searchreport();"><i class="fa fa-search"></i>&nbsp;查询</a></td>
+								<!-- <td align="center"><a class="btn btn-default"
+									onclick="searchreport();"><i class="fa fa-search"></i>&nbsp;个人OKR</a></td> -->
+								<td align="center"><a class="btn btn-default" 
+									onclick="myOkr();"><i class="glyphicon glyphicon-registration-mark"></i>&nbsp;OKR</a></td>
+						</table>
+
+					</div>
+				</div>
+				<!-- /.box-body -->
+			</div>
+			<!-- /.box -->
+		</div>
+	</div>
+	<!-- /.row -->
+
+	<div class="row">
+		<div class="">
+			<div class="box box-primary " id="readydodiv">
+				<div class="box-header with-border">
+					<h3 class="box-title">个人任务状况</h3>
+					<div class="box-tools pull-right">
+						<button type="button" class="btn btn-box-tool"
+							data-widget="collapse">
+							<i class="fa fa-minus"></i>
+						</button>
+					</div>
+					<!-- /.box-tools -->
+				</div>
+				<!-- /.box-header -->
+				<div class="box-body">
+				<div class="row"><b>员工姓名:</b><span id="userlabel">&nbsp;</span>
+				<div style="float:right;"><b>时间范围:</b><span id="timelabel">&nbsp;&nbsp;&nbsp;无&nbsp;&nbsp;&nbsp;</span>
+				<b style="margin-left:50px;">工作量单位:</b>&nbsp;&nbsp;&nbsp;小时&nbsp;&nbsp;&nbsp;
+				</div>
+				</div>
+					<div class="row">
+					<table class="table table-striped"  id="datatable">
+                  <tr style="background: silver;">
+                  <th style="width: 300px;text-align:center;font-weight:bold;">项目名称</th>
+                  <th style="width: 300px;text-align:center;font-weight:bold;">任务名称</th>
+                  <th style="width: 200px;text-align:center;font-weight:bold;">任务代码</th>
+                  <th style="width: 200px;text-align:center;font-weight:bold;">计划工作量</th>
+                  <th style=";text-align:center;font-weight:bold;">累计工作量</th>
+                  <th style="text-align:center;font-weight:bold;">本期工作量</th>
+                  <th style="text-align:center;font-weight:bold;">任务状态</th>
+                </tr>
+                <tr class="danger">
+                  <td colspan="3" style="text-align:center;font-weight:bold;">合计:</td>
+                  <td style="text-align:center;font-weight:bold;">0</td>
+                  <td style="text-align:center;font-weight:bold;">0</td>
+                  <td style="text-align:center;font-weight:bold;">0</td>
+                  <td style="text-align:center;font-weight:bold;"></td>
+                </tr>
+              </table>
+
+					</div>
+				</div>
+				<!-- /.box-body -->
+			</div>
+			<!-- /.box -->
+		</div>
+	</div>
+	<!-- /.row -->
+
+	<div th:include="include/footer_js::footer"></div>
+	<script th:src="@{/js/modules/report/taskreport.js}"></script>
+</body>
+</html>

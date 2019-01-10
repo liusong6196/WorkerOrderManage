@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_css::header('编辑-员工通讯录')"></head>
+<body>
+	<div id="eway" class="container-fluid" v-cloak>
+		<table class="form" id="form">
+			<tr>
+	            <td class="formTitle">用户名<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="用户名" v-model="user.username" isvalid="yes" checkexpession="NotNull" readonly="readonly">
+	            </td>
+        	</tr>
+        	<tr>
+        		<td class="formTitle">邮箱</td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="邮箱" v-model="user.email">
+	            </td>
+        	</tr>
+        	<tr>
+	            <td class="formTitle">手机号</td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="手机号" v-model="user.mobile">
+	            </td>
+        	</tr>
+        	<tr>
+        		<td class="formTitle">紧急联系人</td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="紧急联系人" v-model="user.emergencyContact">
+	            </td>
+        	</tr>
+        	<tr>
+        		<td class="formTitle">紧急联系电话</td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="紧急联系电话" v-model="user.contactTelephone">
+	            </td>
+        	</tr>
+		</table>
+	</div>
+	<div th:include="include/footer_js::footer"></div>
+	<script th:src="@{/js/modules/addressbook/edit.js}"></script>
+</body>
+</html>

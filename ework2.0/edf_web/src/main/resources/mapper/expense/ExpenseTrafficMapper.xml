@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ewaytek.edf.web.modules.expense.expenseTraffic.dao.ExpenseTrafficMapper">
+	
+	<select id="listForPage" resultType="com.ewaytek.edf.web.modules.expense.expenseTraffic.entity.ExpenseTrafficEntity">
+		SELECT
+			`exp_tra_id`, 
+			`exp_acc_no`, 
+			`exp_start_datetime`, 
+			`exp_start_site`, 
+			`exp_end_datetime`, 
+			`exp_end_site`, 
+			`vehicle_type`, 
+			`exp_abstract`, 
+			`acc_det_money`, 
+			`chcek_money`, 
+			`remark`, 
+			`user_id_create`, 
+			`gmt_create`, 
+			`gmt_modified`
+		FROM
+			expense_traffic
+		ORDER BY
+			exp_tra_id DESC
+	</select>
+	<select id="listByExpAccNo" resultType="com.ewaytek.edf.web.modules.expense.expenseTraffic.entity.ExpenseTrafficEntity">
+		SELECT
+			`exp_tra_id`, 
+			`exp_acc_no`, 
+			`exp_start_datetime`, 
+			`exp_start_site`, 
+			`exp_end_datetime`, 
+			`exp_end_site`, 
+			`vehicle_type`, 
+			`exp_abstract`, 
+			`acc_det_money`, 
+			`chcek_money`, 
+			`remark`, 
+			`user_id_create`, 
+			`gmt_create`, 
+			`gmt_modified`
+		FROM
+			expense_traffic
+		WHERE
+			exp_acc_no = #{expAccNo}
+		ORDER BY
+			exp_start_datetime ASC
+	</select>
+	<insert id="save">
+		INSERT INTO expense_traffic (
+			`exp_tra_id`, 
+			`exp_acc_no`, 
+			`exp_start_datetime`, 
+			`exp_start_site`, 
+			`exp_end_datetime`, 
+			`exp_end_site`, 
+			`vehicle_type`, 
+			`exp_abstract`, 
+			`acc_det_money`, 
+			`chcek_money`, 
+			`remark`, 
+			`user_id_create`, 
+			`gmt_create`, 
+			`gmt_modified`
+		)
+		VALUES (
+			#{expTraId}, 
+			#{expAccNo}, 
+			#{expStartDatetime}, 
+			#{expStartSite}, 
+			#{expEndDatetime}, 
+			#{expEndSite}, 
+			#{vehicleType}, 
+			#{expAbstract}, 
+			#{accDetMoney}, 
+			#{chcekMoney}, 
+			#{remark}, 
+			#{userIdCreate}, 
+			#{gmtCreate}, 
+			#{gmtModified}
+		)
+	</insert>
+	
+	<select id="getObjectById" resultType="com.ewaytek.edf.web.modules.expense.expenseTraffic.entity.ExpenseTrafficEntity">
+		SELECT
+			`exp_tra_id`, 
+			`exp_acc_no`, 
+			`exp_start_datetime`, 
+			`exp_start_site`, 
+			`exp_end_datetime`, 
+			`exp_end_site`, 
+			`vehicle_type`, 
+			`exp_abstract`, 
+			`acc_det_money`, 
+			`chcek_money`, 
+			`remark`, 
+			`user_id_create`, 
+			`gmt_create`, 
+			`gmt_modified`
+		FROM
+			expense_traffic
+		WHERE
+			exp_tra_id = #{expTraId}
+	</select>
+	
+	<update id="update">
+		UPDATE expense_traffic
+	 	<set>
+			<if test="expAccNo != null">`exp_acc_no` = #{expAccNo}, </if>
+			<if test="expStartDatetime != null">`exp_start_datetime` = #{expStartDatetime}, </if>
+			<if test="expStartSite != null">`exp_start_site` = #{expStartSite}, </if>
+			<if test="expEndDatetime != null">`exp_end_datetime` = #{expEndDatetime}, </if>
+			<if test="expEndSite != null">`exp_end_site` = #{expEndSite}, </if>
+			<if test="vehicleType != null">`vehicle_type` = #{vehicleType}, </if>
+			<if test="expAbstract != null">`exp_abstract` = #{expAbstract}, </if>
+			<if test="accDetMoney != null">`acc_det_money` = #{accDetMoney}, </if>
+			<if test="chcekMoney != null">`chcek_money` = #{chcekMoney}, </if>
+			<if test="remark != null">`remark` = #{remark}, </if>
+			<if test="userIdCreate != null">`user_id_create` = #{userIdCreate}, </if>
+			<if test="gmtCreate != null">`gmt_create` = #{gmtCreate}, </if>
+			<if test="gmtModified != null">`gmt_modified` = #{gmtModified}</if>
+		</set>
+		WHERE
+			exp_tra_id = #{expTraId}
+	</update>
+	
+	<delete id="batchRemove">
+		DELETE
+		FROM
+			expense_traffic
+		WHERE
+			exp_tra_id IN
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

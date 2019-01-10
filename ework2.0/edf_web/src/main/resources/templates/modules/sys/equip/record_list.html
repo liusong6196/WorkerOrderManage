@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_css::header('设备记录表')"></head>
+<body>
+<div id="eway" class="container-fluid" v-cloak>
+	<div class="row">
+		<div class="col-md-11.5 form-inline pull-left">
+			
+			&nbsp;
+			<div class="form-group">
+		    	<label>责任人</label>
+		    	<select v-model="ruser" class="form-control" id="ruser">
+		    	</select>
+			</div>
+			&nbsp;
+			<div class="form-group">
+		    	<label>发生地</label>
+		    	<select class="form-control" v-model="rsite" id="rsite">
+		    	</select>
+			</div>
+			&nbsp;
+			<div class="form-group">
+		    	<label>类型</label>
+		    	<select class="form-control" v-model="rtype" id="rtype">
+		    	</select>
+			</div>
+			&nbsp;
+			<div class="form-group">
+		    	<label>设备名称</label>
+		    	<input type="text" class="form-control" v-model="equ_name" id="equ_name" style="width: 130px;" placeholder="设备名称">
+			</div>
+			&nbsp;
+			<div class="form-group">
+				<label>发生日期：</label>
+				<input type="date" v-model="start" class="form-control" id="start">
+				-
+				<input type="date" v-model="end" class="form-control" id="end">
+			</div>
+			<div class="form-group">
+			    <a class="btn btn-primary" @click="load"><i class="fa fa-search"></i>&nbsp;查询</a>
+			</div>
+		</div>
+		<div class="col-md-0.5">
+			<div class="btn-toolbar pull-right">
+				<div class="btn-group">
+				<!--
+		            <a v-if="hasPermission('sys:record:list')" class="btn btn-default" onclick="reload();"><i class="fa fa-refresh"></i>&nbsp;刷新</a>
+		            <a v-if="hasPermission('sys:record:save')" class="btn btn-default" @click="save"><i class="fa fa-plus"></i>&nbsp;新增</a>
+		            <a v-if="hasPermission('sys:record:edit')" class="btn btn-default" @click="edit"><i class="fa fa-pencil-square-o"></i>&nbsp;编辑</a>
+		            <a v-if="hasPermission('sys:record:remove')" class="btn btn-default" @click="remove"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
+		         -->
+		        </div>
+	        </div>
+		</div>
+	</div>
+	<div class="row">
+		<table id="dataGrid"></table>
+	</div>
+</div>
+<div th:include="include/footer_js::footer"></div>
+<script th:src="@{/js/modules/equip/record_list.js}"></script>
+</body>
+</html>

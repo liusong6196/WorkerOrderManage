@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ewaytek.edf.web.modules.equip.dao.EquipmentRecordMapper">
+	
+	<select id="listForPage" resultType="com.ewaytek.edf.web.modules.equip.entity.EquipmentRecordEntity">
+		SELECT
+			r.record_id as recordId, 
+			r.equ_id as equId, 
+			r.record_price as recordPrice, 
+			r.record_count as recordCount, 
+			r.billing_amount as billingAmount, 
+			r.cus_id as cusId, 
+			r.receive_unit as receiveUnit, 
+			r.record_datetime as recordDatetime, 
+			r.over_datetime as overDatetime, 
+			r.rec_state as recState, 
+			r.remark as remark, 
+			r.user_id_create as userIdCreate, 
+			r.gmt_create as gmtCreate, 
+			r.gmt_modified as gmtModified,
+			e.equ_name as equName,
+			e.equ_styleId as styleId,
+			getDict_Label('util_site',e.equ_site) as equSiteName,
+      		getDict_Label('rec_state',r.rec_state) as recordType,
+			CASE WHEN r.cus_id IS NULL THEN e.equ_supplier
+			WHEN r.cus_id IS NOT NULL THEN getCustomerName(r.cus_id)
+			END as customerName,
+			getUsernameById(r.user_id_create) as optionName
+		FROM
+			equipment_record r INNER JOIN equipment e ON r.equ_id = e.equ_id
+		WHERE 1=1
+			<if test="start != null and start.trim() != ''">
+				AND r.record_datetime >= #{start}
+			</if>
+			<if test="end != null and end.trim() != ''">
+				AND #{end} >= r.record_datetime
+			</if>
+			<if test="ruser != null and ruser.trim() != ''">
+				AND r.user_id_create = #{ruser}
+			</if>
+			<if test="rsite != null and rsite.trim() != ''">
+				AND e.equ_site = #{rsite}
+			</if>
+			<if test="equ_name != null and equ_name.trim() != ''">
+				AND e.equ_name LIKE CONCAT("%",#{equ_name},"%")
+			</if>
+			<if test="rtype != null and rtype.trim() != ''">
+				AND r.rec_state = #{rtype}
+			</if>
+		ORDER BY
+			r.record_id DESC
+	</select>
+	
+	<insert id="save">
+		INSERT INTO equipment_record (
+			`equ_id`, 
+			`record_price`, 
+			`record_count`, 
+			`billing_amount`, 
+			`cus_id`, 
+			`receive_unit`, 
+			`record_datetime`, 
+			`over_datetime`, 
+			`rec_state`, 
+			`remark`, 
+			`user_id_create`, 
+			`gmt_create`, 
+			`gmt_modified`
+		)
+		VALUES (
+			#{equId}, 
+			#{recordPrice}, 
+			#{recordCount}, 
+			#{billingAmount}, 
+			#{cusId}, 
+			#{receiveUnit}, 
+			#{recordDatetime}, 
+			#{overDatetime}, 
+			#{recState}, 
+			#{remark}, 
+			#{userIdCreate}, 
+			#{gmtCreate}, 
+			#{gmtModified}
+		)
+	</insert>
+	
+	<select id="getObjectById" resultType="com.ewaytek.edf.web.modules.equip.entity.EquipmentRecordEntity">
+		SELECT
+			`record_id`, 
+			`equ_id`, 
+			`record_price`, 
+			`record_count`, 
+			`billing_amount`, 
+			`cus_id`, 
+			`receive_unit`, 
+			`record_datetime`, 
+			`over_datetime`, 
+			`rec_state`, 
+			`remark`, 
+			`user_id_create`, 
+			`gmt_create`, 
+			`gmt_modified`
+		FROM
+			equipment_record
+		WHERE
+			record_id = #{recordId}
+	</select>
+	
+	<update id="update">
+		UPDATE equipment_record
+	 	<set>
+			<if test="equId != null">`equ_id` = #{equId}, </if>
+			<if test="recordPrice != null">`record_price` = #{recordPrice}, </if>
+			<if test="recordCount != null">`record_count` = #{recordCount}, </if>
+			<if test="billingAmount != null">`billing_amount` = #{billingAmount}, </if>
+			<if test="cusId != null">`cus_id` = #{cusId}, </if>
+			<if test="receiveUnit != null">`receive_unit` = #{receiveUnit}, </if>
+			<if test="recordDatetime != null">`record_datetime` = #{recordDatetime}, </if>
+			<if test="overDatetime != null">`over_datetime` = #{overDatetime}, </if>
+			<if test="recState != null">`rec_state` = #{recState}, </if>
+			<if test="remark != null">`remark` = #{remark}, </if>
+			<if test="userIdCreate != null">`user_id_create` = #{userIdCreate}, </if>
+			<if test="gmtCreate != null">`gmt_create` = #{gmtCreate}, </if>
+			<if test="gmtModified != null">`gmt_modified` = #{gmtModified}</if>
+		</set>
+		WHERE
+			record_id = #{recordId}
+	</update>
+	
+	<delete id="batchRemove">
+		DELETE
+		FROM
+			equipment_record
+		WHERE
+			record_id IN
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

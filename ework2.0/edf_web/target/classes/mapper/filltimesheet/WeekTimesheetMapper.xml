@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ewaytek.edf.web.modules.filltimesheet.dao.WeekTimesheetMapper">
+	
+	<select id="listForPage" resultType="com.ewaytek.edf.web.modules.filltimesheet.entity.WeekTimesheetEntity">
+		SELECT
+			`week_id`, 
+			`user_id`, 
+			`ts_id`, 
+			`task_id`, 
+			`week_actualhours`, 
+			`week_overtimehours`, 
+			`week_submittime`, 
+			`week_status`, 
+			`week_approvaltime`, 
+			`remark`
+		FROM
+			week_timesheet
+		ORDER BY
+			week_id DESC
+	</select>
+	
+	<insert id="save">
+		INSERT INTO week_timesheet (
+			`user_id`, 
+			`ts_id`, 
+			`week_actualhours`, 
+			`week_overtimehours`, 
+			`week_submittime`, 
+			`week_status`, 
+			`week_approvaltime`, 
+			`remark`
+		)
+		VALUES (
+			#{userId}, 
+			#{tsId}, 
+			#{weekActualhours}, 
+			#{weekOvertimehours}, 
+			#{weekSubmittime}, 
+			#{weekStatus}, 
+			#{weekApprovaltime}, 
+			#{remark}
+		)
+	</insert>
+	
+	<select id="getObjectById" resultType="com.ewaytek.edf.web.modules.filltimesheet.entity.WeekTimesheetEntity">
+		SELECT
+			`week_id`, 
+			`user_id`, 
+			`ts_id`, 
+			`task_id`, 
+			`week_actualhours`, 
+			`week_overtimehours`, 
+			`week_submittime`, 
+			`week_status`, 
+			`week_approvaltime`, 
+			`remark`
+		FROM
+			week_timesheet
+		WHERE
+			week_id = #{weekId}
+	</select>
+	
+	<update id="update">
+		UPDATE week_timesheet
+	 	<set>
+			<if test="userId != null">`user_id` = #{userId}, </if>
+			<if test="tsId != null">`ts_id` = #{tsId}, </if>
+			<if test="weekActualhours != null">`week_actualhours` = #{weekActualhours}, </if>
+			<if test="weekOvertimehours != null">`week_overtimehours` = #{weekOvertimehours}, </if>
+			<if test="weekSubmittime != null">`week_submittime` = #{weekSubmittime}, </if>
+			<if test="weekStatus != null">`week_status` = #{weekStatus}, </if>
+			<if test="weekApprovaltime != null">`week_approvaltime` = #{weekApprovaltime}, </if>
+			<if test="remark != null">`remark` = #{remark}</if>
+		</set>
+		WHERE
+			week_id = #{weekId}
+	</update>
+	
+	<delete id="batchRemove">
+		DELETE
+		FROM
+			week_timesheet
+		WHERE
+			week_id IN
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+
+	<select id="getWeekTimesheetByUserIdAndTsId" resultType="com.ewaytek.edf.web.modules.filltimesheet.entity.WeekTimesheetEntity">
+		SELECT
+			`week_id`, 
+			`user_id`, 
+			`ts_id`, 
+			`week_actualhours`, 
+			`week_overtimehours`, 
+			`week_submittime`, 
+			`week_status`, 
+			`week_approvaltime`, 
+			`remark`
+		FROM
+			week_timesheet
+		WHERE
+			user_id = #{userId}
+			and
+			ts_id=#{tsId}
+	</select>
+</mapper>

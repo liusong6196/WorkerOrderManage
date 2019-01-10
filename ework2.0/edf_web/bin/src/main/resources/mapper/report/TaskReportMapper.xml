@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ewaytek.edf.web.modules.report.dao.TaskReportMapper">
+	<select id="listReport"
+		resultType="com.ewaytek.edf.web.modules.report.entity.TaskReportEntity">
+		SELECT
+		t.task_name,
+		t.task_number,
+		t.task_status,
+		t.task_plannedhours,
+		t.pro_id,
+		t.task_id,
+		p.pro_name,
+		(select SUM(s.time_actualhours) from timesheet s where s.task_id=t.task_id) as 
+		task_totalhours,
+		(select SUM(s.time_actualhours) from timesheet s where s.task_id=t.task_id
+		<if test="start!=null and start!='' " >
+			and (task_startdate<![CDATA[ > ]]>#{start} and task_enddate<![CDATA[ < ]]>#{end})
+		</if>
+		<if test="end!=null and end!=''">
+			and	(task_enddate<![CDATA[ > ]]>#{start} and task_startdate<![CDATA[ < ]]>#{end})
+		</if>
+		) as
+		task_cyclehours
+		FROM task t
+		left join project p on t.pro_id=p.pro_id
+		where
+		task_user=#{userId}
+		<if test="start!=null and start!='' " >
+			and (task_startdate<![CDATA[ > ]]>#{start} and task_enddate<![CDATA[ < ]]>#{end})
+		</if>
+		<if test="end!=null and end!=''">
+			and	(task_enddate<![CDATA[ > ]]>#{start} and task_startdate<![CDATA[ < ]]>#{end})
+		</if>
+		<if test="proId!=null and proId!=-1">
+			and	t.pro_id=#{proId}
+		</if>
+		
+		
+	</select>
+</mapper>

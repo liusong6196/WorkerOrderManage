@@ -1,0 +1,124 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_css::header('报销单详情')"></head>
+<div style="width: 100%;height: 100%; overflow: scroll;">
+
+<div id="eway" class="container-fluid"><input type="hidden" id="expAccId"/>
+	<table class="layui-table">
+		<tbody align="center">
+			<tr>
+				<td>
+					复核金额：
+			  		<input id="fhMoney" style="width: 100px; height: 30px;" type="text"/>&nbsp;&nbsp;
+			  		<!-- <a  class="layui-btn layui-btn-normal  layui-btn-sm" onclick="checkAccount()" style="width: 60px; height: 30px;"><i class="fa fa-check"></i>&nbsp;确定</a> -->
+			  		<a  class="layui-btn layui-btn-normal  layui-btn-sm" onclick="checkPerson()" style="width: 60px; height: 30px;"><i class="fa fa-check"></i>&nbsp;确定</a>
+ 					<a class="btn btn-default layui-btn-sm" href="list.html" style="width: 60px; height: 30px;"><i class="fa fa-mail-reply"></i>&nbsp;返回</a>
+		  		</td>
+		  	</tr>
+		</tbody>
+	</table>
+  <table class="layui-table from"  id="accountInfo" style="table-layout: fixed;">
+  <thead>
+  	
+  </thead>
+    <tbody>
+      <tr align="center">
+      	<td bgcolor="#F8F8F8">报销单号:</td>
+        <td  id="expAccNo"></td>
+         <td bgcolor="#F8F8F8">报销类型:</td>
+        <td  id="expAccType" width="7%"></td>
+         <td bgcolor="#F8F8F8">申报人:</td>
+        <td id="userName"></td>
+         <td  bgcolor="#F8F8F8">申报时间:</td>
+        <td id="expAccDatetime"></td>
+         <td bgcolor="#F8F8F8">审批状态:</td>
+        <td  id="expAccState"></td>
+      </tr>
+      <tr align="center">
+      	<td  bgcolor="#F8F8F8">出差地:</td>
+        <td  id="travelSite"></td>
+         <td  bgcolor="#F8F8F8">出差天数:</td>
+        <td id="travelDays" width="7%"></td>
+         <td bgcolor="#F8F8F8">补贴金额:</td>
+        <td id="travelAllowance"></td>
+         <td  bgcolor="#F8F8F8">项目:</td>
+        <td  id="proId"></td>
+         <td  bgcolor="#F8F8F8">研发项目:</td>
+        <td id="proBusinesstype" ></td>
+      </tr>
+      <tr align="center">
+      	<td bgcolor="#F8F8F8">备注</td>
+      	<td id="remark" colspan="9"></td>
+      </tr>
+      <tr align="center">
+      	<td bgcolor="#F8F8F8">审批人:</td>
+        <td  id="checkUserid"></td>
+         <td bgcolor="#F8F8F8">审核时间:</td>
+        <td  id="checkDatetime" width="15%"></td>
+         <td bgcolor="#F8F8F8">复核人:</td>
+        <td  id="doubleCheckUserid"></td>
+         <td bgcolor="#F8F8F8">复核时间:</td>
+        <td id="doubleCheckDatetime"></td>
+         <td  bgcolor="#F8F8F8">复核金额:</td>
+        <td  id="doubleCheckMoney"></td>
+      </tr>
+    </tbody>
+  </table>
+  <br/>
+  
+  <!-- 差旅表单 -->
+  <table class="layui-table form" style="table-layout: fixed;">
+  	<thead id="expenseTrafficThead">
+  		<tr align="center" id="expenseTrafficTitle">
+  			<td colspan="10">交通报销明细</td>
+  		</tr>
+  		<tr align="center">
+  			<td colspan="2">出发</td>
+  			<td colspan="2">到达</td>
+  			<td rowspan="2">交通工具</td>
+  			<td colspan="2">交通费</td>
+  			<td colspan="2">其他</td>
+  		</tr>
+  		<tr align="center">
+  			<td>时间</td>
+  			<td>地点</td>
+  			<td>时间</td>
+  			<td>地点</td>
+  			<td>报销金额</td>
+  			<td>审核金额</td>
+  			<td>摘要明细</td>
+  			<td>备注</td>
+  		</tr>
+  	</thead>
+  	<tbody align="center" id="expenseTrafficTbody">
+  		<!-- 这儿是差旅明细表单动态tr -->
+  		
+  	</tbody>
+  </table>
+  <br/>
+  
+  
+  <!-- 日常表单 -->
+  <table class="layui-table form" style="table-layout: fixed;">
+  	<thead  align="center" id="expenseRoutineThead">
+  		<tr id="expenseRoutineTitle">
+  			<td colspan="5">日常/其他报销明细</td>
+  		</tr>
+  		<tr>
+  			<td>项目</td>
+  			<td>摘要明细</td>
+  			<td>报销金额</td>
+  			<td>审核金额</td>
+  			<td>备注</td>
+  		</tr>
+  	</thead>
+  	<tbody  align="center" id="expenseRoutineTbody">
+  		<!-- 这儿是日常或者其他报销明细表单动态tr -->
+  	</tbody>
+  </table>
+  <br/>
+  
+  
+</div>
+<div th:include="include/footer_js::footer"></div>
+<script th:src="@{/js/modules/expaccount/checkaccount.js}"></script>
+</div>	

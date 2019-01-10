@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ewaytek.edf.web.modules.report.dao.DepartmentReportMapper">
+	<select id="depReport"
+		resultType="com.ewaytek.edf.web.modules.report.entity.DepartmentReportEntity">		
+		select 
+		t.user_id,
+		t.pro_id,
+		p.pro_chargetype,
+		p.pro_name,
+		SUM(t.time_actualhours)  as pro_actualhours
+		from timesheet t LEFT JOIN project p on t.pro_id=p.pro_id
+		where 
+		p.pro_id != ""
+		and
+		t.user_id in
+		(select user_id from sys_user where dep_id=#{depId})
+		and
+		t.time_date between #{start} and #{end}
+		
+		GROUP BY t.user_id,t.pro_id,p.pro_chargetype
+	</select>
+</mapper>

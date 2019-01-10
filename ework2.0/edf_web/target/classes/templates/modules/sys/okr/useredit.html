@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_css::header('目标表')"></head>
+<body>
+	<div id="eway" class="container-fluid" v-cloak>
+		<table class="form" id="form">
+			<tr>
+	            <td class="formTitle">年度<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="年度" v-model="objective.year" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+			<tr>
+        		<td class="formTitle">季度<font face="宋体">*</font></td>
+        		<td class="formValue">
+					    <select v-model="objective.quarter" class="form-control"> 
+							 <option v-for="text in items" v-bind:value="text.value">{{text.name}}</option>   
+					    </select>  
+				   <!--  <span >已选:{{selected}}</span>   -->
+				</td>
+			</tr>
+			<tr>
+	            <td class="formTitle">季度目标<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="季度目标" v-model="objective.quarterObj" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+		</table>
+	</div>
+	<div th:include="include/footer_js::footer"></div>
+	<script th:src="@{/js/modules/okr/useredit.js}"></script>
+</body>
+</html>

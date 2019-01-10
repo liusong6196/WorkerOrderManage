@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ewaytek.edf.web.modules.sys.dao.SysDictMapper">
+	
+	<select id="listForPage" resultType="com.ewaytek.edf.web.modules.sys.entity.SysDictEntity">
+		SELECT
+			`id`, 
+			`value`, 
+			`label`, 
+			`type`, 
+			`description`, 
+			`sort`, 
+			`state`, 
+			`remark`, 
+			`user_id_create`, 
+			`gmt_create`, 
+			`gmt_modified`,
+			 getDict_Label('state',state) as stateName,
+			 getUsernameById(user_id_create) as userIdCreateName
+		FROM
+			sys_dict
+		WHERE 1=1
+			<if test="name != null and name.trim() != ''">
+				AND (
+					description LIKE CONCAT('%',#{name},'%')
+				OR 
+					type LIKE CONCAT('%',#{name},'%')
+				)
+			</if>
+			<if test="datastat != null and datastat.trim() != ''">
+				AND state = #{datastat}
+			</if>
+			
+		ORDER BY
+			id DESC
+	</select>
+
+	<select id="listSysDictByIds" parameterType="java.util.List" resultType="com.ewaytek.edf.web.modules.sys.entity.SysDictEntity">
+		SELECT
+		`id`,
+		`value`,
+		`label`,
+		`type`,
+		`description`,
+		`sort`,
+		`state`,
+		`remark`,
+		`user_id_create`,
+		`gmt_create`,
+		`gmt_modified`
+		FROM
+		sys_dict
+		WHERE
+			id IN
+			<foreach item="id" collection="list" open="(" separator="," close=")">
+				#{id}
+			</foreach>
+		ORDER BY
+		id DESC
+	</select>
+	
+	<select id="listSysDictAll" resultType="com.ewaytek.edf.web.modules.sys.entity.SysDictEntity">
+		SELECT
+			`id`, 
+			`value`, 
+			`label`, 
+			`type`, 
+			`description`, 
+			`sort`, 
+			`state`, 
+			`remark`, 
+			`user_id_create`, 
+			`gmt_create`, 
+			`gmt_modified`
+		FROM
+			sys_dict
+		WHERE
+			state = '1'
+		AND type=#{type}
+		ORDER BY
+			id DESC
+	</select>
+	
+	<insert id="save">
+		INSERT INTO sys_dict (
+			`value`, 
+			`label`, 
+			`type`, 
+			`description`, 
+			`sort`, 
+			`state`, 
+			`remark`, 
+			`user_id_create`, 
+			`gmt_create`, 
+			`gmt_modified`
+		)
+		VALUES (
+			#{value}, 
+			#{label}, 
+			#{type}, 
+			#{description}, 
+			#{sort}, 
+			#{state}, 
+			#{remark}, 
+			#{userIdCreate}, 
+			#{gmtCreate}, 
+			#{gmtModified}
+		)
+	</insert>
+	
+	<select id="getObjectById" resultType="com.ewaytek.edf.web.modules.sys.entity.SysDictEntity">
+		SELECT
+			`id`, 
+			`value`, 
+			`label`, 
+			`type`, 
+			`description`, 
+			`sort`, 
+			`state`, 
+			`remark`, 
+			`user_id_create`, 
+			`gmt_create`, 
+			`gmt_modified`
+		FROM
+			sys_dict
+		WHERE
+			id = #{id}
+	</select>
+	
+	<update id="update">
+		UPDATE sys_dict
+	 	<set>
+			<if test="value != null">`value` = #{value}, </if>
+			<if test="label != null">`label` = #{label}, </if>
+			<if test="type != null">`type` = #{type}, </if>
+			<if test="description != null">`description` = #{description}, </if>
+			<if test="sort != null">`sort` = #{sort}, </if>
+			<if test="state != null">`state` = #{state}, </if>
+			<if test="remark != null">`remark` = #{remark}, </if>
+			<if test="userIdCreate != null">`user_id_create` = #{userIdCreate}, </if>
+			<if test="gmtCreate != null">`gmt_create` = #{gmtCreate}, </if>
+			<if test="gmtModified != null">`gmt_modified` = #{gmtModified}</if>
+		</set>
+		WHERE
+			id = #{id}
+	</update>
+	
+	<delete id="batchRemove">
+		DELETE
+		FROM
+			sys_dict
+		WHERE
+			id IN
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+	
+	<select id="getDictLabel" parameterType="java.lang.String" resultType="com.ewaytek.edf.web.modules.sys.entity.SysDictEntity">
+		SELECT 
+		   `id`, 
+			`value`, 
+			`label`, 
+			`type`, 
+			`description`, 
+			`sort`, 
+			`state`, 
+			`remark`, 
+			`user_id_create`, 
+			`gmt_create`, 
+			`gmt_modified`
+		FROM 
+			sys_dict 
+		WHERE
+			type=#{type} and value=#{value}
+	</select>
+	
+	<select id="listForTimesheet"  resultType="com.ewaytek.edf.web.modules.sys.entity.SysDictEntity">
+	SELECT 
+		   `id`, 
+			`value`, 
+			`label`, 
+			`type`
+	FROM 
+			sys_dict 
+	WHERE
+			type in ('training_type','leave_type','routine_type')
+			and
+			state =1
+			and id not in (select distinct task_id from timesheet where user_id=#{userId} and ts_id=#{tsid})
+	</select>
+
+  <select id="listForTimesheetShow"  resultType="com.ewaytek.edf.web.modules.sys.entity.SysDictEntity">
+	SELECT 
+		   `id`, 
+			`value`, 
+			`label`, 
+			`type`
+	FROM 
+			sys_dict 
+	WHERE
+			type in ('training_type','leave_type','routine_type')
+			and
+			state =1
+			and id  in (select distinct task_id from timesheet where user_id=#{userId} and ts_id=#{tsid} and timesheet_type=2 )
+	</select>
+	
+	<select id="listQuarterType" resultType="com.ewaytek.edf.web.modules.sys.entity.SysDictEntity">
+	SELECT 
+		* 
+	FROM 
+		sys_dict 
+	WHERE 
+		sys_dict.type = 'quarter'
+	ORDER BY
+		sys_dict.value ASC
+	</select>
+	
+	<select id="listScoreType" resultType="com.ewaytek.edf.web.modules.sys.entity.SysDictEntity">
+	SELECT 
+		* 
+	FROM
+		sys_dict 
+	WHERE 
+		sys_dict.type = 'KR_score'
+	ORDER BY
+		sys_dict.value ASC
+	</select>
+	
+	<select id="getDict" resultType="com.ewaytek.edf.web.modules.sys.entity.SysDictEntity">
+	SELECT 
+		* 
+	FROM
+		sys_dict 
+	WHERE 
+		sys_dict.type = 'util_site'
+	ORDER BY
+		sys_dict.value ASC
+	</select>
+</mapper>

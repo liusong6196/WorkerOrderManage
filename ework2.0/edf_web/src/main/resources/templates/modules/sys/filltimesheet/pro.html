@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_css::header('天时间管理')"></head>
+<head>
+<style type="text/css">
+.table-title{
+		text-align:center;
+		background-color:#CCCCCC;
+		border-bottom: 1px solid ;
+		padding:5px;
+	}
+</style>
+</head>
+<body>
+	<div id="eway" class="container-fluid" v-cloak>
+		<div class="table-title">基本信息</div>
+		<table class="table table-bordered">
+			<tr>
+				<td>项目名称</td>
+				<td>PMO临时性任务项目(2017第四季度)</td>
+			</tr>
+			<tr>
+				<td>项目代码</td>
+				<td>PMO-01</td>
+			</tr>
+			<tr>
+				<td>阶段类型</td>
+				<td>实施</td>
+			</tr>
+			<tr>
+				<td>客户</td>
+				<td>解决方案中心</td>
+			</tr>
+			<tr>
+				<td>隶属公司</td>
+				<td>一维科技</td>
+			</tr>
+			<tr>
+				<td>项目经理</td>
+				<td>张静普</td>
+			</tr>
+			<tr>
+				<td>起止时间</td>
+				<td>2017-09-01 到 2017-12-31</td>
+			</tr>
+			<tr>
+				<td>币种</td>
+				<td>人民币</td>
+			</tr>
+			<tr>
+				<td>合同金额</td>
+				<td>1.00 元</td>
+			</tr>
+		</table>
+	</div>
+	<div th:include="include/footer_js::footer"></div>
+	<script th:src="@{/js/modules/filltimesheet/add.js}"></script>
+</body>
+</html>

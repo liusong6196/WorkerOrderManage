@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_css::header('项目问题表')"></head>
+<body>
+	<div id="eway" class="container-fluid" v-cloak>
+		<table class="form" id="form">
+		<tr>
+	            <td class="formTitle">所属项目<font face="宋体">*</font></td>
+	            <td class="formValue" >
+	            <form id="proname">
+					<select id="pro-list" class="form-control"  onchange="getTaskResource()"   placeholder="所属项目"   v-model="projectQuestion.proId"  isvalid="yes"  name="pro-listname" checkexpession="NotNull" >
+	          			<option value=null selected checkexpession="NotNull">请选择</option>
+	          		</select>	
+	          		</form>
+				</td>
+        	</tr>
+			<tr>
+	            <td class="formTitle">员工<font face="宋体">*</font></td>
+	            <td class="formValue" id="membername">
+					<select  id="member-list" class="form-control"   v-model="projectQuestion.userId"  name="member-lists"  isvalid="yes" checkexpession="NotNull"  >
+	          			<option value="0" selected checkexpession="NotNull">请选择</option>
+	          		</select>
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle">期望完成时间<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="期望完成时间" v-model="projectQuestion.proQueHopedate" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle">实际完成时间</td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="实际完成时间" v-model="projectQuestion.proQueEnddate" >
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle">状态<font face="宋体">*</font></td>
+	            <td class="formValue">
+				 <select class="form-control"   v-model="projectQuestion.proQueStatus"    isvalid="yes" checkexpession="NotNull">
+	          			<option value="0" >待解决</option>
+	          			<option value="1">解决中</option>
+	          			<option  value="2">已解决</option>
+	          		</select>
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle" style="vertical-align:top">问题<font face="宋体">*</font></td>
+	            <td class="formValue">
+	            	<textarea class="form-control" placeholder="问题" rows="4" v-model="projectQuestion.proQueQuestion" checkexpession="NotNull"></textarea>
+	            </td>
+        	</tr>
+		</table>
+	</div>
+	<div th:include="include/footer_js::footer"></div>
+	<script th:src="@{/js/modules/taskhelper/edit.js}"></script>
+</body>
+</html>

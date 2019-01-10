@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ewaytek.edf.web.modules.pro.dao.ProjectMapper">
+	
+	<select id="listForPage" resultType="com.ewaytek.edf.web.modules.pro.entity.ProjectEntity">
+		SELECT
+			`pro_id`, 
+			`user_id`, 
+			`cus_id`, 
+			`pro_accountmanager`, 
+			`pro_name`, 
+			`pro_number`, 
+			`pro_type`, 
+			`pro_chargetype`, 
+			`pro_startdate`, 
+			`pro_enddate`, 
+			`pro_status`, 
+			`user_id_create`, 
+			`gmt_create`, 
+			`gmt_modified`
+		FROM
+			project
+		ORDER BY
+			pro_id DESC
+	</select>
+	
+	<insert id="save" useGeneratedKeys="true" keyProperty="proId">
+		INSERT INTO project (
+			`user_id`, 
+			`cus_id`, 
+			`pro_accountmanager`, 
+			`pro_name`, 
+			`pro_number`, 
+			`pro_type`, 
+			`pro_chargetype`, 
+			`pro_startdate`, 
+			`pro_enddate`, 
+			`pro_status`, 
+			`user_id_create`, 
+			`gmt_create`, 
+			`gmt_modified`
+		)
+		VALUES (
+			#{userId}, 
+			#{cusId}, 
+			#{proAccountmanager}, 
+			#{proName}, 
+			#{proNumber}, 
+			#{proType}, 
+			#{proChargetype}, 
+			#{proStartdate}, 
+			#{proEnddate}, 
+			#{proStatus}, 
+			#{userIdCreate}, 
+			SYSDATE(), 
+			SYSDATE()
+		)
+	</insert>
+	
+	
+	
+	
+	<select id="getObjectById" resultType="com.ewaytek.edf.web.modules.pro.entity.ProjectEntity">
+		SELECT
+			`pro_id`, 
+			`user_id`, 
+			`cus_id`, 
+			`pro_accountmanager`, 
+			`pro_name`, 
+			`pro_number`, 
+			`pro_type`, 
+			`pro_chargetype`, 
+			`pro_startdate`, 
+			`pro_enddate`, 
+			`pro_status`, 
+			`user_id_create`, 
+			`gmt_create`, 
+			`gmt_modified`
+		FROM
+			project
+		WHERE
+			pro_id = #{proId}
+	</select>
+	
+	<update id="update">
+		UPDATE project
+	 	<set>
+			<if test="userId != null">`user_id` = #{userId}, </if>
+			<if test="cusId != null">`cus_id` = #{cusId}, </if>
+			<if test="proAccountmanager != null">`pro_accountmanager` = #{proAccountmanager}, </if>
+			<if test="proName != null">`pro_name` = #{proName}, </if>
+			<if test="proNumber != null">`pro_number` = #{proNumber}, </if>
+			<if test="proType != null">`pro_type` = #{proType}, </if>
+			<if test="proChargetype != null">`pro_chargetype` = #{proChargetype}, </if>
+			<if test="proStartdate != null">`pro_startdate` = #{proStartdate}, </if>
+			<if test="proEnddate != null">`pro_enddate` = #{proEnddate}, </if>
+			<if test="proStatus != null">`pro_status` = #{proStatus}, </if>
+			<if test="userIdCreate != null">`user_id_create` = #{userIdCreate}, </if>
+			<if test="gmtCreate != null">`gmt_create` = #{gmtCreate}, </if>
+		    	`gmt_modified` = SYSDATE()
+		</set>
+		WHERE
+			pro_id = #{proId}
+	</update>
+	
+	<delete id="batchRemove">
+		DELETE
+		FROM
+			project
+		WHERE
+			pro_id IN
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+	
+	
+	<insert id="setMembers" >
+			INSERT INTO project_member(
+			`pro_id`,
+			`user_id`
+			)
+			values
+		<foreach item="member" collection="member"  index="index" separator="," >
+			(#{proId}, 
+			#{member})
+		</foreach>
+	</insert>
+	
+	
+	<select id="getMembersByProId"  resultType="String">
+		SELECT
+			`user_id`
+		FROM
+			project_member
+		WHERE
+			pro_id = #{proId}
+	</select>
+	
+	
+	<delete id="deleteMembers">
+		DELETE
+		FROM
+			project_member
+		WHERE
+			pro_id IN
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+</mapper>

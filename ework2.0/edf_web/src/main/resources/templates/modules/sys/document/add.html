@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_css::header('文档管理表; InnoDB free: 16384 kB')"></head>
+<link href="../../plugins/stream/css/stream-v1.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="../../plugins/stream/js/stream-v1.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../plugins/stream/file.js"></script>
+<body>
+	<div id="eway" class="container-fluid" v-cloak>
+	<form enctype="multipart/form-data">
+		<table class="form" id="form"  >
+			<tr>
+	            <td class="formTitle">文档编号<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="文档编号" v-model="documents.docNo" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+        	<tr>
+	            <td class="formTitle">选择文件<font face="宋体">*</font></td>
+	            <td class="formValue">
+		            <table class="form1" id="form1"  >
+		            	<tr>
+				            <td class="formInput">
+				            	<input type="text" style="width:598px" class="form-control" placeholder="文件URL" v-model="documents.url" isvalid="yes" checkexpession="NotNull" readonly="readonly">
+				            </td>
+				            <td><span class="btn btn-primary" @click="uploadFiles">选择文件</span></td>
+			        	</tr>
+		            </table>		
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle">文档名称<font face="宋体">*</font></td>
+	            <td class="formValue">
+					 <input type="text" class="form-control" placeholder="文档名称" v-model="documents.docName" isvalid="yes" checkexpession="NotNull">
+					<!-- <input type="file"  id="txt_file" v-model="documents.docName" multiple class="file-loading" />
+					<input type="file"  id="txt_file" multiple class="file-loading" /> -->
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle">文档类型<font face="宋体">*</font></td>
+	            <td class="formValue">
+				<select id="docSelect" class="form-control" v-model="documents.docType">
+					<option v-for="item in docTypeList" v-bind:value="item.docType">{{item.docTypeName}}</option>
+				</select>
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle">版本号<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="版本号" v-model="documents.docVersion" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle">作者<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="作者" v-model="documents.docAuthor" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+			
+			<tr>
+	            <td class="formTitle">备注<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="备注" v-model="documents.remark" isvalid="yes" >
+	            </td>
+        	</tr>
+		</table>
+		</form>
+	</div>
+	<div th:include="include/footer_js::footer"></div>
+	<script th:src="@{/js/modules/documents/add.js}"></script>
+</body>
+</html>

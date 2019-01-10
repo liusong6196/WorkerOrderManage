@@ -1,0 +1,149 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_css::header('报销单详情')"></head>
+<style>
+	body{
+		padding-top: 50px;
+	}
+</style>
+<div style="position:fixed;top:2px; width: 70px; height: 30px; background: #fff; z-index: 1000; padding-left: 15px;">
+	<a class="layui-btn layui-btn-sm layui-btn-primary" href="list.html"><i class="fa fa-mail-reply"></i>&nbsp;返回</a>
+</div>
+
+<!-- <div style="width: 100%;height: 100%; overflow: scroll;">
+ <table class="table" style="position:fixed;
+            top:0;">
+  	<tbody>
+  		<tr >
+ 			<td align="left">
+ 				
+ 			</td>
+ 		</tr>
+  	</tbody>
+  </table> -->
+<div id="eway" class="container-fluid" style="margin-top: -20px;"><input type="hidden" id="expAccId"/>
+  <table class="layui-table from"  id="accountInfo" style="table-layout: fixed; ">
+    <tbody>
+      <tr align="center">
+      	<td bgcolor="#F8F8F8">报销单号:</td>
+        <td><span id="expAccNo"></span></td>
+         <td  bgcolor="#F8F8F8">报单类型:</td>
+        <td ><span id="expAccType"></span></td>
+         <td  bgcolor="#F8F8F8">申报人:</td>
+        <td ><span id="userName"></span></td>
+         <td  bgcolor="#F8F8F8">申报时间:</td>
+        <td ><span id="expAccDatetime"></span></td>
+         <td  bgcolor="#F8F8F8">审批状态:</td>
+        <td  id="expAccState"></td>
+      </tr>
+      <tr align="center">
+      	<td  bgcolor="#F8F8F8">出差地:</td>
+        <td  ><span id="travelSite"></span></td>
+         <td  bgcolor="#F8F8F8">出差天数:</td>
+        <td ><span id="travelDays"></span></td>
+         <td  bgcolor="#F8F8F8">补贴金额:</td>
+        <td ><span id="travelAllowance"></span></td>
+         <td  bgcolor="#F8F8F8">项目:</td>
+        <td ><span id="proId"></span></td>
+         <td  bgcolor="#F8F8F8">研发项目:</td>
+        <td ><span id="proBusinesstype"></span></td>
+      </tr>
+      <tr align="center">
+      	<td  bgcolor="#F8F8F8">备注</td>
+      	<td colspan="9"><span id="remark"></span></td>
+      </tr>
+      <tr align="center">
+      	<td  bgcolor="#F8F8F8">审批人一:</td>
+        <td  ><span id="checkUserid"></span></td>
+        <!-- <td bgcolor="#F8F8F8">审核时间一:</td>
+        <td ><span id="checkDatetime"></span></td> -->
+        
+        <td  bgcolor="#F8F8F8">审批人二:</td>
+        <td  ><span id="checkUseridTwo"></span></td>
+        <!-- <td bgcolor="#F8F8F8">审核时间二:</td>
+        <td ><span id="checkDatetimeTwo"></span></td> -->
+        
+         <td  bgcolor="#F8F8F8">复核人:</td>
+        <td ><span id="doubleCheckUserid"></span></td>
+         <td  bgcolor="#F8F8F8">复核时间:</td>
+        <td ><span id="doubleCheckDatetime"></span></td>
+         <td  bgcolor="#F8F8F8">复核金额:</td>
+        <td ><span id="doubleCheckMoney"></span></td>
+      </tr>
+    </tbody>
+  </table>
+  <br/>
+  <!-- 差旅表单 -->
+  <table class="layui-table" style="table-layout: fixed;">
+  	<thead id="expenseTrafficThead">
+  		<tr align="center" id="expenseTrafficTitle">
+  			<td colspan="10">交通报销明细</td>
+  		</tr>
+  		<tr align="center">
+  			<td colspan="2">出发</td>
+  			<td colspan="2">到达</td>
+  			<td rowspan="2">交通工具</td>
+  			<td colspan="2">交通费</td>
+  			<td colspan="2">其他</td>
+  		</tr>
+  		<tr align="center">
+  			<td>时间</td>
+  			<td>地点</td>
+  			<td>时间</td>
+  			<td>地点</td>
+  			<td>报销金额</td>
+  			<td>审核金额</td>
+  			<td>摘要明细</td>
+  			<td>备注</td>
+  		</tr>
+  	</thead>
+  	<tbody align="center" id="expenseTrafficTbody">
+  		<!-- 这儿是差旅明细表单动态tr -->
+  		
+  	</tbody>
+  </table>
+  <br/>
+  <!-- 日常表单 -->
+  <table class="layui-table" style="table-layout: fixed;">
+  	<thead  align="center" id="expenseRoutineThead">
+  		<tr id="expenseRoutineTitle">
+  			<td colspan="5">日常/其他报销明细</td>
+  		</tr>
+  		<tr>
+  			<td>项目</td>
+  			<td>摘要明细</td>
+  			<td>报销金额</td>
+  			<td>审核金额</td>
+  			<td>备注</td>
+  		</tr>
+  	</thead>
+  	<tbody  align="center" id="expenseRoutineTbody">
+  		<!-- 这儿是日常或者其他报销明细表单动态tr -->
+  	</tbody>
+  </table>
+  <br/>
+   <!-- 报销说明 -->
+  <table class="layui-table form">
+  	<thead>
+  		<tr>
+  			<td>报销说明</td>
+  		</tr>
+  	</thead>
+  	<tbody>
+  		<tr>
+  			<td>1，所有报销款项必须对应报销单据，单据必须真实有效；</td>
+  		</tr>
+  		<tr>
+  			<td>2，所有报销单据需按时间和类别分类附录在报销申请单后，便于查找；</td>
+  		</tr>
+  		<tr>
+  			<td>3，所有报销应在每月20日前提供给总公司财务；</td>
+  		</tr>
+  		<tr>
+  			<td>4，如遇特殊情况，需报相应主管经理同意，并签字后方可报销。</td>
+  		</tr>
+  	</tbody>
+  </table>
+</div>
+<div th:include="include/footer_js::footer"></div>
+<script th:src="@{/js/modules/expaccount/find.js}"></script>
+</html>

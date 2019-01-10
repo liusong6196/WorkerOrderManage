@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ewaytek.edf.web.modules.cqwork.dao.SocietydistlistMapper">
+	
+	<select id="querySocietydistlist" parameterType="java.util.Map" resultType="com.ewaytek.edf.web.modules.cqwork.entity.SocietydistlistEntity">
+		 SELECT * FROM societydistlist
+		 <where>
+		 	1=1
+		 	<if test="selectlevel != null"> AND selectlevel = #{selectlevel}</if>
+		 	<if test="updistid != null"> AND updistid = #{updistid}</if>
+		 	<if test="belong != null"> AND belong = #{belong}</if>
+		 </where>
+		 order by distid
+	</select>
+	
+	<select id="listForPage" resultType="com.ewaytek.edf.web.modules.cqwork.entity.SocietydistlistEntity">
+		SELECT
+			`distid`, 
+			`explain`, 
+			`updistid`, 
+			`selectlevel`
+		FROM
+			societydistlist
+		ORDER BY
+			distid DESC
+	</select>
+	
+	<insert id="save">
+		INSERT INTO societydistlist (
+			`distid`, 
+			`explain`, 
+			`updistid`, 
+			`selectlevel`
+		)
+		VALUES (
+			#{distid}, 
+			#{explain}, 
+			#{updistid}, 
+			#{selectlevel}
+		)
+	</insert>
+	
+	<select id="getObjectById" resultType="com.ewaytek.edf.web.modules.cqwork.entity.SocietydistlistEntity">
+		SELECT
+			`distid`, 
+			`explain`, 
+			`updistid`, 
+			`selectlevel`
+		FROM
+			societydistlist
+		WHERE
+			distid = #{distid}
+	</select>
+	
+	<update id="update">
+		UPDATE societydistlist
+	 	<set>
+			<if test="explain != null">`explain` = #{explain}, </if>
+			<if test="updistid != null">`updistid` = #{updistid}, </if>
+			<if test="selectlevel != null">`selectlevel` = #{selectlevel}</if>
+		</set>
+		WHERE
+			distid = #{distid}
+	</update>
+	
+	<delete id="batchRemove">
+		DELETE
+		FROM
+			societydistlist
+		WHERE
+			distid IN
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

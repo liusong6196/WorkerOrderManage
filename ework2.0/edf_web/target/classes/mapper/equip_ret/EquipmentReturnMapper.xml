@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ewaytek.edf.web.modules.equip_bor.dao.EquipmentReturnMapper">
+	
+	<select id="listForPage" resultType="com.ewaytek.edf.web.modules.equip_bor.entity.EquipmentReturnEntity">
+		SELECT
+			equ_ret_id as equRetId, 
+			equ_bor_id as equBorId, 
+			ret_user_id as retUserId, 
+			ret_count as retCount, 
+			ret_dateTime as retDatetime, 
+			remark as remark, 
+			user_id_create as userIdCreate, 
+			gmt_create as gmtCreate, 
+			gmt_modified as gmtModified 
+		FROM
+			equipment_return er 
+		ORDER BY
+			er.equ_ret_id DESC
+	</select>
+	
+	<insert id="save">
+		INSERT INTO equipment_return (
+			`equ_bor_id`, 
+			`ret_user_id`, 
+			`ret_count`, 
+			`ret_dateTime`, 
+			`remark`, 
+			`user_id_create`, 
+			`gmt_create`, 
+			`gmt_modified`
+		)
+		VALUES (
+			#{equBorId}, 
+			#{retUserId}, 
+			#{retCount}, 
+			#{retDatetime}, 
+			#{remark}, 
+			#{userIdCreate}, 
+			#{gmtCreate}, 
+			#{gmtModified}
+		)
+	</insert>
+	
+	<select id="getObjectById" resultType="com.ewaytek.edf.web.modules.equip_bor.entity.EquipmentReturnEntity">
+		SELECT
+			`equ_ret_id`, 
+			`equ_bor_id`, 
+			`ret_user_id`, 
+			`ret_count`, 
+			`ret_dateTime`, 
+			`remark`, 
+			`user_id_create`, 
+			`gmt_create`, 
+			`gmt_modified`
+		FROM
+			equipment_return
+		WHERE
+			equ_ret_id = #{equRetId}
+	</select>
+	
+	<update id="update">
+		UPDATE equipment_return
+	 	<set>
+			<if test="equBorId != null">`equ_bor_id` = #{equBorId}, </if>
+			<if test="retUserId != null">`ret_user_id` = #{retUserId}, </if>
+			<if test="retCount != null">`ret_count` = #{retCount}, </if>
+			<if test="retDatetime != null">`ret_dateTime` = #{retDatetime}, </if>
+			<if test="remark != null">`remark` = #{remark}, </if>
+			<if test="userIdCreate != null">`user_id_create` = #{userIdCreate}, </if>
+			<if test="gmtCreate != null">`gmt_create` = #{gmtCreate}, </if>
+			<if test="gmtModified != null">`gmt_modified` = #{gmtModified}</if>
+		</set>
+		WHERE
+			equ_ret_id = #{equRetId}
+	</update>
+	
+	<delete id="batchRemove">
+		DELETE
+		FROM
+			equipment_return
+		WHERE
+			equ_ret_id IN
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

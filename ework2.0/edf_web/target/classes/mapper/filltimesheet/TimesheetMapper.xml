@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ewaytek.edf.web.modules.filltimesheet.dao.TimesheetMapper">
+	
+	<select id="listForPage" resultType="com.ewaytek.edf.web.modules.filltimesheet.entity.TimesheetEntity">
+		SELECT
+			`id`, 
+			`user_id`, 
+			`time_date`, 
+			`pro_id`, 
+			`task_id`, 
+			`time_actualhours`, 
+			`timesheet_type`, 
+			`timesheet_state`, 
+			`user_id_create`, 
+			`gmt_create`, 
+			`gmt_modified`
+		FROM
+			timesheet
+		ORDER BY
+			id DESC
+	</select>
+	
+	<select id="findTimesheets" resultType="com.ewaytek.edf.web.modules.filltimesheet.entity.TimesheetEntity">
+		SELECT
+			`id`, 
+			`user_id`, 
+			`time_date`, 
+			`pro_id`, 
+			`task_id`, 
+			`time_actualhours`, 
+			`timesheet_type`, 
+			`timesheet_state`, 
+			`user_id_create`, 
+			`gmt_create`, 
+			`gmt_modified`
+		FROM
+			timesheet 
+		WHERE 
+		 #{startTime} &lt;= str_to_date(time_date,'%Y-%m-%d') AND str_to_date(time_date,'%Y-%m-%d') &lt;= #{endTime}
+		 AND user_id = #{userId}
+		ORDER BY
+			id DESC
+	</select>
+	
+	<insert id="save">
+		INSERT INTO timesheet (
+			`user_id`, 
+			`time_date`, 
+			`pro_id`, 
+			`task_id`, 
+			`time_actualhours`, 
+			`timesheet_type`, 
+			`timesheet_state`, 
+			`user_id_create`, 
+			`gmt_create`, 
+			`gmt_modified`,
+			ts_id
+		)
+		VALUES (
+			#{userId}, 
+			#{timeDate}, 
+			#{proId}, 
+			#{taskId}, 
+			#{timeActualhours}, 
+			#{timesheetType}, 
+			#{timesheetState}, 
+			#{userIdCreate}, 
+			#{gmtCreate}, 
+			#{gmtModified},
+			#{tsId}
+		)
+	</insert>
+	
+	<select id="getObjectById" resultType="com.ewaytek.edf.web.modules.filltimesheet.entity.TimesheetEntity">
+		SELECT
+			`id`, 
+			`user_id`, 
+			`time_date`, 
+			`pro_id`, 
+			`task_id`, 
+			`time_actualhours`, 
+			`timesheet_type`, 
+			`timesheet_state`, 
+			`user_id_create`, 
+			`gmt_create`, 
+			`gmt_modified`
+		FROM
+			timesheet
+		WHERE
+			id = #{id}
+	</select>
+	
+	<update id="update">
+		UPDATE timesheet
+	 	<set>
+			<if test="userId != null">`user_id` = #{userId}, </if>
+			<if test="timeDate != null">`time_date` = #{timeDate}, </if>
+			<if test="proId != null">`pro_id` = #{proId}, </if>
+			<if test="taskId != null">`task_id` = #{taskId}, </if>
+			<if test="timeActualhours != null">`time_actualhours` = #{timeActualhours}, </if>
+			<if test="timesheetType != null">`timesheet_type` = #{timesheetType}, </if>
+			<if test="timesheetState != null">`timesheet_state` = #{timesheetState}, </if>
+			<if test="userIdCreate != null">`user_id_create` = #{userIdCreate}, </if>
+			<if test="gmtCreate != null">`gmt_create` = #{gmtCreate}, </if>
+			<if test="gmtModified != null">`gmt_modified` = #{gmtModified}</if>
+		</set>
+		WHERE
+			id = #{id}
+	</update>
+	
+	<delete id="batchRemove">
+		DELETE
+		FROM
+			timesheet
+		WHERE
+			id IN
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+	<select id="listTimesheets" resultType="com.ewaytek.edf.web.modules.filltimesheet.entity.TimesheetEntity">
+		select
+			`id`, 
+			`user_id`, 
+			`time_date`, 
+			`pro_id`, 
+			`task_id`, 
+			`time_actualhours`, 
+			`timesheet_type`, 
+			`timesheet_state`, 
+			`user_id_create`, 
+			`gmt_create`, 
+			`gmt_modified`,
+			ts_id
+		from
+			timesheet 
+		WHERE 
+			ts_id=#{tsid}
+		 and 
+		 	user_id = #{userId}
+		ORDER BY
+			id DESC
+	</select>
+	
+	<select id="exsitsTimesheets"   resultType="Integer">
+		select
+			count(*)
+		from
+			timesheet 
+		WHERE 
+			ts_id=#{tsid}
+		 and 
+		 	user_id = #{userId}
+		 and 
+		 	task_id =#{taskId}
+	</select>
+	
+	
+	
+	<update id="timesheetUpdate">
+		UPDATE timesheet
+	 	<set>
+	 	<if test="state != null">timesheet_state = #{state}, </if>
+			time_actualhours= #{hours},
+			gmt_modified = SYSDATE()
+		</set>
+		WHERE
+			user_id = #{userId}
+			and
+			task_id=#{taskId}
+			and
+			time_date=#{day}
+			and
+			timesheet_type=#{type}
+			and
+			ts_id=#{tsId}
+	</update>
+	
+	<select id="getTimesheetState" resultType="com.ewaytek.edf.web.modules.filltimesheet.entity.TimesheetEntity">
+		select
+			distinct timesheet_state
+		from
+			timesheet
+		where 
+			user_id = #{userId}
+			and
+			ts_id=#{tsId}
+	</select>
+	
+	<update id="timesheetUpdateForHelper">
+		UPDATE  timesheet 
+		<set>
+			time_actualhours=0,
+			gmt_modified = SYSDATE()
+		</set>
+			WHERE
+				user_id = #{userId}
+				and
+				task_id=#{taskId}
+				and
+				ts_id=#{tsId};
+		UPDATE timesheet
+	 	<set>
+			time_actualhours= #{actualhours},
+			gmt_modified = SYSDATE()
+		</set>
+		WHERE
+			user_id = #{userId}
+			and
+			task_id=#{taskId}
+			and
+			time_date=#{date}
+			and
+			ts_id=#{tsId}
+	</update>
+	
+</mapper>

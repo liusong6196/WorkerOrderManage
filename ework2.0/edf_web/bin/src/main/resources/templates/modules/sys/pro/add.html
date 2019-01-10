@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_css::header('项目表')"></head>
+<body>
+	<div id="eway" class="container-fluid" v-cloak>
+		<table class="form" id="form">
+			
+			
+	
+			<tr>
+	            <td class="formTitle" width="20%">项目名称<font face="宋体">*</font></td>
+	            <td class="formValue" width="30%">
+					<input type="text" class="form-control" placeholder="项目名称" v-model="project.proName" isvalid="yes" checkexpession="NotNull">
+	            </td>
+	             <td class="formTitle" width="20%">项目代码<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="项目编号" v-model="project.proNumber" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle">项目类型<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<!--input type="text" class="form-control" placeholder="项目类型(1:售前 2:实施 3:售后 4:研发)" v-model="project.proType" isvalid="yes" checkexpession="NotNull" -->
+	           		<select class="form-control"   v-model="project.proType"  isvalid="yes" checkexpession="NotNull">
+	          			<option value="1" >售前</option>
+	          			<option value="2">实施</option>
+	          			<option  value="3">售后</option>
+	          			<option  value="4">研发</option>
+	          		</select>
+	            </td>
+	            <td class="formTitle">隶属公司<font face="宋体">*</font></td>
+	            <td class="formValue">
+				 	<select class="form-control" >
+	          			<option value="0" selected>请选择</option>
+	          		</select>
+				 </td>
+        	</tr>
+        	<tr>
+	            
+        	</tr>
+        	
+        	<tr>
+	            <td class="formTitle">对应售前项目<font face="宋体">*</font></td>
+	            <td class="formValue">
+				 	<select class="form-control" >
+	          			<option value="0" selected>请选择</option>
+	          		</select>
+				 </td>
+				    <td class="formTitle">对应合同信息<font face="宋体">*</font></td>
+	            <td class="formValue">
+				 	<select class="form-control" >
+	          			<option value="0" selected>请选择</option>
+	          		</select>
+				 </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle">收费类型<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<!--  -input type="text" class="form-control" placeholder="收费类型(0:收费 1:不收费)" v-model="project.proChargetype" isvalid="yes" checkexpession="NotNull" -->
+	          		<select class="form-control"   v-model="project.proChargetype" isvalid="yes" checkexpession="NotNull" >
+	          			<option value="0" selected>收费</option>
+	          			<option  value="1">不收费</option>
+	          		</select>
+	            </td>
+	               <td class="formTitle">项目经理<font face="宋体">*</font></td>
+	            <td class="formValue">
+				 	<select class="form-control" >
+	          			<option value="0" selected>请选择</option>
+	          		</select>
+				 </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle">项目起始日期<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<input type="date" class="form-control" placeholder="项目起始日期" v-model="project.proStartdate" isvalid="yes" checkexpession="NotNull">
+	            	
+	            </td>
+	            <td class="formTitle">项目结束日期<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<input type="date" class="form-control" placeholder="项目结束日期" v-model="project.proEnddate" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+        	<tr>
+        		 <td class="formTitle" style="vertical-align:top">项目成员<font face="宋体">*</font></td>
+        		<td class="formValue"  colspan="3">
+        									<form id="projectmembers">
+        											<select id='custom-headers'   v-model="project.members"  multiple='multiple' name="members">
+												   
+										  		</select>
+        									</form>
+						            		
+						            	
+        		</td>
+        	</tr>
+		</table>
+	</div>
+	<div th:include="include/footer_js::footer"></div>
+	<script th:src="@{/js/modules/pro/add.js}"></script>
+</body>
+</html>

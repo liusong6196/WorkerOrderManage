@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_css::header('任务信息')"></head>
+<body>
+
+	<div class="row">
+		<table class="table table-striped" id="dataGrid">
+			<tr>
+				<th
+					style="text-align: center; font-weight: bold; border: 1px solid #000; vertical-align: middle; background: silver;"
+					colspan="2">基本信息</th>
+			</tr>
+			<tr>
+				<td class="primary"
+					style="width: 150px; text-align: center; font-weight: bold; border: 1px solid #000; vertical-align: middle;">任务名称</td>
+				<td class="primary"
+					style="text-align: center;border: 1px solid #000; vertical-align: middle;"  id="taskName"></td>
+			</tr>
+			<tr>
+				<td class="primary"
+					style="text-align: center; font-weight: bold; border: 1px solid #000; vertical-align: middle;" >任务代码</td>
+				<td  class="primary"
+					style="text-align: center; border: 1px solid #000; vertical-align: middle;" id="taskNumber"></td>
+			</tr>
+			<tr>
+				<td class="primary"
+					style="text-align: center; font-weight: bold; border: 1px solid #000; vertical-align: middle;">任务类型</td>
+				<td  class="primary"
+					style="text-align: center; border: 1px solid #000; vertical-align: middle;" id="taskType">子任务</td>
+			</tr>
+			<tr >
+				<td class="primary"
+					style="text-align: center; font-weight: bold; border: 1px solid #000; vertical-align: middle;">任务状态</td>
+				<td class="primary"
+					style="text-align: center; border: 1px solid #000; vertical-align: middle;" id="taskStatus"></td>
+			</tr>
+			<tr >
+				<td class="primary"
+					style="text-align: center; font-weight: bold; border: 1px solid #000; vertical-align: middle;" >任务负责人</td>
+				<td class="primary"
+					style="text-align: center; border: 1px solid #000; vertical-align: middle;" id="taskManager"></td>
+			</tr>
+			<tr >
+				<td class="primary"
+					style="text-align: center; font-weight: bold; border: 1px solid #000; vertical-align: middle;">起止时间</td>
+				<td class="primary"
+					style="text-align: center;  border: 1px solid #000; vertical-align: middle;" id="taskDate"></td>
+			</tr>
+			<tr >
+				<td class="primary"
+					style="text-align: center; font-weight: bold; border: 1px solid #000; vertical-align: middle;">任务资源</td>
+				<td class="primary"
+					style="text-align: center;  border: 1px solid #000; vertical-align: middle;" id="taskUser"></td>
+			</tr>
+				<tr >
+				<td class="primary"
+					style="text-align: center; font-weight: bold; border: 1px solid #000; vertical-align: middle;">计划工作量</td>
+				<td class="primary"
+					style="text-align: center;  border: 1px solid #000; vertical-align: middle;" id="taskHours"></td>
+			</tr>
+		
+		</table>
+	</div>
+	<div class="row">
+		<table class="table table-striped" id="routine_type">
+		</table>
+	</div>
+	<div class="row">
+		<table class="table table-striped" id="training_type">
+		</table>
+	</div>
+	<div class="row">
+		<table class="table table-striped" id="leave_type">
+		</table>
+	</div>
+	<div th:include="include/footer_js::footer"></div>
+	<script th:src="@{/js/modules/timesheet/taskinfo.js}"></script>	
+</body>
+</html>

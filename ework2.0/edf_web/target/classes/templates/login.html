@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<!-- saved from url=(0027)https://passport.eteams.cn/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>一维工单管理系统</title>
+
+<link rel="stylesheet" href="css/site.css">
+<style>
+</style>
+</head>
+<body>
+	
+	<div class="g-600 login-panel" id="eway" class="login" v-cloak>
+		<div class="box-shadow">
+			<div style="display: block;text-align: center;height: 80px"><img src="./images/ywgdglxt.png" style="width:60%;margin-top:10px"/></div>
+			<form  class="ui-form" method="post" style="margin-top: -50px">
+				<div v-if="error" class="alert alert-danger alert-dismissible">
+					<h4 style="margin-bottom: 0px;font-size:13px;">
+						<i class="fa fa-exclamation-triangle"></i> {{errorMsg}}
+					</h4>
+				</div>
+				<div class="ui-form-item">
+					<label class="ui-label" for="username">帐 号:</label>
+					<input class="ui-input"  v-model="username" type="text" placeholder="请输入用户名、邮箱或手机号">
+					</div>
+				<div class="ui-form-item">
+					<label class="ui-label" for="password">密 码:</label>
+					<input class="ui-input"  v-model="password" type="password" placeholder="请输入密码">
+				</div>
+				<div class="login-bar cl">
+					<input id="j_rememberPwd" type="checkbox" name="rememberPwd" onclick="rememberPwdChange(this)" class="hide">
+				</div>
+				<div class="fmes-bar">
+					<button type="button" class="btn btn-lg btn-primary mgl160"  @click="login">登 录</button>
+				</div>
+				
+			</form>
+		</div>
+		</div>
+
+<footer>
+	<div class="footer">
+		<div class="copyright">
+			Copyright © 2017-2019 北京一维大成科技有限公司. <a target="_blank" href="http://www.miitbeian.gov.cn/">京ICP备XXXXXXXX号</a>
+		</div>
+	</div>
+</footer>
+<script src="libs/jquery.min.js"></script>
+<script src="libs/vue.min.js"></script>
+<script src="libs/router.js"></script>
+<script src="libs/bootstrap.min.js"></script>
+<script src="libs/jquery.slimscroll.min.js"></script>
+<script src="plugins/layer/layer.js"></script>
+<script src="js/common.js"></script>
+<script type="text/javascript">
+		var vm = new Vue({
+			el : '#eway',
+			data : {
+				username : '',
+				password : '',
+				error : false,
+				errorMsg : ''
+			},
+			beforeCreate : function() {
+				if (self != top) {
+					top.location.href = self.location.href;
+				}
+			},
+			methods : {
+				login : function(event) {
+					if (vm.username == '') {
+						vm.error = true;
+						vm.errorMsg = '用户名为空';
+						return false;
+					}
+					if (vm.password == '') {
+						vm.error = true;
+						vm.errorMsg = '密码为空';
+						return false;
+					}
+					var data = "username=" + vm.username + "&password="
+							+ vm.password + "&isSame=0";
+					$.ajax({
+						type : "POST",
+						url : "api/sys/login",
+						data : data,
+						dataType : "json",
+						success : function(result) {
+							if (result.code == 0) {//登录成功
+								if(result.tip == "true"){
+                                    flag = confirm("此账号已经被登陆,是否继续登陆?");
+                                    if(flag){
+                                    	//选择继续登陆
+                                    	var data = "username=" + vm.username + "&password="
+												+ vm.password + "&isSame=1";
+                                    	$.ajax({
+                    						type : "POST",
+                    						url : "api/sys/login",
+                    						data : data,
+                    						dataType : "json",
+                    						success : function(result) {
+                    							if (result.code == 0) {//登录成功
+                    								localStorage.setItem("token", result.token);
+                    								parent.location.href = 'index.html';
+                    							} else {
+                    								vm.error = true;
+                    								alert(result.msg);
+                    							}
+                    						}
+                    					});
+                                    }
+								}else{
+									localStorage.setItem("token", result.token);
+									parent.location.href = 'index.html';
+								}
+							} else {
+								vm.error = true;
+								alert(result.msg);
+							}
+						}
+					});
+				}
+			}
+			
+		});
+		$(function(){
+			//回车键事件
+			$(document).keyup(function (e) {
+			    if (e.keyCode == 13) {
+			    	vm.login();
+			    }  
+			});  
+		});
+	</script>
+</body></html>

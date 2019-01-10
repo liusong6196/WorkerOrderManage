@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ewaytek.edf.web.modules.task.dao.TaskListMapper">
+	
+	<select id="listForPage" resultType="com.ewaytek.edf.web.modules.task.entity.TaskListEntity">
+		SELECT
+			`task_id`, 
+			`pro_id`, 
+			`task_name`, 
+			`task_number`, 
+			`task_startdate`, 
+			`task_enddate`, 
+			`task_plannedhours`, 
+			`task_actualhours`, 
+			`task_percentage`, 
+			`remark`, 
+			`user_id_create`, 
+			`gmt_create`, 
+			`gmt_modified`,
+			`task_user`,
+			`task_priority`,
+			`task_status`
+		FROM
+			task
+		ORDER BY
+			task_id DESC
+	</select>
+	
+	<insert id="save">
+		INSERT INTO task (
+			`pro_id`, 
+			`task_name`, 
+			`task_number`, 
+			`task_startdate`, 
+			`task_enddate`, 
+			`task_plannedhours`, 
+			`task_actualhours`, 
+			`task_percentage`, 
+			`remark`, 
+			`user_id_create`, 
+			`gmt_create`, 
+			`gmt_modified`,
+			`task_user`,
+			`task_priority`,
+			`task_status`
+		)
+		VALUES (
+			#{proId}, 
+			#{taskName}, 
+			#{taskNumber}, 
+			#{taskStartdate}, 
+			#{taskEnddate}, 
+			#{taskPlannedhours}, 
+			#{taskActualhours}, 
+			#{taskPercentage}, 
+			#{remark}, 
+			#{userIdCreate}, 
+			#{gmtCreate}, 
+			#{gmtModified},
+			#{taskUser},
+			#{taskPriority},
+			#{taskStatus}
+		)
+	</insert>
+	
+	<select id="getObjectById" resultType="com.ewaytek.edf.web.modules.task.entity.TaskListEntity">
+		SELECT
+			`task_id`, 
+			`pro_id`, 
+			`task_name`, 
+			`task_number`, 
+			`task_startdate`, 
+			`task_enddate`, 
+			`task_plannedhours`, 
+			`task_actualhours`, 
+			`task_percentage`, 
+			`remark`, 
+			`user_id_create`, 
+			`gmt_create`, 
+			`gmt_modified`,
+			`task_user`,
+			`task_priority`,
+			`task_status`
+		FROM
+			task
+		WHERE
+			task_id = #{taskId}
+	</select>
+	
+	<update id="update">
+		UPDATE task
+	 	<set>
+			<if test="proId != null">`pro_id` = #{proId}, </if>
+			<if test="taskName != null">`task_name` = #{taskName}, </if>
+			<if test="taskNumber != null">`task_number` = #{taskNumber}, </if>
+			<if test="taskStartdate != null">`task_startdate` = #{taskStartdate}, </if>
+			<if test="taskEnddate != null">`task_enddate` = #{taskEnddate}, </if>
+			<if test="taskPlannedhours != null">`task_plannedhours` = #{taskPlannedhours}, </if>
+			<if test="taskActualhours != null">`task_actualhours` = #{taskActualhours}, </if>
+			<if test="taskPercentage != null">`task_percentage` = #{taskPercentage}, </if>
+			<if test="remark != null">`remark` = #{remark}, </if>
+			<if test="userIdCreate != null">`user_id_create` = #{userIdCreate}, </if>
+			<if test="gmtCreate != null">`gmt_create` = #{gmtCreate}, </if>
+			<if test="gmtModified != null">`gmt_modified` = #{gmtModified},</if>
+			<if test="taskUser != null">`task_user` = #{taskUser},</if>
+			<if test="taskPriority != null">`task_priority` = #{taskPriority},</if>
+			<if test="taskStatus != null">`task_status` = #{taskStatus}</if>
+		</set>
+		WHERE
+			task_id = #{taskId}
+	</update>
+	
+	<delete id="batchRemove">
+		DELETE
+		FROM
+			task
+		WHERE
+			task_id IN
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+    <select id="prolistForPage" resultType="com.ewaytek.edf.web.modules.pro.entity.ProjectEntity">
+			SELECT
+			`pro_id`, 
+			`user_id`, 
+			`cus_id`, 
+			`pro_accountmanager`, 
+			`pro_name`, 
+			`pro_number`, 
+			`pro_type`, 
+			`pro_chargetype`, 
+			`pro_startdate`, 
+			`pro_enddate`, 
+			`pro_status`, 
+			`user_id_create`, 
+			`gmt_create`, 
+			`gmt_modified`
+		FROM
+			project
+		ORDER BY
+			pro_id DESC
+	 </select>
+	 
+	   <resultMap id="queryTaskResource" type="com.ewaytek.edf.web.modules.pro.entity.ProjectMemberUserEntity">  
+        <id column="id" property="id" jdbcType="VARCHAR"/>  
+        <result column="user_id" property="userId" jdbcType="VARCHAR"/>  
+        <result column="username" property="username" jdbcType="VARCHAR"/>  
+        <collection property="projectMemberEntities" javaType="java.util.List" ofType="com.ewaytek.edf.web.modules.pro.entity.ProjectMemberEntity">  
+            <id column="m_id" property="id" jdbcType="VARCHAR" />  
+            <result column="pro_id" property="proId" jdbcType="VARCHAR" />  
+            <result column="user_id" property="userId" jdbcType="VARCHAR" />  
+        </collection>  
+    </resultMap>  
+	 <select id="getTaskResource" resultMap="queryTaskResource">  
+        SELECT  
+          p.user_id,  
+          u.username
+        FROM  
+          sys_user u,
+          project_member p
+        where 
+          u.user_id = p.user_id
+          and
+          p.pro_id = #{proId}
+    </select>  
+    
+    
+    <select id="listStateForPage" resultType="com.ewaytek.edf.web.modules.task.entity.TaskListEntity">
+		SELECT
+			t.task_id,
+			t.pro_id, 
+			t.task_name, 
+			t.task_number, 
+			t.task_startdate, 
+			t.task_enddate, 
+			t.task_plannedhours, 
+			t.task_actualhours, 
+			t.task_percentage, 
+			t.remark, 
+			t.user_id_create, 
+			t.gmt_create, 
+			t.gmt_modified,
+			t.task_user,
+			t.task_priority,
+			t.task_status,
+			p.pro_number
+		FROM
+			task t 
+			left join 
+			project p
+			on
+			t.pro_id=p.pro_id
+		WHERE
+			task_status = #{status}		
+			and
+			task_user=#{userId}
+		ORDER BY
+			task_enddate
+	</select>
+
+    <select id="getProNameById" resultType="String">
+			SELECT
+			`pro_name`
+		FROM
+			project
+		WHERE 
+			pro_id= #{proId}
+		ORDER BY
+			pro_id DESC
+	 </select>
+
+	<select id="countTaskOwn"  resultType="int">
+		SELECT
+			 count(*) 
+		FROM
+		 task 
+		 WHERE 
+		 task_user=#{userId}
+		 AND
+		 task_status >1
+	</select>
+	
+	<select id="sumTaskDays"  resultType="int">
+		SELECT
+			DATEDIFF(max(task_enddate),min(task_startdate)) 
+		FROM
+		 task 
+		 WHERE 
+		 task_user=#{userId}
+		 AND
+		 task_status >1
+	</select>	 
+	
+	
+	  <select id="listForHelper" resultType="com.ewaytek.edf.web.modules.task.entity.TaskListEntity">
+		SELECT
+			t.task_id,
+			t.pro_id, 
+			t.task_name, 
+			t.task_number, 
+			t.task_startdate, 
+			t.task_enddate, 
+			t.task_plannedhours, 
+			t.task_actualhours, 
+			t.task_percentage, 
+			t.remark, 
+			t.user_id_create, 
+			t.gmt_create, 
+			t.gmt_modified,
+			t.task_user,
+			t.task_priority,
+			t.task_status,
+			p.pro_name,
+			p.pro_number
+		FROM
+			task t 
+			left join 
+			project p
+			on
+			t.pro_id=p.pro_id
+		WHERE
+			<if test="status==9">
+			task_status in (2,3)
+			</if>
+			<if test="status != 9">
+			task_status = #{status}
+			</if>
+			and
+			task_user=#{userId}
+		ORDER BY
+			${sort}
+	</select>
+</mapper>

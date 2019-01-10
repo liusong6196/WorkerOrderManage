@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ewaytek.edf.web.modules.sys.dao.SysDepartmentMapper">
+	
+	<select id="listForPage" resultType="com.ewaytek.edf.web.modules.sys.entity.SysDepartmentEntity">
+		SELECT
+				d.dep_id,
+				d.dep_parentid,
+				d.dep_name,
+				p.dep_name AS parentName,
+				u.username AS depuserName,
+				d.dep_number
+		FROM
+				department d LEFT JOIN department p ON p.dep_id=d.dep_parentid LEFT JOIN sys_user u ON u.user_id=d.user_id
+		ORDER BY
+				d.dep_id ASC
+	</select>
+	
+	<select id="list" resultType="com.ewaytek.edf.web.modules.sys.entity.SysDepartmentEntity">
+		SELECT
+				d.dep_id,
+				d.dep_parentid,
+				d.dep_name,
+				p.dep_name AS parentName,
+				u.username AS depuserName,
+				d.dep_number,
+				d.user_id
+		FROM
+				department d LEFT JOIN department p ON p.dep_id=d.dep_parentid LEFT JOIN sys_user u ON u.user_id=d.user_id
+		ORDER BY
+				d.dep_id ASC
+	</select>
+	
+	<select id="listAllDepartment" resultType="com.ewaytek.edf.web.modules.sys.entity.SysDepartmentEntity">
+		SELECT
+			`dep_id`, 
+			`user_id`, 
+			`dep_name`, 
+			`dep_number`, 
+			`user_id_create`, 
+			`gmt_create`, 
+			`gmt_modified`
+		FROM
+			department d
+		ORDER BY
+			dep_id DESC
+	</select>
+	
+	<insert id="save">
+		INSERT INTO department (
+			`dep_parentid`, 
+			`user_id`, 
+			`dep_name`, 
+			`dep_number`, 
+			`user_id_create`, 
+			`gmt_create`, 
+			`gmt_modified`
+		)
+		VALUES (
+			#{depParentid}, 
+			#{userId},
+			#{depName}, 
+			#{depNumber}, 
+			#{userIdCreate}, 
+			#{gmtCreate}, 
+			#{gmtModified}
+		)
+	</insert>
+	
+	<select id="getObjectById" resultType="com.ewaytek.edf.web.modules.sys.entity.SysDepartmentEntity">
+		SELECT
+			`dep_id`, 
+			`dep_parentid`, 
+			`user_id`, 
+			`dep_name`, 
+			`dep_number`, 
+			`user_id_create`, 
+			`gmt_create`, 
+			`gmt_modified`
+		FROM
+			department
+		WHERE
+			dep_id = #{depId}
+	</select>
+	
+	<update id="update">
+		UPDATE department
+	 	<set>
+			<if test="depParentid != null">`dep_parentid` = #{depParentid}, </if>
+			<if test="userId != null">`user_id` = #{userId}, </if>
+			<if test="depName != null">`dep_name` = #{depName}, </if>
+			<if test="depNumber != null">`dep_number` = #{depNumber}, </if>
+			<if test="userIdCreate != null">`user_id_create` = #{userIdCreate}, </if>
+			<if test="gmtCreate != null">`gmt_create` = #{gmtCreate}, </if>
+			<if test="gmtModified != null">`gmt_modified` = #{gmtModified}</if>
+		</set>
+		WHERE
+			dep_id = #{depId}
+	</update>
+	
+	<delete id="batchRemove">
+		DELETE
+		FROM
+			department
+		WHERE
+			dep_id IN
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

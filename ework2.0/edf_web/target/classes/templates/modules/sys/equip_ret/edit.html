@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_css::header('设备借用表')"></head>
+<body>
+		<div id="eway" class="container-fluid" v-cloak>
+		<table class="form" id="form">
+			<tr>
+	            <td class="formTitle">设备名称<font face="宋体"></font></td>
+	            <td class="formValue">
+	            	<input type="text" class="form-control" v-model="equipmentBorrow.equName" readonly="readonly">
+	            </td>
+        	</tr>
+        	<tr>
+	            <td class="formTitle">规格型号<font face="宋体"></font></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" v-model="equipmentBorrow.equStyleIdName" readonly="readonly" >
+	            </td>
+        	</tr>
+        	<tr>
+	            <td class="formTitle">使用地点<font face="宋体"></font></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="使用地点" v-model="equipmentBorrow.borSiteName" readonly="readonly">
+	            </td>
+        	</tr>
+        	<tr>
+	            <td class="formTitle">申请人<font face="宋体"></font></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" v-model="equipmentBorrow.borUserIdName" readonly="readonly">
+	            </td>
+        	</tr>
+        	<tr>
+	            <td class="formTitle">借用数量<font face="宋体"></font></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" v-model="equipmentBorrow.borCount" readonly="readonly" id="bor_count">
+	            </td>
+        	</tr>
+        	<tr>
+	            <td class="formTitle">已还数量<font face="宋体"></font></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" v-model="equipmentBorrow.retCount" readonly="readonly" id="ycount">
+	            </td>
+        	</tr>
+        	<tr>
+	            <td class="formTitle">项目名称<font face="宋体"></font></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" v-model="equipmentBorrow.proName" readonly="readonly">
+	            </td>
+        	</tr>
+  
+			<tr>
+	            <td class="formTitle">计划归还日期<font face="宋体"></font></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" v-model="equipmentBorrow.borPlantime" readonly="readonly">
+	            </td>
+        	</tr>
+			
+   
+        	<tr>
+	            <td class="formTitle">归还数量<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="归还数量" isvalid="yes" checkexpession="NotNull" id="ret_count" onblur="checkCount()">
+	            </td>
+        	</tr>
+        	<tr>
+	            <td class="formTitle">实际归还日期<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<input type="date" class="form-control" isvalid="yes" checkexpession="NotNull" id="ret_date">
+	            </td>
+        	</tr>
+        	<tr>
+	            <td class="formTitle">归还人<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<select class="form-control" isvalid="yes" v-model="equipmentBorrow.borUserId" checkexpession="NotNull" id="ret_user">
+					</select>
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle">备注<font face="宋体"></font></td>
+	            <td class="formValue">
+					<textarea rows="3" class="form-control" placeholder="备注" v-model="equipmentBorrow.remark" isvalid="yes"></textarea>
+	            </td>
+        	</tr>
+		</table>
+	</div>
+	
+	<div class="modal fade" id="malert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="width: 40%;height: 40%;margin-left:30%;margin-top:20%;background-color: #FFF;">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title">提示信息：</h4>
+	      </div>
+	      <div class="modal-body">
+	      	<span id="s_alert"></span>
+	      </div>
+	      <div class="modal-footer">
+	         <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	
+	<div th:include="include/footer_js::footer"></div>
+	<script th:src="@{/js/modules/equip_ret/edit.js}"></script>
+</body>
+</html>

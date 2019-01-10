@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ewaytek.edf.web.modules.cqwork.dao.WorkorderMapper">
+	
+	<select id="listForPage" resultType="com.ewaytek.edf.web.modules.cqwork.entity.WorkorderEntity">
+		SELECT
+			`id`, 
+			`area`, 
+			`town`, 
+			`village`, 
+			`name`, 
+			`project`, 
+			`type`, 
+			`occur_date`, 
+			`over_time`, 
+			`qq`, 
+			`tel`, 
+			`description`, 
+			`method`, 
+			`manner`, 
+			`source`, 
+			`process_time`, 
+			`status`, 
+			`process_user`
+		FROM
+			workorder
+		<where>
+			1=1
+			<if test="proname != null"> AND project = #{proname} </if>
+			<if test="tdstart != null"> AND occur_date >= str_to_date(#{tdstart},'%Y-%m-%d %H') </if>
+			<if test="tdend != null"> AND str_to_date(#{tdend},'%Y-%m-%d %H') >= occur_date </if>
+			<if test="processuser != null"> AND process_user like CONCAT('%',#{processuser},'%') </if>
+		</where>
+		ORDER BY
+			id DESC
+	</select>
+	
+	<insert id="save">
+		INSERT INTO workorder (
+			`area`, 
+			`town`, 
+			`village`, 
+			`name`, 
+			`project`, 
+			`type`, 
+			`occur_date`, 
+			`over_time`, 
+			`qq`, 
+			`tel`, 
+			`description`, 
+			`method`, 
+			`manner`, 
+			`source`, 
+			`process_time`, 
+			`status`, 
+			`process_user`,
+			`belong`
+		)
+		VALUES (
+			#{area}, 
+			#{town}, 
+			#{village}, 
+			#{name}, 
+			#{project}, 
+			#{type}, 
+			#{occurDate}, 
+			SYSDATE(), 
+			#{qq}, 
+			#{tel}, 
+			#{description}, 
+			#{method}, 
+			#{manner}, 
+			#{source}, 
+			#{processTime}, 
+			#{status}, 
+			#{processUser},
+			#{belong}
+		)
+	</insert>
+	
+	<select id="getObjectById" resultType="com.ewaytek.edf.web.modules.cqwork.entity.WorkorderEntity">
+		SELECT
+			`id`, 
+			`area`, 
+			`town`, 
+			`village`, 
+			`name`, 
+			`project`, 
+			`type`, 
+			`occur_date`, 
+			`over_time`, 
+			`qq`, 
+			`tel`, 
+			`description`, 
+			`method`, 
+			`manner`, 
+			`source`, 
+			`process_time`, 
+			`status`, 
+			`process_user`
+		FROM
+			workorder
+		WHERE
+			id = #{id}
+	</select>
+	
+	<update id="update">
+		UPDATE workorder
+	 	<set>
+			<if test="area != null">`area` = #{area}, </if>
+			<if test="town != null">`town` = #{town}, </if>
+			<if test="village != null">`village` = #{village}, </if>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="project != null">`project` = #{project}, </if>
+			<if test="type != null">`type` = #{type}, </if>
+			<if test="occurDate != null">`occur_date` = #{occurDate}, </if>
+			<if test="overTime != null">`over_time` = #{overTime}, </if>
+			<if test="qq != null">`qq` = #{qq}, </if>
+			<if test="tel != null">`tel` = #{tel}, </if>
+			<if test="description != null">`description` = #{description}, </if>
+			<if test="method != null">`method` = #{method}, </if>
+			<if test="manner != null">`manner` = #{manner}, </if>
+			<if test="source != null">`source` = #{source}, </if>
+			<if test="processTime != null">`process_time` = #{processTime}, </if>
+			<if test="status != null">`status` = #{status}, </if>
+			<if test="processUser != null">`process_user` = #{processUser}</if>
+		</set>
+		WHERE
+			id = #{id}
+	</update>
+	
+	<delete id="batchRemove">
+		DELETE
+		FROM
+			workorder
+		WHERE
+			id IN
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+	
+	<select id="queryWorkorderEntityList" resultType="com.ewaytek.edf.web.modules.cqwork.entity.WorkorderEntity">
+		SELECT
+			`id`, 
+			`area`, 
+			`town`, 
+			`village`, 
+			`name`, 
+			`project`, 
+			`type`, 
+			`occur_date`, 
+			`over_time`, 
+			`qq`, 
+			`tel`, 
+			`description`, 
+			`method`, 
+			`manner`, 
+			`source`, 
+			`process_time`, 
+			`status`, 
+			`process_user`
+		FROM
+			workorder
+		<where>
+			1=1
+			<if test="proname != null"> AND project = #{proname} </if>
+			<if test="tdstart != null"> AND occur_date >= str_to_date(#{tdstart},'%Y-%m-%d %H') </if>
+			<if test="tdend != null"> AND str_to_date(#{tdend},'%Y-%m-%d %H') >= occur_date </if>
+			<if test="processuser != null"> AND process_user like CONCAT('%',#{processuser},'%') </if>
+		</where>
+		ORDER BY
+			id DESC
+	</select>
+
+</mapper>

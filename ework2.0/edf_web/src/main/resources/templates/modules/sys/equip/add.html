@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_css::header('设备表')"></head>
+<body>
+	<div id="eway" class="container-fluid" v-cloak>
+		<table class="form" id="form">
+			<tr>
+	            <td class="formTitle">设备名称<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="设备名称" v-model="equipment.equName" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+        	<tr>
+	            <td class="formTitle">规格型号<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="厂商货号" v-model="equipment.equStyleid" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+        	<tr>
+	            <td class="formTitle">供&nbsp;&nbsp;应&nbsp;&nbsp;商<font face="宋体">*</font></td>
+	            <td class="formValue">
+		             <select v-model="equipment.equSupplier" class="form-control"> 
+							<option v-for="supplier in suplist" v-bind:value="supplier.supId">{{supplier.supName}}</option>   
+					 </select>  
+	            </td>
+        	</tr>
+        	<tr>
+	            <td class="formTitle">设备来源<font face="宋体">*</font></td>
+	            <td class="formValue">
+	           		<select class="form-control" v-model="equipment.equSource" id="tSource" isvalid="yes" checkexpession="NotNull">
+	          		</select>
+	            </td>
+        	</tr>
+        	<tr>
+	            <td class="formTitle">入库数量<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="入库数量" v-model="equipment.equCount" isvalid="yes" checkexpession="NotNull" id="equ_Count" onblur="checkCount()">
+	            </td>
+        	</tr>
+			
+			<tr>
+	            <td class="formTitle">设备单价<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="设备单价" v-model="equipment.equPrice" isvalid="yes" checkexpession="NotNull" id="equ_money" onblur="checkMoney()">
+	            </td>
+        	</tr>
+			
+        	<tr>
+	            <td class="formTitle">库存地点<font face="宋体">*</font></td>
+	            <td class="formValue">
+	           		<select class="form-control" v-model="equipment.equSite" id="equ_site" isvalid="yes" checkexpession="NotNull">
+	          		</select>
+	            </td>
+        	</tr>
+        	<tr>
+	            <td class="formTitle">设备类型<font face="宋体">*</font></td>
+	            <td class="formValue">
+	           		<select class="form-control" v-model="equipment.equType" isvalid="yes" id="tetype" checkexpession="NotNull">
+	          		</select>
+	            </td>
+        	</tr>
+        	<tr>
+	            <td class="formTitle">入库时间<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<input type="date" class="form-control" v-model="equipment.optionDate" isvalid="yes" checkexpession="NotNull" id="option_date">
+	            </td>
+        	</tr>
+        	<tr>
+	            <td class="formTitle">过期时间<font face="宋体"></font></td>
+	            <td class="formValue">
+					<input type="date" class="form-control" v-model="equipment.overdueDatetime" isvalid="yes">
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注<font face="宋体"></font></td>
+	            <td class="formValue">
+					<textarea rows="3" class="form-control" placeholder="备注" v-model="equipment.remark" isvalid="yes">
+					</textarea>
+	            </td>
+        	</tr>
+		</table>
+	</div>
+	
+	<div class="modal fade" id="malert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="width: 40%;height: 40%;margin-left:30%;margin-top:20%;background-color:#FFFFFF;">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title">提示信息：</h4>
+	      </div>
+	      <div class="modal-body">
+	      	<span id="s_alert"></span>
+	      </div>
+	      <div class="modal-footer">
+	         <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	
+	<div th:include="include/footer_js::footer"></div>
+	<script th:src="@{/js/modules/equip/add.js}"></script>
+</body>
+</html>

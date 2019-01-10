@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_css::header('Timesheet-增加')"></head>
+<body>
+<div class="col-md-4 form-inline pull-right"  style="vertical-align:middle;">
+			<h4>从&nbsp;<b id="startdate">2017-12-13</b>&nbsp;到&nbsp;<b id="enddate">2017-12-13</b>&nbsp;</h4>
+			</div>
+	<div class="row">
+			<table class="table table-striped"   id="dataGrid">
+			 <tr style="background: silver;">
+                  <th style="width: 100px;text-align:center;font-weight:bold;border:1px solid #000;vertical-align:middle; " >项目编号</th>
+                   <th style="width: 50px;text-align:center;font-weight:bold;border:1px solid #000;">选择</th>
+                  <th style="width: 200px;text-align:center;font-weight:bold;border:1px solid #000;vertical-align:middle; ">项目名称</th>
+                   <th style="width: 200px;text-align:center;font-weight:bold;border:1px solid #000;vertical-align:middle; ">任务名称</th>
+                   <th style="width: 100px;text-align:center;font-weight:bold;border:1px solid #000;vertical-align:middle; ">开始时间</th>
+                   <th style="width: 100px;text-align:center;font-weight:bold;border:1px solid #000;vertical-align:middle; ">结束时间</th>
+                  <th style="width: 100px;text-align:center;font-weight:bold;border:1px solid #000;">计划工作量</th>
+                </tr>
+				 <tr class="success"><td colspan="7" align="center">没有信息</td></tr>
+			</table>
+	</div>
+	<div class="row">
+			<table class="table table-striped"   id="routine_type">
+			</table>
+	 </div>
+	 <div class="row">
+			<table class="table table-striped"   id="training_type">
+			</table>
+	 </div>
+	 <div class="row">
+			<table class="table table-striped"   id="leave_type">
+			</table>
+	 </div>
+	<div th:include="include/footer_js::footer"></div>
+	<script th:src="@{/js/modules/timesheet/add.js}"></script>	
+</body>
+</html>

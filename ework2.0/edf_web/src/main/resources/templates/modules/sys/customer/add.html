@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_css::header('客户表')"></head>
+<body>
+	<div id="eway" class="container-fluid" v-cloak>
+		<table class="form" id="form">
+			
+			<tr>
+	            <td class="formTitle">客户名称<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="客户名称/供应商名称" v-model="customer.cusName" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+        	<tr>
+	            <td class="formTitle">别&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="别名-简称，例如：河南省社保局" v-model="customer.cusAlias" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle">单位编号<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="单位编号" v-model="customer.cusNumber" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle">单位电话<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="单位电话" v-model="customer.cusPhone" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle">单位邮箱<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="单位邮箱" v-model="customer.cusEmail" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle">所属行业<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<select class="form-control" v-model="customer.cusIndustry" isvalid="yes" checkexpession="NotNull" id="industry">
+					</select>
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle">联&nbsp;&nbsp;系&nbsp;&nbsp;人<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder=" 主要联系人" v-model="customer.cusContacts" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle">地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="地址" v-model="customer.cusAddress" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle">邮政编码<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="邮政编码" v-model="customer.cusCode" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle">所&nbsp;&nbsp;在&nbsp;&nbsp;地<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<select class="form-control" v-model="customer.cusSite" isvalid="yes" checkexpession="NotNull" id="site">
+					</select>
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle">客户类型<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<select class="form-control" v-model="customer.cusType" isvalid="yes" checkexpession="NotNull" id="type">
+					</select>
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<select class="form-control" v-model="customer.cusState" isvalid="yes" checkexpession="NotNull" id="state">
+					</select>
+	            </td>
+        	</tr>
+		</table>
+	</div>
+	<div th:include="include/footer_js::footer"></div>
+	<script th:src="@{/js/modules/customer/add.js}"></script>
+</body>
+</html>

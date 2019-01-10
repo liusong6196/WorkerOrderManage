@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ewaytek.edf.web.modules.okr.dao.ObjectiveMapper">
+	
+	<select id="listForPage" resultType="com.ewaytek.edf.web.modules.okr.entity.ObjectiveEntity">
+		SELECT
+			`obj_id`, 
+			`user_id`, 
+			`department_id`, 
+			`year`, 
+			`quarter`, 
+			`quarter_obj`, 
+			`user_id_create`, 
+			`gmt_create`, 
+			`gmt_modified`
+		FROM
+			objective
+		ORDER BY
+			obj_id DESC
+	</select>
+	
+
+	
+	<select id="listDepartOKR" resultType="com.ewaytek.edf.web.modules.okr.entity.ObjectiveEntity">
+		SELECT DISTINCT
+			o.obj_id,
+			o.YEAR,
+			o.QUARTER,
+			o.quarter_obj,
+			u.username AS createName,
+			d.dep_name AS departName,
+			t.label AS quarterName
+		FROM
+			objective o
+		LEFT JOIN project_kr k ON k.obj_id = o.obj_id
+		LEFT JOIN sys_user u ON u.user_id = o.user_id_create
+		LEFT JOIN department d ON o.department_id = d.dep_id
+		LEFT JOIN sys_dict t ON t.type = 'quarter' AND t.value=o.quarter
+		WHERE 
+			o.department_id = #{id}
+		ORDER BY
+			o.quarter ASC
+	</select>
+	
+	<select id="listUserOKR" resultType="com.ewaytek.edf.web.modules.okr.entity.ObjectiveEntity">
+		<!-- SELECT DISTINCT
+			o.obj_id,
+			o.YEAR,
+			o.QUARTER,
+			o.quarter_obj,
+			u.username,
+			u.username AS createName,
+			d.dep_name AS departName,
+			t.label AS quarterName
+		FROM
+			objective o
+		LEFT JOIN project_kr k ON k.obj_id = o.obj_id
+		LEFT JOIN sys_user u ON u.user_id = o.user_id
+		LEFT JOIN department d ON o.department_id = d.dep_id
+		LEFT JOIN sys_dict t ON t.type = 'quarter' AND t.value=o.quarter
+		WHERE 
+			o.user_id = #{id}
+		ORDER BY
+			o.quarter ASC -->
+		SELECT 
+			username,uo.createName,uo.`year`,uo.`quarter`,uo.quarter_obj,uo.obj_id,uo.departName,uo.quarterName
+		FROM(
+			SELECT 
+				o.user_id,u.username as createName,o.year,o.quarter,o.quarter_obj,o.obj_id,d.dep_name AS departName,t.label AS quarterName
+			FROM 
+				objective o 
+			LEFT JOIN sys_user u ON u.user_id = o.user_id_create  
+			LEFT JOIN project_kr k ON k.obj_id = o.obj_id
+			LEFT JOIN department d ON o.department_id = d.dep_id
+			LEFT JOIN sys_dict t ON t.type = 'quarter' AND t.value=o.quarter
+			WHERE o.user_id= #{id} 
+			ORDER BY o.quarter ASC
+		) uo
+		LEFT JOIN sys_user s on s.user_id=uo.user_id
+		GROUP BY uo.obj_id
+	</select>
+	
+	<insert id="save">
+		INSERT INTO objective (
+			`user_id`, 
+			`department_id`, 
+			`year`, 
+			`quarter`, 
+			`quarter_obj`, 
+			`user_id_create`, 
+			`gmt_create`, 
+			`gmt_modified`
+		)
+		VALUES (
+			#{userId}, 
+			#{departmentId}, 
+			#{year}, 
+			#{quarter}, 
+			#{quarterObj}, 
+			#{userIdCreate}, 
+			#{gmtCreate}, 
+			#{gmtModified}
+		)
+	</insert>
+	
+	<select id="getObjectById" resultType="com.ewaytek.edf.web.modules.okr.entity.ObjectiveEntity">
+		SELECT
+			`obj_id`, 
+			`user_id`, 
+			`department_id`, 
+			`year`, 
+			`quarter`, 
+			`quarter_obj`, 
+			`user_id_create`, 
+			`gmt_create`, 
+			`gmt_modified`
+		FROM
+			objective
+		WHERE
+			obj_id = #{objId}
+	</select>
+	
+	<update id="update">
+		UPDATE objective
+	 	<set>
+			<if test="userId != null">`user_id` = #{userId}, </if>
+			<if test="departmentId != null">`department_id` = #{departmentId}, </if>
+			<if test="year != null">`year` = #{year}, </if>
+			<if test="quarter != null">`quarter` = #{quarter}, </if>
+			<if test="quarterObj != null">`quarter_obj` = #{quarterObj}, </if>
+			<if test="userIdCreate != null">`user_id_create` = #{userIdCreate}, </if>
+			<if test="gmtCreate != null">`gmt_create` = #{gmtCreate}, </if>
+			<if test="gmtModified != null">`gmt_modified` = #{gmtModified}</if>
+		</set>
+		WHERE
+			obj_id = #{objId}
+	</update>
+	
+	<delete id="batchRemove">
+		DELETE
+		FROM
+			objective
+		WHERE
+			obj_id IN
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

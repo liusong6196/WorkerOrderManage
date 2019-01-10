@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<style type="text/css">
+	.choice{
+       text-align: center;
+	   border-bottom: 1px solid;
+	   padding: 5px 0;
+	}
+	 .context-table{
+		border:1px solid;
+		margin-top:5px;
+		//padding-right:5px;
+	} 
+	 .table-title{
+		text-align:center;
+		background-color:#CCCCCC;
+		border-bottom: 1px solid;
+	}
+</style>
+</head>
+<body>
+	<div id="eway" class="container-fluid addfilltimesheet" v-cloak>
+		<div class="choice">非项目任务</div>
+		<div class="context-table">
+			<div class="table-title">日常管理类任务</div>
+			<table>
+				<tr>
+	            <td><input type="checkbox"/>业务发展</td>
+	            <td><input type="checkbox"/>面试</td>
+	            <td><input type="checkbox"/>空闲</td>
+	            <td><input type="checkbox"/>非项目会议</td>
+        	</tr>
+			<tr>
+	          	<td><input type="checkbox"/>报销填表</td>
+	            <td><input type="checkbox"/>部门管理</td>
+	            <td><input type="checkbox"/>其它日常管理</td>  
+        	</tr>
+		</table>
+		</div>
+		<div class="context-table">
+			<div class="table-title">培训类任务</div>
+			<table>
+				<tr>
+		            <td><input type="checkbox"/>自修</td>
+		            <td><input type="checkbox"/>内部培训</td>
+        		</tr>
+			</table>
+		</div>
+		<div class="context-table">
+			<div class="table-title">离岗类任务</div>
+			<table>
+				<tr>
+	            <td><input type="checkbox"/>年假</td>
+	            <td><input type="checkbox"/>事假</td>
+	            <td><input type="checkbox"/>病假</td>
+	            <td><input type="checkbox"/>婚假</td>
+        	</tr>
+			<tr>
+	          	<td><input type="checkbox"/>产假</td>
+	            <td><input type="checkbox"/>公共假期</td>
+	            <td><input type="checkbox"/>丧假</td>
+	            <td><input type="checkbox"/>其它休假</td>    
+        	</tr>
+			</table>
+		</div>
+		
+	</div>
+	<div th:include="include/footer_js::footer"></div>
+	<script th:src="@{/js/modules/filltimesheet/add.js}"></script>
+</body>
+</html>
