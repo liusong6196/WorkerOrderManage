@@ -31,3 +31,7 @@ spring:
                 wall:
                     config:
                         multi-statement-allow: true
+
+system-param: 
+    imgpath: /home/errorimage/
+    
