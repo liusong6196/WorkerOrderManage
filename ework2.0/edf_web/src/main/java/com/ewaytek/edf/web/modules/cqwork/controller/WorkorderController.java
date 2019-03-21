@@ -1,6 +1,8 @@
 package com.ewaytek.edf.web.modules.cqwork.controller;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -28,10 +30,14 @@ import com.ewaytek.edf.common.annotation.SysLog;
 import com.ewaytek.edf.common.entity.R;
 import com.ewaytek.edf.common.utils.DateUtils;
 import com.ewaytek.edf.common.entity.Page;
+import com.ewaytek.edf.web.modules.cqwork.entity.ProSelectEntity;
 import com.ewaytek.edf.web.modules.cqwork.entity.WorkorderEntity;
+import com.ewaytek.edf.web.modules.cqwork.service.ProSelectService;
 import com.ewaytek.edf.web.modules.cqwork.service.WorkorderService;
 import com.ewaytek.edf.web.modules.sys.entity.SysDictEntity;
 import com.ewaytek.edf.web.modules.sys.service.SysDictService;
+import com.ewaytek.edf.web.utils.ShiroUtils;
+import com.ewaytek.edf.web.utils.SystemParam;
 
 /**
  * 
@@ -50,6 +56,12 @@ public class WorkorderController{
 	
 	@Autowired
 	private SysDictService sysDictService;
+	
+	@Autowired
+	private ProSelectService proSelectService;
+	
+	@Autowired
+	SystemParam systemParam;
 	/**
 	 * 列表
 	 * @param params
@@ -177,6 +189,87 @@ public class WorkorderController{
 		Map<String, Object> map = new LinkedHashMap<String, Object>();
 		map.put("typedata", bussiness);
 		return map;
+	}
+	
+	@RequestMapping("/getusertype")
+	@ResponseBody
+	public Map<String,Object> getUserType(@RequestParam String type){
+		Long userid = ShiroUtils.getUserEntity().getUserId();
+		Map<String, Object> params = new LinkedHashMap<String, Object>();
+		params.put("type",type);
+		params.put("userid",userid);
+		List<SysDictEntity> bussiness=sysDictService.getUserSelectDict(params);
+		Map<String, Object> map = new LinkedHashMap<String, Object>();
+		map.put("typedata", bussiness);
+		return map;
+	}
+	
+	@RequestMapping("/getproselect")
+	@ResponseBody
+	public Map<String,Object> getProSelect(HttpServletRequest request){
+		String pro_name = request.getParameter("pro_name");
+		String select_type = request.getParameter("select_type");
+		Map<String, Object> params = new LinkedHashMap<String, Object>();
+		if(pro_name != null && !"".equals(pro_name)){
+			params.put("pro_name", pro_name);
+		}
+		if(select_type != null && !"".equals(select_type)){
+			params.put("select_type", select_type);
+		}
+		List<ProSelectEntity> selects= proSelectService.queryProSelectList(params);
+		Map<String, Object> map = new LinkedHashMap<String, Object>();
+		map.put("selects", selects);
+		return map;
+	}
+	
+	@RequestMapping("/getusername")
+	@ResponseBody
+	public Map<String,Object> getUserType(){
+		String username = ShiroUtils.getUserEntity().getUsername();
+		Map<String, Object> map = new LinkedHashMap<String, Object>();
+		map.put("username", username);
+		return map;
+	}
+	
+	@RequestMapping("/geterrorimg")
+	@ResponseBody
+	public void showErrorImg(HttpServletRequest request,HttpServletResponse response){
+		response.setContentType("text/html; charset=UTF-8");
+		response.setContentType("image/jpeg");
+		String imgPath = request.getParameter("imgPath");
+		if(imgPath == null || "".equals(imgPath)){//如果没有图片路劲
+			return;
+		}
+		imgPath = systemParam.getImgpath() + imgPath;
+		FileInputStream fis = null;
+		OutputStream os = null;
+		try {
+			fis = new FileInputStream(imgPath);
+			os = response.getOutputStream();
+			byte[] bt = new byte[1024*1024];
+			int len = 0;
+			while((len = fis.read(bt)) != -1){
+				os.write(bt, 0, len);
+				os.flush();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally{
+			if(fis != null){
+				try {
+					fis.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				if(os != null){
+					try {
+						os.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
 	}
 	
 }

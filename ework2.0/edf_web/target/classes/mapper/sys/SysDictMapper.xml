@@ -3,6 +3,29 @@
 
 <mapper namespace="com.ewaytek.edf.web.modules.sys.dao.SysDictMapper">
 	
+	<select id="getUserSelectDict" resultType="com.ewaytek.edf.web.modules.sys.entity.SysDictEntity">
+		SELECT
+			d.id, 
+			d.value, 
+			d.label, 
+			d.type, 
+			d.description, 
+			d.sort, 
+			d.state, 
+			d.remark, 
+			d.user_id_create, 
+			d.gmt_create, 
+			d.gmt_modified
+		FROM
+			user_dict u INNER JOIN sys_dict d ON u.dictid = d.id
+		WHERE
+			d.state = '1'
+		AND u.userid = #{userid}
+		AND d.type = #{type}
+		ORDER BY
+			id DESC
+	</select>
+	
 	<select id="listForPage" resultType="com.ewaytek.edf.web.modules.sys.entity.SysDictEntity">
 		SELECT
 			`id`, 

@@ -20,4 +20,6 @@ import com.ewaytek.edf.web.modules.sys.dao.BaseMapper;
 public interface SocietydistlistMapper extends BaseMapper<SocietydistlistEntity> {
 	
 	List<SocietydistlistEntity> querySocietydistlist(Map<String,Object> param);
+	
+	String getSocietyExplainByDistId(String distid);
 }

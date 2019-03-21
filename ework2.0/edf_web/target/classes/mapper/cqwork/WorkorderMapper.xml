@@ -22,7 +22,9 @@
 			`source`, 
 			`process_time`, 
 			`status`, 
-			`process_user`
+			`process_user`,
+			`belong`,
+			`err_imgpath`
 		FROM
 			workorder
 		<where>
@@ -36,7 +38,7 @@
 			id DESC
 	</select>
 	
-	<insert id="save">
+	<insert id="save" useGeneratedKeys="true" keyProperty="id" parameterType="com.ewaytek.edf.web.modules.cqwork.entity.WorkorderEntity">
 		INSERT INTO workorder (
 			`area`, 
 			`town`, 
@@ -55,7 +57,8 @@
 			`process_time`, 
 			`status`, 
 			`process_user`,
-			`belong`
+			`belong`,
+			`err_imgpath`
 		)
 		VALUES (
 			#{area}, 
@@ -75,7 +78,8 @@
 			#{processTime}, 
 			#{status}, 
 			#{processUser},
-			#{belong}
+			#{belong},
+			#{errImgpath}
 		)
 	</insert>
 	
@@ -98,7 +102,9 @@
 			`source`, 
 			`process_time`, 
 			`status`, 
-			`process_user`
+			`process_user`,
+			`belong`,
+			`err_imgpath`
 		FROM
 			workorder
 		WHERE
@@ -124,7 +130,8 @@
 			<if test="source != null">`source` = #{source}, </if>
 			<if test="processTime != null">`process_time` = #{processTime}, </if>
 			<if test="status != null">`status` = #{status}, </if>
-			<if test="processUser != null">`process_user` = #{processUser}</if>
+			<if test="processUser != null">`process_user` = #{processUser},</if>
+			<if test="belong != null">`belong` = #{belong}</if>
 		</set>
 		WHERE
 			id = #{id}
@@ -160,7 +167,9 @@
 			`source`, 
 			`process_time`, 
 			`status`, 
-			`process_user`
+			`process_user`,
+			`belong`,
+			`err_imgpath`
 		FROM
 			workorder
 		<where>

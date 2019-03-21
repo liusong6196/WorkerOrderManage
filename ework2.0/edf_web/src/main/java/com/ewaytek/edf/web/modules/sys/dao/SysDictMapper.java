@@ -21,6 +21,8 @@ import com.ewaytek.edf.web.modules.sys.dao.BaseMapper;
 @Mapper
 public interface SysDictMapper extends BaseMapper<SysDictEntity> {
 	
+	 List<SysDictEntity> getUserSelectDict(Map<String, Object> params);
+	
 	 List<SysDictEntity> listSysDictAll(Map<String, Object> params);
 	 
 	 SysDictEntity getDictLabel(@Param("type")String type,@Param("value")String value);

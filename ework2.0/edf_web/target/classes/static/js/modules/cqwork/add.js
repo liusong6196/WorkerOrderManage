@@ -1,7 +1,6 @@
+var base64 = '';
+
 function loadAddressSelect(data,id){
-	/*if(data == null || data == ''){
-		return;
-	}*/
 	var htmlstr = "<option value=''>请选择</option>";
 	for(var i=0;i<data.length;i++){
 		htmlstr += "<option value='"+data[i].distid+"'>"+data[i].explain+"</option>";
@@ -16,6 +15,17 @@ function loadOtherSelect(data,id){
 	var htmlstr = "";
 	for(var i=0;i<data.length;i++){
 		htmlstr += "<option value='"+data[i].value+"'>"+data[i].label+"</option>";
+	}
+	$('#'+id).html(htmlstr);
+}
+
+function loadDescAndMethodSelect(data,id){
+	if(data == null || data == ''){
+		return;
+	}
+	var htmlstr = "";
+	for(var i=0;i<data.length;i++){
+		htmlstr += "<option value='"+data[i].selectDesc+"'>"+data[i].selectDesc+"</option>";
 	}
 	$('#'+id).html(htmlstr);
 }
@@ -85,7 +95,7 @@ function loadBelongList(){
 	$.ajax({
 		type: "post",
 		data:{type:"wo_belong"},
-		url : '../../api/cqwork/gettype?_' + $.now(),
+		url : '../../api/cqwork/getusertype?_' + $.now(),
 		async:false,
 		success: function (rs) {
 			loadOtherSelect(rs.typedata,"w_belong");
@@ -98,7 +108,7 @@ function loadProjectList(){
 	$.ajax({
 		type: "post",
 		data:{type:"wo_project"},
-		url : '../../api/cqwork/gettype?_' + $.now(),
+		url : '../../api/cqwork/getusertype?_' + $.now(),
 		async:false,
 		success: function (rs) {
 			loadOtherSelect(rs.typedata,"w_project");
@@ -158,28 +168,33 @@ function loadStatusList(){
 	});
 }
 
-//加载问题描述下拉框
-function loadDescriptionList(){
+//根据所选项目加载问题描述和处理方法下拉框
+function loadDescAndMethodByPro(proname){
+	$("#st_desc").html('');
+	$("#st_method").html('');
 	$.ajax({
 		type: "post",
-		data:{type:"wo_desc"},
-		url : '../../api/cqwork/gettype?_' + $.now(),
+		data:{
+			pro_name:proname,
+			select_type:1
+		},
+		url : '../../api/cqwork/getproselect?_' + $.now(),
 		async:false,
 		success: function (rs) {
-			loadOtherSelect(rs.typedata,"st_desc");
+			loadDescAndMethodSelect(rs.selects,"st_desc");
 		}
 	});
-}
-
-//加载处理方法下拉框
-function loadMethodList(){
+	
 	$.ajax({
 		type: "post",
-		data:{type:"wo_method"},
-		url : '../../api/cqwork/gettype?_' + $.now(),
+		data:{
+			pro_name:proname,
+			select_type:2
+		},
+		url : '../../api/cqwork/getproselect?_' + $.now(),
 		async:false,
 		success: function (rs) {
-			loadOtherSelect(rs.typedata,"st_method");
+			loadDescAndMethodSelect(rs.selects,"st_method");
 		}
 	});
 }
@@ -219,6 +234,32 @@ function method_Chooes(){
 	$('#w_method').val(method);
 }
 
+function protime_Chooes(){
+	var protime = $('#st_protime').val();
+	$('#w_processTime').val(protime);
+}
+
+function pro_choose(){
+	var proname = $("#w_project").val();
+	loadDescAndMethodByPro(proname);
+}
+
+function changimg(event){
+	base64 = '';
+	file = event.target.files[0];
+	if(!/image\/\w+/.test(file.type)) {  
+        alert("[异常图片]必须为图片格式，如：jpg、png等！");
+        event.target.value = '';
+        return false;  
+    }
+    var a = new FileReader();
+    a.onload = function (e) {
+        var base64Str = e.target.result;//获取base64
+        base64 = base64Str;//赋值全局变量
+    }
+    a.readAsDataURL(file);
+}
+
 $(function(){
 	loadBelongList();
 	loadarea();
@@ -227,10 +268,9 @@ $(function(){
 	loadSourceList();
 	loadMannerList();
 	loadStatusList();
-	loadDescriptionList();
-	loadMethodList();
+	var proname = $("#w_project").val();
+	loadDescAndMethodByPro(proname);
 	//初始化下拉框默认选择
-	$("#w_project").val('重庆养老系统');
 	$("#w_type").val('系统问题');
 	$("#w_occurDate").val(getNowFormatDate());
 	$("#w_manner").val('远程支持');
@@ -252,7 +292,13 @@ function addWorkorderSubmit(){
     }
 	var area = $("#w_area option:selected").text();
 	var town = $("#w_town option:selected").text();
+	if(town == '请选择'){
+		town = ''
+	}
 	var village = $("#w_village option:selected").text();
+    if(village == '请选择'){
+		village = ''
+	}
 	var name = $("#w_name").val();
 	var project = $("#w_project").val();
 	var type = $("#w_type").val();
@@ -294,6 +340,7 @@ function addWorkorderSubmit(){
 	vm.workorder.processTime = processTime;
 	vm.workorder.status = status;
 	vm.workorder.belong = belong;
+	vm.workorder.errImgpath = base64;
 	var flag = confirm("是否确定保存？");
 	if(flag){
 		$.SaveForm({
@@ -308,7 +355,6 @@ function addWorkorderSubmit(){
 
 //重置输入框
 function inpuntReset(){
-	//loadarea();
 	$("#w_belong").val('');
 	$("#w_area").empty();
 	$("#w_town").empty();
@@ -325,6 +371,7 @@ function inpuntReset(){
 	$("#w_source").val('');
 	$("#w_processTime").val('');
 	$("#w_status").val('');
+	$("#errorimg").val('');
 }
 
 /**

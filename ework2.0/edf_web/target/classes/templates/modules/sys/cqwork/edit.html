@@ -5,110 +5,112 @@
 	<div id="eway" class="container-fluid" v-cloak>
 		<table class="form" id="form">
 			<tr>
-	            <td class="formTitle">区县<font face="宋体">*</font></td>
-	            <td class="formValue">
-					<input type="text" class="form-control" placeholder="区县" v-model="workorder.area" isvalid="yes" checkexpession="NotNull">
+				<td class="formTitle" style="width: 5%;">所&nbsp;属&nbsp;地<font face="宋体">*</font></td>
+				<td class="formValue" style="width: 20%;">
+					<select id="w_belong" onchange="loadarea()" v-model="workorder.belong" class="form-control" isvalid="yes" checkexpession="NotNull">
+					</select>
+				</td>
+	            <td class="formTitle" style="width: 5%;">区&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;县</td>
+	            <td class="formValue" style="width: 20%;">
+					<select id="w_area" onchange="loadtown()" class="form-control" v-model="workorder.area">
+					</select>
 	            </td>
-        	</tr>
-			<tr>
-	            <td class="formTitle">乡镇街道<font face="宋体">*</font></td>
-	            <td class="formValue">
-					<input type="text" class="form-control" placeholder="乡镇街道" v-model="workorder.town" isvalid="yes" checkexpession="NotNull">
+	            <td class="formTitle" style="width: 5%;">乡镇街道</td>
+	            <td class="formValue" style="width: 20%;">
+					<select id="w_town" onchange="loadvillage()" class="form-control" v-model="workorder.town">
+					</select>
 	            </td>
+	            <td class="formTitle" style="width: 5%;">村&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;社</td>
+	            <td class="formValue" style="width: 20%;">
+					<select id="w_village" class="form-control" v-model="workorder.village">
+					</select>
+	            </td>	
         	</tr>
+			
 			<tr>
-	            <td class="formTitle">村社<font face="宋体">*</font></td>
+	            <td class="formTitle">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名</td>
 	            <td class="formValue">
-					<input type="text" class="form-control" placeholder="村社" v-model="workorder.village" isvalid="yes" checkexpession="NotNull">
+					<input id="w_name" type="text" class="form-control" placeholder="姓名" v-model="workorder.name">
 	            </td>
-        	</tr>
-			<tr>
-	            <td class="formTitle">姓名<font face="宋体">*</font></td>
-	            <td class="formValue">
-					<input type="text" class="form-control" placeholder="姓名" v-model="workorder.name" isvalid="yes" checkexpession="NotNull">
-	            </td>
-        	</tr>
-			<tr>
 	            <td class="formTitle">所属项目<font face="宋体">*</font></td>
 	            <td class="formValue">
-					<input type="text" class="form-control" placeholder="所属项目" v-model="workorder.project" isvalid="yes" checkexpession="NotNull">
+					<select id="w_project" onchange="pro_choose()" class="form-control" v-model="workorder.project" isvalid="yes" checkexpession="NotNull">
+						
+					</select>
 	            </td>
-        	</tr>
-			<tr>
 	            <td class="formTitle">问题类型<font face="宋体">*</font></td>
 	            <td class="formValue">
-					<input type="text" class="form-control" placeholder="问题类型" v-model="workorder.type" isvalid="yes" checkexpession="NotNull">
+	            	<select id="w_type" class="form-control" v-model="workorder.type" isvalid="yes" checkexpession="NotNull">
+	            		
+	            	</select>
 	            </td>
-        	</tr>
-			<tr>
 	            <td class="formTitle">问题日期<font face="宋体">*</font></td>
 	            <td class="formValue">
-					<input type="text" class="form-control" placeholder="问题日期" v-model="workorder.occurDate" isvalid="yes" checkexpession="NotNull">
+					<input id="w_occurDate" type="date" class="form-control" v-model="workorder.strdate" isvalid="yes" checkexpession="NotNull">
 	            </td>
         	</tr>
 			<tr>
-	            <td class="formTitle">处理完成时间<font face="宋体">*</font></td>
+
+	            <td class="formTitle">QQ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号</td>
 	            <td class="formValue">
-					<input type="text" class="form-control" placeholder="处理完成时间" v-model="workorder.overTime" isvalid="yes" checkexpession="NotNull">
+					<input id="w_qq" type="text" class="form-control" placeholder="QQ号" v-model="workorder.qq">
 	            </td>
-        	</tr>
-			<tr>
-	            <td class="formTitle">qq号<font face="宋体">*</font></td>
+	            <td class="formTitle">电&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;话</td>
 	            <td class="formValue">
-					<input type="text" class="form-control" placeholder="qq号" v-model="workorder.qq" isvalid="yes" checkexpession="NotNull">
+					<input id="w_tel" type="text" class="form-control" placeholder="电话" v-model="workorder.tel">
 	            </td>
-        	</tr>
-			<tr>
-	            <td class="formTitle">电话<font face="宋体">*</font></td>
+	            <td class="formTitle">问题来源<font face="宋体">*</font></td>
 	            <td class="formValue">
-					<input type="text" class="form-control" placeholder="电话" v-model="workorder.tel" isvalid="yes" checkexpession="NotNull">
+	            	<select id="w_source" class="form-control" v-model="workorder.source" isvalid="yes" checkexpession="NotNull">
+	            	</select>
+	            </td>
+	            <td class="formTitle">处理时长 <font face="宋体">*</font></td>
+	            <td class="formValue">
+					<!-- <input id="w_processTime" type="text" class="form-control" placeholder="处理时长 (单位：分钟)" v-model="workorder.processTime" isvalid="yes" checkexpession="NotNull"> -->
+					<div style=":auto;padding:0px;" class="form-control">
+						<select  id="st_protime" onchange="protime_Chooes()" style="width:100%;height:35px;">
+							<option value="10">10</option>
+							<option value="20">20</option>
+							<option value="30">30</option>
+							<option value="40">40</option>
+							<option value="60">60</option>
+						</select>
+						<input id="w_processTime" type="text"  style="width:91%;height:35px;position:relative;top:-35px;" placeholder="处理时长 (单位：分钟)" v-model="workorder.processTime" isvalid="yes" checkexpession="NotNull"/>
+					</div>
 	            </td>
         	</tr>
 			<tr>
 	            <td class="formTitle">问题描述<font face="宋体">*</font></td>
 	            <td class="formValue">
-					<input type="text" class="form-control" placeholder="问题描述" v-model="workorder.description" isvalid="yes" checkexpession="NotNull">
+					<div style=":auto;padding:0px;" class="form-control">
+						<select  id="st_desc" onchange="desc_Chooes()" style="width:100%;height:35px;">
+						</select>
+						<input id="w_description" type="text"  style="width:91%;height:35px;position:relative;top:-35px;" placeholder="问题描述" v-model="workorder.description" isvalid="yes" checkexpession="NotNull"/>
+					</div>
 	            </td>
-        	</tr>
-			<tr>
 	            <td class="formTitle">处理方法<font face="宋体">*</font></td>
 	            <td class="formValue">
-					<input type="text" class="form-control" placeholder="处理方法" v-model="workorder.method" isvalid="yes" checkexpession="NotNull">
+					<div style=":auto;padding:0px;" class="form-control">
+						<select  id="st_method" onchange="method_Chooes()" style="width:100%;height:35px;">
+						</select>
+						<input id="w_method" type="text" style="width:91%;height:35px;position:relative;top:-35px;" placeholder="处理方法" v-model="workorder.method" isvalid="yes" checkexpession="NotNull"/>
+					</div>
 	            </td>
-        	</tr>
-			<tr>
 	            <td class="formTitle">处理方式<font face="宋体">*</font></td>
 	            <td class="formValue">
-					<input type="text" class="form-control" placeholder="处理方式" v-model="workorder.manner" isvalid="yes" checkexpession="NotNull">
+					<select id="w_manner" class="form-control" v-model="workorder.manner" isvalid="yes" checkexpession="NotNull">
+					</select>
 	            </td>
-        	</tr>
-			<tr>
-	            <td class="formTitle">问题来源<font face="宋体">*</font></td>
+	            <td class="formTitle">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态<font face="宋体">*</font></td>
 	            <td class="formValue">
-					<input type="text" class="form-control" placeholder="问题来源" v-model="workorder.source" isvalid="yes" checkexpession="NotNull">
+	            	<select id="w_status" class="form-control" v-model="workorder.status" isvalid="yes" checkexpession="NotNull">
+	            	</select>
 	            </td>
         	</tr>
-			<tr>
-	            <td class="formTitle">处理时长 (分钟数)<font face="宋体">*</font></td>
-	            <td class="formValue">
-					<input type="text" class="form-control" placeholder="处理时长 (分钟数)" v-model="workorder.processTime" isvalid="yes" checkexpession="NotNull">
-	            </td>
-        	</tr>
-			<tr>
-	            <td class="formTitle">状态 1.已解决 2.未解决<font face="宋体">*</font></td>
-	            <td class="formValue">
-					<input type="text" class="form-control" placeholder="状态 1.已解决 2.未解决" v-model="workorder.status" isvalid="yes" checkexpession="NotNull">
-	            </td>
-        	</tr>
-			<tr>
-	            <td class="formTitle">处理人姓名<font face="宋体">*</font></td>
-	            <td class="formValue">
-					<input type="text" class="form-control" placeholder="处理人姓名" v-model="workorder.processUser" isvalid="yes" checkexpession="NotNull">
-	            </td>
-        	</tr>
+
 		</table>
 	</div>
 	<div th:include="include/footer_js::footer"></div>
-	<script th:src="@{/js/modules/sys/cqwork/edit.js}"></script>
+	<script th:src="@{/js/modules/cqwork/edit.js}"></script>
 </body>
 </html>

@@ -115,6 +115,8 @@ public class WorkorderEntity implements Serializable {
 	//非数据库字段-用于接收字符串格式的日期
 	private String strdate;
 	
+	private String errImgpath;
+	
 	public WorkorderEntity() {
 		super();
 	}
@@ -278,5 +280,12 @@ public class WorkorderEntity implements Serializable {
 	public void setBelong(String belong) {
 		this.belong = belong;
 	}
-			
+
+	public String getErrImgpath() {
+		return errImgpath;
+	}
+
+	public void setErrImgpath(String errImgpath) {
+		this.errImgpath = errImgpath;
+	}
 }

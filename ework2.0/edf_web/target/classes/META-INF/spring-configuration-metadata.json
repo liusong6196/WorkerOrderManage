@@ -1,0 +1,17 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.ewaytek.edf.web.utils.SystemParam",
+      "name": "system-param",
+      "type": "com.ewaytek.edf.web.utils.SystemParam"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.ewaytek.edf.web.utils.SystemParam",
+      "name": "system-param.imgpath",
+      "type": "java.lang.String"
+    }
+  ]
+}

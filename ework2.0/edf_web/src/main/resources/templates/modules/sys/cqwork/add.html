@@ -40,7 +40,7 @@
 	            </td>
 	            <td class="formTitle">所属项目<font face="宋体">*</font></td>
 	            <td class="formValue">
-					<select id="w_project" class="form-control" v-model="workorder.project" isvalid="yes" checkexpession="NotNull">
+					<select id="w_project" class="form-control" onchange="pro_choose()" v-model="workorder.project" isvalid="yes" checkexpession="NotNull">
 						<!-- <option value="重庆养老系统">重庆养老系统</option>
 						<option value="万州手持POS">万州手持POS</option>
 						<option value="重庆手持POS">重庆手持POS</option>
@@ -94,14 +94,24 @@
 	            </td>
 	            <td class="formTitle">处理时长 <font face="宋体">*</font></td>
 	            <td class="formValue">
-					<input id="w_processTime" type="text" class="form-control" placeholder="处理时长 (单位：分钟)" v-model="workorder.processTime" isvalid="yes" checkexpession="NotNull">
+					<!-- <input id="w_processTime" type="text" class="form-control" placeholder="处理时长 (单位：分钟)" v-model="workorder.processTime" isvalid="yes" checkexpession="NotNull"> -->
+					<div style=":auto;padding:0px;" class="form-control">
+						<select  id="st_protime" onchange="protime_Chooes()" style="width:100%;height:35px;">
+							<option value="10">10</option>
+							<option value="20">20</option>
+							<option value="30">30</option>
+							<option value="40">40</option>
+							<option value="60">60</option>
+						</select>
+						<input id="w_processTime" type="text"  style="width:91%;height:35px;position:relative;top:-35px;" placeholder="处理时长 (单位：分钟)" v-model="workorder.description" isvalid="yes" checkexpession="NotNull"/>
+					</div>
 	            </td>
         	</tr>
 			<tr>
 	            <td class="formTitle">问题描述<font face="宋体">*</font></td>
 	            <td class="formValue">
 					<div style=":auto;padding:0px;" class="form-control">
-						<select  id="st_desc" onchange="desc_Chooes()" style="width:100%;height:35px;">
+						<select id="st_desc" onchange="desc_Chooes()" style="width:100%;height:35px;">
 						</select>
 						<input id="w_description" type="text"  style="width:91%;height:35px;position:relative;top:-35px;" placeholder="问题描述" v-model="workorder.description" isvalid="yes" checkexpession="NotNull"/>
 					</div>
@@ -132,6 +142,14 @@
 	            		<option value="2">未解决</option> -->
 	            	</select>
 	            </td>
+        	</tr>
+        	<tr>
+        		<td class="formTitle">异常图片</td>
+        		<td class="formValue">
+        			<input type="file" id="errorimg" onchange="changimg(event)">
+        		</td>
+        		<td colspan="6">
+        		</td>
         	</tr>
 			<tr>
 	            <td colspan="8" style="text-align: center;">

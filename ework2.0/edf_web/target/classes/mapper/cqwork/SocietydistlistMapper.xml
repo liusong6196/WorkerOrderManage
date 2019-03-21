@@ -53,6 +53,15 @@
 			distid = #{distid}
 	</select>
 	
+	<select id="getSocietyExplainByDistId" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT 
+			`explain`
+		FROM
+			societydistlist
+		WHERE
+			distid = #{distid}
+	</select>
+	
 	<update id="update">
 		UPDATE societydistlist
 	 	<set>

@@ -103,4 +103,10 @@ public class SysDictServiceImpl implements SysDictService {
 		// TODO Auto-generated method stub
 		return sysDictMapper.getDict();
 	}
+
+	@Override
+	public List<SysDictEntity> getUserSelectDict(Map<String, Object> params) {
+		Query query = new Query(params);
+		return sysDictMapper.getUserSelectDict(query);
+	}
 }

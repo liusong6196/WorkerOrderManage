@@ -1,6 +1,84 @@
+loadImgDialogOpen = function(opt){
+   var defaults = {
+      id : 'layerForm',
+      title : '',
+      width: '',
+      height: '',
+      url : null,
+      scroll : false,
+      data : {},
+    //btn: ['', '关闭'],
+      success: function(){},
+      yes: function(){}
+   }
+   var option = $.extend({}, defaults, opt), content = null;
+   if(option.scroll){
+      content = [option.url]
+   }else{
+      content = [option.url, 'no']
+   }
+   top.layer.open({
+      type : 2,
+      id : option.id,
+      title : option.title,
+      closeBtn : 1,
+      anim: -1,
+      isOutAnim: false,
+      shadeClose : false,
+      shade : 0.3,
+      area : [option.width, option.height],
+      content : content,
+      btn: option.btn,
+      success: function(){
+         option.success(option.id);
+      },
+      yes: function(){
+         option.yes(option.id);
+      }
+    });
+}
+
 /**
  * js
  */
+var uName = "";
+
+function getFormatDate(date){
+	var seperator1 = "-";
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    var strDate = date.getDate();
+    if (month >= 1 && month <= 9) {
+        month = "0" + month;
+    }
+    if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+    }
+    var currentdate = year + seperator1 + month + seperator1 + strDate;
+    return currentdate;
+}
+
+function localweek(){
+	var Nowdate = new Date();     
+    var WeekFirstDay = new Date(Nowdate-(Nowdate.getDay()-1)*86400000);
+    var WeekLastDay = new Date((WeekFirstDay/1000+6*86400)*1000);
+    var formatFirst = getFormatDate(WeekFirstDay);
+    var formatLast = getFormatDate(WeekLastDay);
+    $('#td_start').val(formatFirst);
+    $('#td_end').val(formatLast);
+}
+
+
+function localmonth(){
+	var Nowdate = new Date();     
+    var MonthFirstDay = new Date(Nowdate.getFullYear(),Nowdate.getMonth(),1);
+    var MonthNextFirstDay = new Date(Nowdate.getFullYear(),Nowdate.getMonth()+1,1);     
+    var MonthLastDay = new Date(MonthNextFirstDay-86400000);
+    var formatFirst = getFormatDate(MonthFirstDay);
+    var formatLast = getFormatDate(MonthLastDay);
+    $('#td_start').val(formatFirst);
+    $('#td_end').val(formatLast);
+}
 
 function loadOtherSelect(data,id){
 	if(data == null || data == ''){
@@ -22,6 +100,18 @@ function loadProjectList(){
 		async:false,
 		success: function (rs) {
 			loadOtherSelect(rs.typedata,"pro_name");
+		}
+	});
+}
+
+function loadUserName(){
+	$.ajax({
+		type: "post",
+		data:{},
+		url : '../../api/cqwork/getusername?_' + $.now(),
+		async:false,
+		success: function (rs) {
+			uName = rs.username;
 		}
 	});
 }
@@ -51,10 +141,31 @@ function expWorkorderData(){
 	window.location.href = "../../api/cqwork/expworkorder?token="+token+"+&proname="+proname+"&processuser="+processuser+"&tdstart="+tdstart+"&tdend="+tdend;	
 }
 
+function showErrorImg(imgUrl){
+	//alert(imgUrl);
+	if(imgUrl == null || imgUrl == 'null' || imgUrl == ''){
+		alert("此工单没有异常图片！");
+		return;
+	}	
+	loadImgDialogOpen({
+		title: '异常图片',
+		url: 'sys/cqwork/showimg.html?_' + $.now(),
+		width: '60%',
+		height: '80%',
+		success: function(iframeId){		
+			top.frames[iframeId].vm.workorder.imgurl = imgUrl;
+			top.frames[iframeId].vm.setForm();
+		}
+	});
+
+}
+
 $(function () {
+	$('#td_start').val(getFormatDate(new Date()));
 	initialPage();
 	getGrid();
 	loadProjectList();
+	loadUserName();
 });
 
 function initialPage() {
@@ -135,7 +246,15 @@ function getGrid() {
 					}
 				}
 			},
-			{field : "processUser", title : "处理人", width : "100px"}
+			{field : "processUser", title : "处理人", width : "100px"},
+			{
+				field : "errImgpath",
+				title : "异常图片", 
+				width : "100px",
+				formatter:function(value, row, index){
+					return '<input type="button" onclick="showErrorImg(\''+value+'\')" class="btn btn-default" value="查看">';
+				}
+			}
 		]
 	})
 }
@@ -152,7 +271,7 @@ var vm = new Vue({
 		save: function() {
 			dialogOpen({
 				title: '新增',
-				url: 'modules/sys/cqwork/add.html?_' + $.now(),
+				url: 'sys/cqwork/add.html?_' + $.now(),
 				width: '420px',
 				height: '350px',
 				yes : function(iframeId) {
@@ -163,11 +282,16 @@ var vm = new Vue({
 		edit: function() {
 			var ck = $('#dataGrid').bootstrapTable('getSelections');
 			if(checkedRow(ck)){
+				var id = ck[0].processUser;
+				if(id != uName){
+					alert("无法编辑其他人员的工单！");
+					return false;
+				}
 				dialogOpen({
 					title: '编辑',
-					url: 'modules/sys/cqwork/edit.html?_' + $.now(),
-					width: '420px',
-					height: '350px',
+					url: 'sys/cqwork/edit.html?_' + $.now(),
+					width: '80%',
+					height: '60%',
 					success: function(iframeId){
 						top.frames[iframeId].vm.workorder.id = ck[0].id;
 						top.frames[iframeId].vm.setForm();

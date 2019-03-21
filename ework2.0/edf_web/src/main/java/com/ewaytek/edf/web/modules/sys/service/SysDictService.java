@@ -45,4 +45,6 @@ public interface SysDictService {
 	List<SysDictEntity> listScoreType();
 
 	List<SysDictEntity> getDict();
+	
+	List<SysDictEntity> getUserSelectDict(Map<String, Object> params);
 }

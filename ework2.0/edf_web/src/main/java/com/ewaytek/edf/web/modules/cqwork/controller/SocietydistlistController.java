@@ -1,7 +1,5 @@
 package com.ewaytek.edf.web.modules.cqwork.controller;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,12 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ewaytek.edf.common.annotation.SysLog;
-import com.ewaytek.edf.common.entity.R;
 import com.ewaytek.edf.common.entity.Page;
+import com.ewaytek.edf.common.entity.R;
 import com.ewaytek.edf.web.modules.cqwork.entity.SocietydistlistEntity;
 import com.ewaytek.edf.web.modules.cqwork.service.SocietydistlistService;
 
