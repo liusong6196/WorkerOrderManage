@@ -21,7 +21,7 @@ function loadDescAndMethodSelect(data,id){
 	if(data == null || data == ''){
 		return;
 	}
-	var htmlstr = "";
+	var htmlstr = "<option value=''></option>";
 	for(var i=0;i<data.length;i++){
 		htmlstr += "<option value='"+data[i].selectDesc+"'>"+data[i].selectDesc+"</option>";
 	}
