@@ -278,11 +278,21 @@ $(function(){
 	$("#w_status").val('1');
 });
 
-function checknum(num){
-	if(!(/(^[1-9]\d*$)/.test(num))){
-		return false;
+function checkMobileAndTel(num){
+	var mobile = /^1[3|5|8]\d{9}$/;
+	var phone = /^0\d{2,3}-?\d{7,8}$/;
+	if(mobile.test(num) || phone.test(num)){
+		return true;
 	}
-	return true;
+	return false;
+}
+
+function checkNumber(protime){
+	var reg = /^\+?[1-9][0-9]*$/;
+	if(reg.test(protime)){
+		return true;
+	}
+	return false;
 }
 
 //提交工单
@@ -312,15 +322,15 @@ function addWorkorderSubmit(){
 	var processTime = $("#w_processTime").val();
 	var status = $("#w_status").val();
 	var belong = $("#w_belong").val();
-	if(qq != '' && !checknum(qq)){
+	if(qq != '' && !checkNumber(qq)){
 		alert("请输入正确的QQ号");
 		return false;
 	}
-	if(tel != '' && !checknum(tel)){
+	if(tel != '' && !checkMobileAndTel(tel)){
 		alert("请输入正确的电话号码");
 		return false;
 	}
-	if(processTime != '' && !checknum(processTime)){
+	if(processTime != '' && !checkNumber(processTime)){
 		alert("请输入正确的处理时长（分钟数）");
 		return false;
 	}
