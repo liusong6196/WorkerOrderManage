@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ewaytek.edf.web.modules.cqwork.dao.DeviceMaintainMapper">
+	
+	<select id="listForPage" resultType="com.ewaytek.edf.web.modules.cqwork.entity.DeviceMaintainEntity">
+		SELECT
+			`id`, 
+			`user_name`, 
+			`user_position`, 
+			`user_tel`, 
+			`dist_area`, 
+			`dist_town`, 
+			`dist_village`, 
+			`device_type`, 
+			`problem_desc`, 
+			`create_time`, 
+			`process_status`, 
+			`over_time`
+		FROM
+			device_maintain
+		ORDER BY
+			id DESC
+	</select>
+	
+	<insert id="save">
+		INSERT INTO device_maintain (
+			`user_name`, 
+			`user_position`, 
+			`user_tel`, 
+			`dist_area`, 
+			`dist_town`, 
+			`dist_village`, 
+			`device_type`, 
+			`problem_desc`, 
+			`create_time`, 
+			`process_status`, 
+			`over_time`
+		)
+		VALUES (
+			#{userName}, 
+			#{userPosition}, 
+			#{userTel}, 
+			#{distArea}, 
+			#{distTown}, 
+			#{distVillage}, 
+			#{deviceType}, 
+			#{problemDesc}, 
+			#{createTime}, 
+			#{processStatus}, 
+			#{overTime}
+		)
+	</insert>
+	
+	<select id="getObjectById" resultType="com.ewaytek.edf.web.modules.cqwork.entity.DeviceMaintainEntity">
+		SELECT
+			`id`, 
+			`user_name`, 
+			`user_position`, 
+			`user_tel`, 
+			`dist_area`, 
+			`dist_town`, 
+			`dist_village`, 
+			`device_type`, 
+			`problem_desc`, 
+			`create_time`, 
+			`process_status`, 
+			`over_time`
+		FROM
+			device_maintain
+		WHERE
+			id = #{id}
+	</select>
+	
+	<update id="update">
+		UPDATE device_maintain
+	 	<set>
+			<if test="userName != null">`user_name` = #{userName}, </if>
+			<if test="userPosition != null">`user_position` = #{userPosition}, </if>
+			<if test="userTel != null">`user_tel` = #{userTel}, </if>
+			<if test="distArea != null">`dist_area` = #{distArea}, </if>
+			<if test="distTown != null">`dist_town` = #{distTown}, </if>
+			<if test="distVillage != null">`dist_village` = #{distVillage}, </if>
+			<if test="deviceType != null">`device_type` = #{deviceType}, </if>
+			<if test="problemDesc != null">`problem_desc` = #{problemDesc}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="processStatus != null">`process_status` = #{processStatus}, </if>
+			<if test="overTime != null">`over_time` = #{overTime}</if>
+		</set>
+		WHERE
+			id = #{id}
+	</update>
+	
+	<delete id="batchRemove">
+		DELETE
+		FROM
+			device_maintain
+		WHERE
+			id IN
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>
