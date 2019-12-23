@@ -5,7 +5,7 @@ server:
         uri-encoding: UTF-8
         max-threads: 1000
         min-spare-threads: 30
-    port: 8080
+    port: 8088
 
 spring:
     # 环境 dev:开发环境|test:测试环境|prd:生产环境

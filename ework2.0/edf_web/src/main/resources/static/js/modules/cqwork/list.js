@@ -144,7 +144,7 @@ function expWorkorderData(){
 function showErrorImg(imgUrl){
 	//alert(imgUrl);
 	if(imgUrl == null || imgUrl == 'null' || imgUrl == ''){
-		alert("此工单没有异常图片！");
+		layer.msg('此工单没有异常图片', {icon: 2});
 		return;
 	}	
 	loadImgDialogOpen({
@@ -204,7 +204,13 @@ function getGrid() {
 				title : "单位地址", 
 				width : "200px",
 				formatter : function(value, row, index) {
-					var address = row.area + row.town + row.village;
+					var address = row.area;
+					if(row.town != null){
+						address += row.town;
+					}
+					if(row.village != null){
+						address += row.village;
+					}
 					return address;
 				}
 			},
@@ -284,7 +290,7 @@ var vm = new Vue({
 			if(checkedRow(ck)){
 				var id = ck[0].processUser;
 				if(id != uName){
-					alert("无法编辑其他人员的工单！");
+					layer.msg('无法编辑其他人员的工单', {icon: 2});
 					return false;
 				}
 				dialogOpen({

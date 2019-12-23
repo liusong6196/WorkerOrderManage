@@ -1,8 +1,6 @@
 package com.ewaytek.edf.web.modules.cqwork.entity;
 
 import java.io.Serializable;
-import java.util.Date;
-
 
 
 /**
@@ -18,7 +16,7 @@ public class DeviceMaintainEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * 
+	 * 自增主键
 	 */
 	private Integer id;
 	
@@ -53,7 +51,7 @@ public class DeviceMaintainEntity implements Serializable {
 	private String distVillage;
 	
 	/**
-	 * 1.指纹仪 2.手持POS机 3.加密狗key盘 4.摄像头 5.身份证读卡器
+	 * 设备类型：1.指纹仪 2.手持POS机 3.加密狗key盘 4.摄像头 5.身份证读卡器
 	 */
 	private String deviceType;
 	
@@ -65,19 +63,33 @@ public class DeviceMaintainEntity implements Serializable {
 	/**
 	 * 创建时间
 	 */
-	private Date createTime;
+	private String createTime;
 	
 	/**
-	 * 处理状态：0未处理1处理中3已处理
+	 * 处理状态：0未处理1处理中2已处理
 	 */
 	private String processStatus;
 	
 	/**
 	 * 结束时间
 	 */
-	private Date overTime;
+	private String overTime;
 	
-
+	/**
+	 * 所属项目名称
+	 */
+	private String project;
+	
+	/**
+	 * 处理时间
+	 */
+	private Integer protime;
+	
+	/**
+	 * 处理方法
+	 */
+	private String promethod;
+	
 	public DeviceMaintainEntity() {
 		super();
 	}
@@ -154,11 +166,11 @@ public class DeviceMaintainEntity implements Serializable {
 		return problemDesc;
 	}
 	
-	public void setCreateTime(Date createTime) {
+	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
 	}
 	
-	public Date getCreateTime() {
+	public String getCreateTime() {
 		return createTime;
 	}
 	
@@ -170,12 +182,36 @@ public class DeviceMaintainEntity implements Serializable {
 		return processStatus;
 	}
 	
-	public void setOverTime(Date overTime) {
+	public void setOverTime(String overTime) {
 		this.overTime = overTime;
 	}
 	
-	public Date getOverTime() {
+	public String getOverTime() {
 		return overTime;
+	}
+
+	public String getProject() {
+		return project;
+	}
+
+	public void setProject(String project) {
+		this.project = project;
+	}
+
+	public Integer getProtime() {
+		return protime;
+	}
+
+	public void setProtime(Integer protime) {
+		this.protime = protime;
+	}
+
+	public String getPromethod() {
+		return promethod;
+	}
+
+	public void setPromethod(String promethod) {
+		this.promethod = promethod;
 	}
 	
 }

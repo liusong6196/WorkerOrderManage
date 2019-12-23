@@ -1,6 +1,7 @@
 package com.ewaytek.edf.web.modules.cqwork.dao;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.ewaytek.edf.web.modules.cqwork.entity.DeviceMaintainEntity;
 import com.ewaytek.edf.web.modules.sys.dao.BaseMapper;
@@ -16,4 +17,5 @@ import com.ewaytek.edf.web.modules.sys.dao.BaseMapper;
 @Mapper
 public interface DeviceMaintainMapper extends BaseMapper<DeviceMaintainEntity> {
 	
+	int updateDeviceProcessStatus(@Param("id")Integer id,@Param("overTime")String overTime);
 }

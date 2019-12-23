@@ -46,7 +46,8 @@ public class DeviceMaintainController  {
 	@SysLog("新增")
 	@RequestMapping("/save")
 	public R save(@RequestBody DeviceMaintainEntity deviceMaintain) {
-		return deviceMaintainService.saveDeviceMaintain(deviceMaintain);
+		deviceMaintain.setProcessStatus("1");
+		return deviceMaintainService.updateDeviceMaintain(deviceMaintain);
 	}
 	
 	/**
@@ -79,6 +80,12 @@ public class DeviceMaintainController  {
 	@RequestMapping("/remove")
 	public R batchRemove(@RequestBody Long[] id) {
 		return deviceMaintainService.batchRemove(id);
+	}
+	
+	@SysLog("完成")
+	@RequestMapping("/complete")
+	public R complete(@RequestBody Integer id) {
+		return deviceMaintainService.updateDeviceProcessStatus(id);
 	}
 	
 }

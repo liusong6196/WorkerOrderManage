@@ -8,15 +8,18 @@
 			`id`, 
 			`user_name`, 
 			`user_position`, 
-			`user_tel`, 
-			`dist_area`, 
-			`dist_town`, 
-			`dist_village`, 
+			`user_tel`,
+			getDistName(dist_area) as dist_area,
+			getDistName(dist_town) as dist_town,
+			getDistName(dist_village) as dist_village, 
 			`device_type`, 
 			`problem_desc`, 
 			`create_time`, 
 			`process_status`, 
-			`over_time`
+			`over_time`,
+			`project`,
+			`protime`,
+			`promethod`
 		FROM
 			device_maintain
 		ORDER BY
@@ -58,14 +61,17 @@
 			`user_name`, 
 			`user_position`, 
 			`user_tel`, 
-			`dist_area`, 
-			`dist_town`, 
-			`dist_village`, 
+			getDistName(dist_area) as dist_area,
+			getDistName(dist_town) as dist_town,
+			getDistName(dist_village) as dist_village,
 			`device_type`, 
 			`problem_desc`, 
 			`create_time`, 
 			`process_status`, 
-			`over_time`
+			`over_time`,
+			`project`,
+			`protime`,
+			`promethod`	
 		FROM
 			device_maintain
 		WHERE
@@ -85,7 +91,10 @@
 			<if test="problemDesc != null">`problem_desc` = #{problemDesc}, </if>
 			<if test="createTime != null">`create_time` = #{createTime}, </if>
 			<if test="processStatus != null">`process_status` = #{processStatus}, </if>
-			<if test="overTime != null">`over_time` = #{overTime}</if>
+			<if test="overTime != null">`over_time` = #{overTime},</if>
+			<if test="project != null">`project` = #{project},</if>
+			<if test="protime != null">`protime` = #{protime},</if>
+			<if test="promethod != null">`promethod` = #{promethod}</if>
 		</set>
 		WHERE
 			id = #{id}
@@ -101,5 +110,9 @@
 			#{id}
 		</foreach>
 	</delete>
+	
+	<update id="updateDeviceProcessStatus">
+		UPDATE device_maintain SET process_status='2',over_time=#{overTime} WHERE id=#{id}
+	</update>
 
 </mapper>

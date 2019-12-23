@@ -2,6 +2,7 @@ package com.ewaytek.edf.web.modules.sys.controller;
 
 import java.io.IOException;
 
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,7 +35,7 @@ public class SysLoginController {
 	 */
 	@SysLog("登录")
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public R login(String username, String password,String isSame)throws IOException {
+	public R login(String username, String password,String isSame)throws IOException {		
 		SysUserEntity user1 = sysUserService.getByUserName(username);
 		if(user1 == null) {
 			SysUserEntity user2 = sysUserService.getByUserLogno(username);

@@ -31,6 +31,8 @@ public class ShiroConfig {
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
         sessionManager.setSessionValidationSchedulerEnabled(true);
         sessionManager.setSessionIdCookieEnabled(false);
+        sessionManager.setDeleteInvalidSessions(true);
+        sessionManager.setSessionIdUrlRewritingEnabled(false);
         return sessionManager;
     }
 
@@ -54,6 +56,8 @@ public class ShiroConfig {
         shiroFilter.setFilters(filters);
 
         Map<String, String> filterMap = new LinkedHashMap<>();
+        filterMap.put("/dist/**", "anon");
+        filterMap.put("/api/dev/**","anon");
         filterMap.put("/api/sys/reports/**","anon");
         filterMap.put("/webjars/**", "anon");
         filterMap.put("/druid/**", "anon");

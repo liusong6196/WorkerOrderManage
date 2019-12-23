@@ -247,8 +247,8 @@ function pro_choose(){
 function changimg(event){
 	base64 = '';
 	file = event.target.files[0];
-	if(!/image\/\w+/.test(file.type)) {  
-        alert("[异常图片]必须为图片格式，如：jpg、png等！");
+	if(!/image\/\w+/.test(file.type)) { 
+        layer.msg('[异常图片]必须为图片格式，如：jpg、png等！', {icon: 2});
         event.target.value = '';
         return false;  
     }
@@ -323,15 +323,15 @@ function addWorkorderSubmit(){
 	var status = $("#w_status").val();
 	var belong = $("#w_belong").val();
 	if(qq != '' && !checkNumber(qq)){
-		alert("请输入正确的QQ号");
+		layer.msg('请输入正确的QQ号', {icon: 2});
 		return false;
 	}
 	if(tel != '' && !checkMobileAndTel(tel)){
-		alert("请输入正确的电话号码");
+		layer.msg('请输入正确的电话号码', {icon: 2});
 		return false;
 	}
 	if(processTime != '' && !checkNumber(processTime)){
-		alert("请输入正确的处理时长（分钟数）");
+		layer.msg('请输入正确的处理时长（分钟数）', {icon: 2});
 		return false;
 	}
 	vm.workorder.area = area;
@@ -351,16 +351,16 @@ function addWorkorderSubmit(){
 	vm.workorder.status = status;
 	vm.workorder.belong = belong;
 	vm.workorder.errImgpath = base64;
-	var flag = confirm("是否确定保存？");
-	if(flag){
+	window.parent.layer.confirm('是否确定保存?',{btn: ['确定', '取消'],title:"提示"},function(){
 		$.SaveForm({
 	    	url: '../../api/cqwork/save?_' + $.now(),
 	    	param: vm.workorder,
 	    	success: function(data) {
 	    		window.location.reload();
 	    	}
-	    });	
-	}
+	    });
+	});
+	
 }
 
 //重置输入框

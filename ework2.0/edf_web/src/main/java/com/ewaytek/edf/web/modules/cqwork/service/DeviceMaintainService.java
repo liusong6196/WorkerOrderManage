@@ -26,4 +26,6 @@ public interface DeviceMaintainService {
 	
 	R batchRemove(Long[] id);
 	
+	R updateDeviceProcessStatus(Integer id);
+	
 }
