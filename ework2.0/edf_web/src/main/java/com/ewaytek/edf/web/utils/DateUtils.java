@@ -8,6 +8,11 @@ import java.util.Date;
 import java.util.List;
 
 public class DateUtils {
+	
+	public static String dateToDatetime(String date) {
+		return date + " 00:00:00";
+	}
+	
 	public static long getTimeStamp10(){
 		return new Date().getTime() / 1000;
 	}
