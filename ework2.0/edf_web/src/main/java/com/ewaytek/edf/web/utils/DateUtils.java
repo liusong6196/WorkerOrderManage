@@ -436,7 +436,7 @@ public class DateUtils {
     }
     
     public static void main(String[] args) {
-    	System.out.println(DateUtils.addDateForMonth("2014-11-18", "6"));
+    	//System.out.println(DateUtils.addDateForMonth("2014-11-18", "6"));
     	
     	//System.out.println("123123");
     	//DateUtils d = new DateUtils();
