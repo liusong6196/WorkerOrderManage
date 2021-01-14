@@ -40,7 +40,7 @@
 	  <dependency>  
 		    <groupId>org.apache.poi</groupId>  
 		    <artifactId>poi</artifactId>  
-		    <version>3.10.1</version> <!-- 过高版本会出现导出xls格式失败问题 -->  
+		    <version>3.17</version> <!-- 过高版本会出现导出xls格式失败问题 -->  
 	  </dependency>  
 	<dependency>
 	    <groupId>org.apache.commons</groupId>
